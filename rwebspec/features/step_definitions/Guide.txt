@@ -1,0 +1,23 @@
+Steps
+-----
+
+1. operations need to start with @browser. For example, the below won't work
+  
+  click_link("New Application")
+  
+  But these are:
+  
+  @browser.click_link("New Application")
+  @browser.link(:text, "New Application").click
+
+2. Use @browser.text.should contain("text) instead page_text.should include("XXX)
+ 
+   As page_text is a helper method for RSpec.
+
+3. Can't use try, you may replace with repeat_try. For example, change this
+
+  try(3) { @browser.text.should contain("No office has been selected") }
+  
+  to
+  
+  repeat_try(3) { @browser.text.should contain("No office has been selected") }

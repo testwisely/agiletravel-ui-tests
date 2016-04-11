@@ -1,0 +1,14 @@
+Test Project Supports Both RSpec and Cucumber
+---------------------------------------------
+
+The benefits: you can reuse same page classes defined in the same test project.
+
+Directory structure
+-------------------
+ + root
+    +- pages
+    +- features
+    |    +- step_definitions
+    |    +- support
+    |    # feature files here  
+    # spec files here
