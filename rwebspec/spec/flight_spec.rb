@@ -4,7 +4,7 @@ describe "Select Flights" do
   include TestHelper
 
   before(:all) do
-    open_browser(:browser => browser_type)
+    open_browser(:base_url => site_url, :browser => browser_type)
     enter_text("username", "agileway")
     enter_text("password", "testwise")
     click_button("Sign in")

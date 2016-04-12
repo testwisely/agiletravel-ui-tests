@@ -10,7 +10,7 @@ describe "Passenger" do
   end
 
   after(:all) do
-    fail_safe { browser.link(:text, "Sign off")} unless debugging?
+    @browser.close unless debugging?
   end
 
 	it "Can enter passenger details (using page objects)" do
@@ -33,7 +33,7 @@ describe "Passenger" do
     passenger_page.enter_last_name("Tester")
     passenger_page.click_next
 
-    expect(browser.element(:name, "holder_name").attribute_value("value")).to eq("Bob Tester")
+    expect(browser.text_field(:name, "holder_name").attribute_value("value")).to eq("Bob Tester")
   end
 
 end

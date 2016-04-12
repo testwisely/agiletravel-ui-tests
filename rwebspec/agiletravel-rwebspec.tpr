@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="US-ASCII"?>
 <project>
   <name>agiletravel-webdriver.tpr</name>
-  <default_browser>Firefox</default_browser>
+  <default_browser>Chrome</default_browser>
   <test_framework>Selenium</test_framework>
   <syntax_framework>RWebSpec</syntax_framework>
   <environments>
@@ -16,7 +16,7 @@
     </entry>
   </environments>
   <exclude_dirs></exclude_dirs>
-  <exclude_files>;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature;tmp_syntax_check.feature</exclude_files>
+  <exclude_files>;tmp_syntax_check.feature</exclude_files>
   <test_named_as>specification</test_named_as>
   <spec_template>&lt;% if @info[:defined_helper] %&gt;load File.dirname(__FILE__) + '/../test_helper.rb'&lt;% else %&gt;require 'rwebspec-webdriver'&lt;% end %&gt;
 

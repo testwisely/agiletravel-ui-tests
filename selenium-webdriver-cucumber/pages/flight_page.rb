@@ -34,6 +34,11 @@ class FlightPage < AbstractPage
     Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnMonth")).select_by(:text, return_month)
   end
 
+  def select_return_date(return_day, return_month)
+    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnDay")).select_by(:text, return_day)
+    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnMonth")).select_by(:text, return_month)
+  end
+
   def click_continue
     driver.find_element(:xpath,"//input[@value='Continue']").click
   end

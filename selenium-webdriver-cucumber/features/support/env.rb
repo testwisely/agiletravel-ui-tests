@@ -12,6 +12,7 @@ if defined?(TestWiseRuntimeSupport)
 end
 
 $BASE_URL = "http://travel.agileway.net"
+
 def the_browser
   if $TESTWISE_BROWSER then
     $TESTWISE_BROWSER.downcase.to_sym
@@ -21,42 +22,42 @@ def the_browser
     RUBY_PLATFORM =~ /mingw/ ? "ie".to_sym : "firefox".to_sym
   end
 end
-browser = Selenium::WebDriver.for(the_browser)
+driver = Selenium::WebDriver.for(the_browser)
 
-# World(Test::Unit::Assertions)
 World(Minitest::Assertions)
 
 Before do
-  @browser = @driver = browser
+  @driver = driver
   goto_home_page
 end
 
 After do |scenario|
   if scenario.failed?
-    puts "Scenario failed: #{scenario.inspect} | #{scenario.exception.message}"
+    puts "Scenario failed: "
   end
 end
 
+# before the process ends
 at_exit do
-  browser.close if browser
+  driver.close if driver
 end
 
 ## Helper methods
 #
 def goto_home_page
   $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
-  @browser.navigate.to("#{base_url}")
+  @driver.navigate.to("#{base_url}")
 end
 
 # if your applicant supports reset datbase
 def reset_database
   $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
-  @browser.navigate.to("#{base_url}/reset")
+  @driver.navigate.to("#{base_url}/reset")
   goto_home_page
 end
 
 def sign_in(user, pass)
-  @browser.find_element(:id, "username").send_keys(user)
-  @browser.find_element(:id, "password").send_keys(pass)
-  @browser.find_element(:xpath,"//input[@value=\"Sign in\"]").click
+  @driver.find_element(:id, "username").send_keys(user)
+  @driver.find_element(:id, "password").send_keys(pass)
+  @driver.find_element(:xpath,"//input[@value=\"Sign in\"]").click
 end
