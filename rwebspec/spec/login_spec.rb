@@ -4,7 +4,7 @@ describe "User Login" do
   include TestHelper
 
   before(:all) do
-    open_browser(:browser => browser_type)
+    open_browser(:base_url => site_url, :browser => browser_type)
   end
 
   after(:all) do

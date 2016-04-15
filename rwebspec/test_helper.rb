@@ -13,6 +13,7 @@ $BASE_URL = "http://travel.agileway.net"
 module TestHelper
 
   include RWebSpec::RSpecHelper
+  include RWebSpec::Core
 
   def sign_in(username, password)
     enter_text("username", username)
@@ -38,4 +39,7 @@ module TestHelper
     end
   end
 
+  def site_url(default = $BASE_URL)
+    $TESTWISE_PROJECT_BASE_URL || ENV['BASE_URL'] || default
+  end      
 end

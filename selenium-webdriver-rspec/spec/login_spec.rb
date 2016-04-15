@@ -17,7 +17,7 @@ describe "User Login" do
     login_page = LoginPage.new(driver)
     login_page.login("agileway", "testwise")  
     # selenium does not have browser.text yet
-    try_for(3) {  driver.page_source.include?("Welcome").should == true }
+    try_for(3) {  expect(driver.page_source).to include("Welcome")}
     driver.find_element(:link_text, "Sign off").click
   end
 
@@ -25,7 +25,7 @@ describe "User Login" do
     goto_page("/login")
     login_page = LoginPage.new(driver)
     login_page.login("agileway", "badpass")
-    driver.page_source.include?("Invalid email or password").should == true
+    expect(driver.page_source).to include("Invalid email or password")
   end
 
 end

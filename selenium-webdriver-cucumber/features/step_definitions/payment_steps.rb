@@ -7,7 +7,7 @@
 
 
 When /^select 'Visa' card$/ do
-  @payment_page = PaymentPage.new(@browser)
+  @payment_page = PaymentPage.new(@driver)
   @payment_page.select_card_type("visa")
 end
 
@@ -29,6 +29,5 @@ When /^I click 'Pay now'$/ do
 end
 
 Then /^I should see 'Booking Number' in confirmation section$/ do
-  #AJAX
-  
+  #AJAX  
 end

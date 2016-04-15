@@ -10,7 +10,7 @@ describe "Payment" do
   end
 
   after(:all) do
-    fail_safe { sign_off } unless debugging?    
+    @browser.close unless debugging?
   end
 
   it "Get booking confirmation after payment " do

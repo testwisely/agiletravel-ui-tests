@@ -3,9 +3,6 @@
   <project_name>agiletravel-capybara-rspec.tpr</project_name>
   <project_file>C:\agileway\agiletravel-ui-tests\capybara-rspec\agiletravel-capybara-rspec.tpr</project_file>
   <opened_files>
-    <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
-    <entry name="$PROJECT_DIR$/test_helper.rb"/>
   </opened_files>
   <recent_files>
     <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>

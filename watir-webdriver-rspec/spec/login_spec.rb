@@ -27,7 +27,7 @@ describe "User Login" do
     home_page.enter_user_name "agileway"
     home_page.enter_password "testwise"
     home_page.click_sign_in
-    try_for(3) { browser.text.should include("Welcome agileway") }
+    try_for(3) { expect(browser.text).to include("Welcome agileway") }
   end
 
   it "Login failed (incorrect password)" do
@@ -35,7 +35,7 @@ describe "User Login" do
     home_page.enter_user_name "agileway"
     home_page.enter_password "badPass"
     home_page.click_sign_in
-    try_for(3) { browser.text.should include("Invalid email or password") }
+    try_for(3) { expect(browser.text).to include("Invalid email or password") }
   end
 
 end

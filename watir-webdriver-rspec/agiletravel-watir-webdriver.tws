@@ -3,14 +3,12 @@
   <project_name>agiletravel-watir-webdriver.tpr</project_name>
   <project_file>C:\agileway\agiletravel-ui-tests\watir-webdriver-rspec\agiletravel-watir-webdriver.tpr</project_file>
   <opened_files>
-    <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
+    <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
   </opened_files>
   <recent_files>
+    <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
     <entry name="$PROJECT_DIR$/pages/payment_page.rb"/>
     <entry name="$PROJECT_DIR$/pages/home_page.rb"/>

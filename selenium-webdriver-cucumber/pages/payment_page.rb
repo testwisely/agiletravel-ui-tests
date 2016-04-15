@@ -14,11 +14,11 @@ class PaymentPage < AbstractPage
     driver.find_element(:name, "card_number").send_keys(card_number)
   end
 
-  def enter_expiry_month(expiry_month)
+  def select_expiry_month(expiry_month)
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "expiry_month")).select_by(:text, expiry_month)
   end
 
-  def enter_expiry_year(expiry_year)
+  def select_expiry_year(expiry_year)
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "expiry_year")).select_by(:text, expiry_year)
   end
 

@@ -4,7 +4,7 @@ describe "Payment" do
   include TestHelper
 
   before(:all) do
-    open_browser(:browser => browser_type)
+    open_browser(:base_url => site_url, :browser => browser_type)
     enter_text("username", "agileway")
     enter_text("password", "testwise")
     click_button("Sign in")
@@ -28,7 +28,7 @@ describe "Payment" do
     # now on passenger page
     passenger_page = expect_page PassengerPage
     passenger_page.enter_last_name("Tester")
-    passenger_page.click_submit
+    passenger_page.click_next
 
     payment_page = expect_page PaymentPage
     try_for(3) {  payment_page.select_card_type("master") }
@@ -37,7 +37,7 @@ describe "Payment" do
     payment_page.enter_expiry_month("04")
     payment_page.enter_expiry_year("2016")
     payment_page.click_pay_now
-    try_for(10) { assert_text_present("Booking number") }
+    try_for(12) { assert_text_present("Booking number") }
     debug span(:id, "booking_number").text
   end
 
