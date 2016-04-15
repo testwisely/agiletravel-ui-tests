@@ -32,7 +32,6 @@ Before do
   goto_home_page
 end
 
-
 # before the process ends
 at_exit do
   driver.close if driver

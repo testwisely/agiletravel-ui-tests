@@ -2,7 +2,6 @@
 #   Simplest way on Windows is to install RubyShell (http://testwisely.com/downloads)
 
 require 'rubygems'
-# require 'ci/reporter/rake/cucumber'
 require 'cucumber'
 require 'cucumber/rake/task'
 
@@ -26,16 +25,14 @@ def excluded_feature_files
 end
 
 def all_features
-  Dir.glob("selenium-webdriver-cucumber/features/*.feature")
+  Dir.glob("features/*.feature")
 end
 
-# relative to current folder
 def features_for_quick_build
   # list test files to be run in a quick build
   [
-    # "selenium-webdriver-cucumber/features/login.feature",
     "features/login.feature",
-    "features/flight.feature",
+    "features/payment.feature"
   ]
 end
 
@@ -76,7 +73,6 @@ end
 
 desc "run quick tests from BuildWise"
 task "ci:ui_tests:quick"  do
-
   build_id = buildwise_start_build(:project_name => BUILDWISE_QUICK_PROJECT_ID,
   :working_dir => File.expand_path(File.dirname(__FILE__)),
   :ui_test_dir => ["."],
@@ -84,8 +80,6 @@ task "ci:ui_tests:quick"  do
   )
   puts "[Rake] new build id =>|#{build_id}|"
   begin
-    # puts "[Rake] Invoke"
-    # FileUtils.rm_rf("log") if File.exists?("log")
     Rake::Task["ui_tests:quick"].invoke
     # puts "[Rake] Invoke Finish"
   ensure

@@ -3,6 +3,7 @@
   <project_name>agiletravel-selenium-webdriver.tpr</project_name>
   <project_file>C:\agileway\agiletravel-ui-tests\selenium-webdriver-rspec\agiletravel-selenium-webdriver.tpr</project_file>
   <opened_files>
+<<<<<<< HEAD
   </opened_files>
   <recent_files>
     <entry name="$PROJECT_DIR$/rwebspec_utils.rb"/>
@@ -10,6 +11,15 @@
     <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
+=======
+    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
+  </opened_files>
+  <recent_files>
+    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
+    <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
+    <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
+    <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
+>>>>>>> 67d03cbe72d2b6a6d9172020c9e62020f63c25ce
     <entry name="$PROJECT_DIR$/test_helper.rb"/>
     <entry name="$PROJECT_DIR$/pages/payment_page.rb"/>
     <entry name="$PROJECT_DIR$/pages/flight_page.rb"/>
