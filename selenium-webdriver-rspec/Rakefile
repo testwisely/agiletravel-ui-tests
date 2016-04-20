@@ -15,8 +15,8 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
 BUILDWISE_QUICK_PROJECT_ID = "agiletravel"
 BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-rspec" # import to set for full build
  
-FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
-FULL_BUILD_CHECK_INTERVAL = 60  # 1 minute
+FULL_BUILD_MAX_TIME = 60 * 60   # max build time, over this, time out
+FULL_BUILD_CHECK_INTERVAL = 20  # check interval for build complete
 
 $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution path if invoktion is not this directory
 # rspec will be created 'spec/reports' under checkout dir
