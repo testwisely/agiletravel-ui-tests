@@ -1,0 +1,15 @@
+{
+  "name": "selenium-webdriver-nodejs-mocha",
+  "version": "1.0.0",
+  "description": "Sample tests for Selenium WebDriver Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zhimin Zhan",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^2.5.3",
+    "selenium-webdriver": "^2.53.3"
+  }
+}

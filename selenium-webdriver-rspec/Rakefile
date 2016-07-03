@@ -36,24 +36,26 @@ def specs_for_quick_build
   # list test files to be run in a quick build
   [
     "#{$test_dir}/spec/login_spec.rb", 
+    "#{$test_dir}/spec/flight_spec.rb", 
+    "#{$test_dir}/spec/payment_spec.rb", 
+    "#{$test_dir}/spec/passenger_spec.rb",   # this will be excluded see 'excluded_spec_files'
   ]
 end
 
 
 desc "run all tests in this folder"
 RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
-  specs_to_be_executed = all_specs # specs_for_quick_build
-  
-  puts specs_to_be_executed.inspect
-  
+  specs_to_be_executed = specs_for_quick_build  
   specs_to_be_executed -= excluded_spec_files
+
   specs_to_be_executed.uniq!  
   specs_to_be_executed.each do |a_test|
     specs_to_be_executed.delete(a_test) unless File.exists?(a_test)
   end
   
   puts "[INFO] Tests in order => #{specs_to_be_executed.collect {|x| File.basename(x)}.inspect}"
-  t.pattern = FileList[specs_to_be_executed]
+  # t.pattern = FileList[specs_to_be_executed]  # this will by alapabentical order
+  t.rspec_opts = "#{specs_to_be_executed.join(' ')} --order defined"
 end
 
 
