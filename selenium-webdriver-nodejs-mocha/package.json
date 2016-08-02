@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "mocha": "^2.5.3",
+    "mocha-junit-reporter": "^1.11.1",
     "selenium-webdriver": "^2.53.3"
   }
 }

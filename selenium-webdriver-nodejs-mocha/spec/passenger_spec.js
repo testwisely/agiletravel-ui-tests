@@ -28,6 +28,7 @@ test.describe('Passenger', function () {
   });
 
   test.it('[4] Can enter passenger details (using page objects)', function() {
+/*
     flight_page = FlightPage.new(driver)
     flight_page.select_trip_type("return")
     flight_page.select_depart_from("Sydney")
@@ -39,7 +40,7 @@ test.describe('Passenger', function () {
     flight_page.select_return_month("June 2016")
     flight_page.click_continue
 
-    # now on passenger page
+    //  now on passenger page
     passenger_page = PassengerPage.new(driver)
     passenger_page.click_next
     try_for(3) { expect(page_text).to include("Must provide last name") }
@@ -48,6 +49,7 @@ test.describe('Passenger', function () {
     passenger_page.click_next
 
     expect(driver.find_element(:name, "holder_name").attribute("value")).to eq("Bob Tester")
+*/
   });
 
 
