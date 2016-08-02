@@ -1,0 +1,5 @@
+@global.currentDate=madcow.eval({ new Date().format('dd/MM/yyyy')})
+@global.currentTime12hr=madcow.eval({ new Date().format('hh:mm a')})
+@global.currentTime24hr=madcow.eval({ new Date().format('hh:mm:ss')})
+@global.currentDateTime12hr=madcow.eval({ new Date().format('dd/MM/yyyy hh:mm a')})
+@global.currentDateTime24hr=madcow.eval({ new Date().format('dd/MM/yyyy hh:mm:ss')})

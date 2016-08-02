@@ -1,0 +1,20 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+    { "name": "Grass",
+  "scopeName": "source.grass",
+  "fileTypes": ["grass"],
+  "uuid": "309a48f1-7771-413e-af79-0f2c41d2fc43",
+  "patterns": [
+    { "match": "\\b(madcow|eval|countRows|equals|greaterThan}greaterThanOrEquals|lessThan|lessThanOrEquals|checkValue|checkValueContains|clickLink|selectCheckbox|selectField|value|currentRow|selectRow|checkValueNotEmpty|click|doesNotHaveClass|hasClass|hasStyle|invokeUrl|isRadioButtonSelected|isSelected|resizeBrowser|selectFieldByIndex|selectFrame|setRadioButton|setRadioGroup|showOnReport|store|testInfo|unselectFrame|verifyCssValue|verifyDisabled|verifyDoesNotExist|verifyEnabled|verifyExists|verifyNotExists|verifyRegexText|verifySelectContains|verifySelectNotContains|verifySelectFieldOptions|verifyText|verifyTextIsNot|verifyTitle|waitFor|waitSeconds|import|importTemplate)\\b",
+          "name": "keyword.source.grass",
+          "comment": "Keywords and stuff..."
+        },
+    { "match": "#.*",
+          "name": "comment.source.grass",
+          "comment": "Comments and stuff..."
+        },
+    { "match": "(@(\\w)+)|(@{(\\w)+})",
+          "name": "string.source.grass",
+          "comment": "Variables and stuff..."
+        }
+  ]
+}

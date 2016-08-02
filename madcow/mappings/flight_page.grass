@@ -1,0 +1,8 @@
+tripTypeRadio.name = tripType
+departFromDropdown.name = fromPort
+arriveAtDropdown.name = toPort
+departDayDropdown.id = departDay
+departMonthDropdown.id = departMonth
+returnDayDropdown.id = returnDay
+returnMonthDropdown.id = returnMonth
+continueButton.xpath = //input[@value='Continue']

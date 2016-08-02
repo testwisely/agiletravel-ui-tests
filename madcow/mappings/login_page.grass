@@ -1,0 +1,4 @@
+# LoginPage
+usernameBox.id=username
+passwordBox.id=password
+signInButton.name=commit

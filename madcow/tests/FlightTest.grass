@@ -1,0 +1,13 @@
+invokeUrl = http://travel.agileway.net
+login_page_usernameBox.value = "agileway"
+login_page_passwordBox.value = "testwise"
+login_page_signInButton.click
+
+# default to return trip type
+flight_page_departFromDropdown.selectField = Sydney
+flight_page_arriveAtDropdown.selectField = New York
+flight_page_departDayDropdown.selectField = 02
+flight_page_departMonthDropdown.selectField = May 2016
+flight_page_returnDayDropdown.selectField = 04
+flight_page_returnMonthDropdown.selectField = June 2016
+flight_page_continueButton.click

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>grass</string>
+	</array>
+	<key>name</key>
+	<string>Grass</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Keywords and stuff...</string>
+			<key>match</key>
+			<string>\b(madcow|eval|countRows|equals|greaterThan}greaterThanOrEquals|lessThan|lessThanOrEquals|checkValue|checkValueContains|clickLink|selectCheckbox|selectField|value|currentRow|selectRow|checkValueNotEmpty|click|doesNotHaveClass|hasClass|hasStyle|invokeUrl|isRadioButtonSelected|isSelected|resizeBrowser|selectFieldByIndex|selectFrame|setRadioButton|setRadioGroup|showOnReport|store|testInfo|unselectFrame|verifyCssValue|verifyDisabled|verifyDoesNotExist|verifyEnabled|verifyExists|verifyNotExists|verifyRegexText|verifySelectContains|verifySelectNotContains|verifySelectFieldOptions|verifyText|verifyTextIsNot|verifyTitle|waitFor|waitSeconds|import|importTemplate)\b</string>
+			<key>name</key>
+			<string>keyword.source.grass</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Comments and stuff...</string>
+			<key>match</key>
+			<string>#.*</string>
+			<key>name</key>
+			<string>comment.source.grass</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Variables and stuff...</string>
+			<key>match</key>
+			<string>(@(\w)+)|(@{(\w)+})</string>
+			<key>name</key>
+			<string>string.source.grass</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.grass</string>
+	<key>uuid</key>
+	<string>309a48f1-7771-413e-af79-0f2c41d2fc43</string>
+</dict>
+</plist>
