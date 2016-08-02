@@ -11,5 +11,6 @@ madcow_sh = File.expand_path File.join(File.dirname(__FILE__), "runMadcow.sh")
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  `#{madcow_sh}`
+  
+  `cd madcow; #{madcow_sh}`
 end
