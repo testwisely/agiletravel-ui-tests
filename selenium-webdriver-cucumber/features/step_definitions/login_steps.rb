@@ -19,7 +19,7 @@ When /^click "(.*?)" button$/ do |button|
 end
 
 Then /^I am logged in$/ do
-  expect(@driver.page_source).to include("Welcome <b>agileway</b>")
+  expect(@driver.page_source).to include("Signed in!")
 end
 
 # If you want snippets in a different programming language, just make sure a file
@@ -28,4 +28,9 @@ end
 
 Then(/^I should see an log in error message$/) do
   expect(@driver.page_source).to include("Invalid email or password")
+end
+
+
+Then(/^I sign off$/) do
+  @driver.find_element(:link_text, "Sign off").click
 end

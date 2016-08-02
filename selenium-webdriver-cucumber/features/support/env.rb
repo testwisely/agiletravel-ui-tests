@@ -34,8 +34,16 @@ end
 
 # before the process ends
 at_exit do
-  driver.close if driver
+  driver.close if driver && !debugging?
 end
+
+def debugging?
+  if ENV["TESTWISE_DEBUGGING"].to_s == "true" && ENV["TESTWISE_RUNNING_AS"] == "test_case"
+    return true
+  end
+  return $TESTWISE_DEBUGGING && $TESTWISE_RUNNING_AS == "test_case"
+end
+
 
 ## Helper methods
 #
