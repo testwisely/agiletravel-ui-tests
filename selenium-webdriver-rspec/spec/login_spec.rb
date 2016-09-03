@@ -19,6 +19,7 @@ describe "User Login" do
     # selenium does not have browser.text yet
     try_for(3) {  expect(driver.page_source).to include("Welcome")}
     driver.find_element(:link_text, "Sign off").click
+    puts "[stdout] Signed out"
   end
 
   it "[1] User failed to sign in due to invalid password", :tag => "showcase" do
