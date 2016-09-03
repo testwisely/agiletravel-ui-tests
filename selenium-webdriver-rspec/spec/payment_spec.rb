@@ -37,6 +37,7 @@ describe "Payment" do
     payment_page.enter_expiry_year("2016")
     payment_page.click_pay_now
     try_for(10) { expect(driver.page_source).to include("Booking number")}
+    puts("booking number: " + driver.find_element(:id, 'booking_number').text)
   end
 
 end
