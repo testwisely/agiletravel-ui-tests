@@ -102,7 +102,8 @@ task "ci:ui_tests:full"  do
   :working_dir => File.expand_path(File.dirname(__FILE__)),
   :ui_test_dir => ["features"],
   :excluded => excluded_feature_files || [],
-  :distributed => true
+  :distributed => true,
+  :test_framework => "Cucumber"  
   )
 
   the_build_status = buildwise_build_ui_test_status(build_id)
