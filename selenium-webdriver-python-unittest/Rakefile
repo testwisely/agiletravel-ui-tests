@@ -36,7 +36,7 @@ task "ci:ui_tests:full" do
                                    :ui_test_dir => ["test"],
                                    :excluded => excluded_test_files || [],
                                    :distributed => true,
-                                   :test_framework => "Mocha"
+                                   :test_framework => "unittest"
   )
 
   the_build_status = buildwise_build_ui_test_status(build_id)
