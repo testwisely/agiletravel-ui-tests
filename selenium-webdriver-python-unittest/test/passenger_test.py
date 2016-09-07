@@ -39,7 +39,7 @@ class PassengerTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(
-        testRunner=xmlrunner.XMLTestRunner(output=os.path.dirname(__file__) + '/../test-reports'),
+        testRunner=xmlrunner.XMLTestRunner(output='reports'),
         # these make sure that some options that are not applicable
         # remain hidden from the help menu.
         failfast=False, buffer=False, catchbreak=False)
