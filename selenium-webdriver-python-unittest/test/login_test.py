@@ -33,3 +33,9 @@ if __name__ == '__main__':
         # these make sure that some options that are not applicable
         # remain hidden from the help menu.
         failfast=False, buffer=False, catchbreak=False)
+
+# if __name__ == '__main__':
+#     with open('test-results.xml', 'wb') as output:
+#         unittest.main(
+#             testRunner=xmlrunner.XMLTestRunner(output=output),
+#             failfast=False, buffer=False, catchbreak=False)

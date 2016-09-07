@@ -1,4 +1,5 @@
 import unittest
+import xmlrunner
 import time
 import datetime
 import sys
@@ -8,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class LoginTestCase(unittest.TestCase):
+class PassengerTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Chrome()
@@ -36,4 +37,9 @@ class LoginTestCase(unittest.TestCase):
         self.driver.find_element_by_name("passengerLastName").send_keys("Tester")
         self.driver.find_element_by_xpath("//input[@value='Next']").click()
 
-
+if __name__ == '__main__':
+    unittest.main(
+        testRunner=xmlrunner.XMLTestRunner(output='test-reports'),
+        # these make sure that some options that are not applicable
+        # remain hidden from the help menu.
+        failfast=False, buffer=False, catchbreak=False)
