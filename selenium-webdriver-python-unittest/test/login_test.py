@@ -1,4 +1,5 @@
 import unittest
+import xmlrunner
 import time
 import datetime
 import sys
@@ -26,3 +27,9 @@ class LoginTestCase(unittest.TestCase):
         self.driver.find_element_by_id("password").send_keys("testwise")
         self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
 
+if __name__ == '__main__':
+    unittest.main(
+        testRunner=xmlrunner.XMLTestRunner(output='test-reports'),
+        # these make sure that some options that are not applicable
+        # remain hidden from the help menu.
+        failfast=False, buffer=False, catchbreak=False)
