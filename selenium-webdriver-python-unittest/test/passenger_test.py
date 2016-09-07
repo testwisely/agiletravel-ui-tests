@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class LoginTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.driver = webdriver.Chome()
+        cls.driver = webdriver.Chrome()
 
     @classmethod
     def tearDownClass(cls):
@@ -29,7 +29,7 @@ class LoginTestCase(unittest.TestCase):
         Select(self.driver.find_element_by_name("fromPort")).select_by_visible_text("New York")
         Select(self.driver.find_element_by_name("toPort")).select_by_visible_text("Sydney")
         Select(self.driver.find_element_by_name("departDay")).select_by_visible_text("04")
-        Select(self.driver.find_element_by_name("departMonth")).select_by_visible_text("March 2012")
+        Select(self.driver.find_element_by_name("departMonth")).select_by_visible_text("March 2016")
         self.driver.find_element_by_xpath("//input[@value='Continue']").click()
         time.sleep(1)
         self.driver.find_element_by_name("passengerFirstName").send_keys("Wise")
