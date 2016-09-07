@@ -2,8 +2,8 @@ require 'rubygems'
 
 load File.join(File.dirname(__FILE__), "buildwise.rake")
 
-BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-py-unittest" 
-BUILDWISE_FULL_PROJECT_ID = "agiletravel-full-build-py-unittest"
+BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-python-unittest" 
+BUILDWISE_FULL_PROJECT_ID = "agiletravel-full-build-python-unittest"
 BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.macmini"
 
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
@@ -17,6 +17,13 @@ end
 def excluded_test_files
   ["test/ignored_spec.py"]
 end
+
+
+# Preqrueisite
+# - Python 3
+# - unittest selenium installed by pip
+# - pip install unittest-xml-reporting
+
 
 ## Full Build
 #
