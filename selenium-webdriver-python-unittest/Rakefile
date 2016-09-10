@@ -9,20 +9,35 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.macmini"
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
 FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 
-desc "run all tests in this folder"
-task "ui_tests:quick"  do
-  `cd selenium-webdriver-python-unittest; python3 -m unittest  discover test -p "*_test.py"`
-end
-
-def excluded_test_files
-  ["test/ignored_spec.py"]
-end
-
+$test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution path if invoktion is not this directory
 
 # Preqrueisite
 # - Python 3
 # - unittest selenium installed by pip
 # - pip install unittest-xml-reporting
+
+desc "run all tests in this folder"
+task "ui_tests:quick"  do
+  # `cd selenium-webdriver-python-unittest; python3 -m unittest  discover test -p "*_test.py"`
+  tests_for_quick_build.each do |file|
+    `python3 #{file}`
+  end  
+end
+
+
+def tests_for_quick_build
+  # list test files to be run in a quick build
+  [
+    "#{$test_dir}/test/login_test.py", 
+    "#{$test_dir}/test/flight_test.py",
+    "#{$test_dir}/test/payment_test.py",
+    "#{$test_dir}/test/passenger_test.py", 
+  ]
+end
+
+def excluded_test_files
+  ["test/ignored_spec.py"]
+end
 
 
 ## Full Build
