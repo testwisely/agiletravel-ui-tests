@@ -11,7 +11,7 @@ FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  `python3 -m unittest  discover test -p "*_test.py"`
+  `cd selenium-webdriver-python-unittest; python3 -m unittest  discover test -p "*_test.py"`
 end
 
 def excluded_test_files
