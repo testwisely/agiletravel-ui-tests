@@ -21,6 +21,7 @@ class AbstractPage
 
 
   def initialize(driver, text = "")
+    page_delay
     @browser = driver
     raise "Page text '#{text}' not found on #{self.class.name}" unless @browser.text.include?(text)
   end
@@ -29,4 +30,11 @@ class AbstractPage
     @browser
   end
 
+  # add delay on landing a web page. the default implementation is using a setting in TestWise IDE 
+  def page_delay
+    if $TESTWISE_PAGE_DELAY && $TESTWISE_PAGE_DELAY.to_i > 0 && $TESTWISE_PAGE_DELAY.to_i < 100
+      sleep $TESTWISE_PAGE_DELAY.to_i
+    end 
+  end
+  
 end

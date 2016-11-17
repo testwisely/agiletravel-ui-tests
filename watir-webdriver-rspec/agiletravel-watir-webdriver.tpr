@@ -1,19 +1,19 @@
-<?xml version="1.1" encoding="US-ASCII"?>
+<?xml version='1.1' encoding='US-ASCII'?>
 <project>
   <name>agiletravel-watir-webdriver.tpr</name>
   <default_browser>Firefox</default_browser>
   <test_framework>Watir-WebDriver</test_framework>
   <syntax_framework>RSpec</syntax_framework>
   <environments>
-    <entry name="development" id="1" default="false">
+    <entry default='false' id='1' name='development'>
       <base_url>http://agiletravel.herokuapp.com</base_url>
     </entry>
-    <entry name="production" id="3" default="true">
+    <entry default='true' id='3' name='production'>
       <base_url>http://travel.agileway.net</base_url>
     </entry>
   </environments>
-  <exclude_dirs></exclude_dirs>
-  <exclude_files></exclude_files>
+  <exclude_dirs/>
+  <exclude_files/>
   <test_named_as>specification</test_named_as>
   <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
 
@@ -45,18 +45,18 @@ class &lt;%= @info[:page_class]%&gt; &lt; AbstractPage
 
 &lt;%= @info[:page_method] rescue nil %&gt;
 end</page_template>
-  <storywise_url></storywise_url>
-  <storywise_access_token></storywise_access_token>
-  <jira_url></jira_url>
-  <jira_project></jira_project>
-  <jira_login></jira_login>
-  <jira_password></jira_password>
+  <storywise_url/>
+  <storywise_access_token/>
+  <jira_url/>
+  <jira_project/>
+  <jira_login/>
+  <jira_password/>
   <heart_beat>
-    <spec_suite></spec_suite>
-    <environment></environment>
-    <start_time></start_time>
-    <repeat></repeat>
-    <end_repeat></end_repeat>
+    <spec_suite/>
+    <environment/>
+    <start_time/>
+    <repeat/>
+    <end_repeat/>
     <emails/>
   </heart_beat>
 </project>
