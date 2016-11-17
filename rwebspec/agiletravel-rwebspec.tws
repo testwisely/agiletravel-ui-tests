@@ -1,28 +1,22 @@
 <?xml version="1.1" encoding="US-ASCII"?>
 <workspace>
   <project_name>agiletravel-webdriver.tpr</project_name>
-  <project_file>C:\agileway\agiletravel-ui-tests\rwebspec\agiletravel-rwebspec.tpr</project_file>
+  <project_file>C:/work/agiletravel-ui-tests/rwebspec/agiletravel-rwebspec.tpr</project_file>
   <opened_files>
+    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
-<<<<<<< HEAD
   </opened_files>
   <recent_files>
+    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
     <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
-=======
     <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
     <entry name="$PROJECT_DIR$/pages/passenger_page.rb"/>
-  </opened_files>
-  <recent_files>
     <entry name="$PROJECT_DIR$/spec/payment_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/passenger_spec.rb"/>
->>>>>>> 67d03cbe72d2b6a6d9172020c9e62020f63c25ce
     <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
-    <entry name="$PROJECT_DIR$/spec/flight_spec.rb"/>
     <entry name="$PROJECT_DIR$/features/step_definitions/home_page_steps.rb"/>
     <entry name="$PROJECT_DIR$/pages/passenger_page.rb"/>
     <entry name="$PROJECT_DIR$/test_helper.rb"/>
-    <entry name="$PROJECT_DIR$/pages/abstract_page.rb"/>
     <entry name="$PROJECT_DIR$/pages/flight_page.rb"/>
     <entry name="$PROJECT_DIR$/pages/payment_page.rb"/>
     <entry name="$PROJECT_DIR$/features/step_definitions/Guide.txt"/>
