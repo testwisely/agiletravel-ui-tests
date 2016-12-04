@@ -37,7 +37,11 @@ task "ui_tests:quick"  do
   FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
   FileUtils.chdir(File.dirname(__FILE__))
-  system("nosetests --with-xunit --xunit-file=reports/TEST-SUITE.xml test")
+  
+  # system("nosetests --with-xunit --xunit-file=reports/TEST-SUITE.xml test")
+
+  # Running with pyTest
+  system("pytest --junit-xml=reports/TEST-SUITE.xml test")
 end
 
 
