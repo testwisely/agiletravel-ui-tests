@@ -33,11 +33,11 @@ task "ui_tests:quick"  do
   
   ## Runing with nose
   # 
-  reports_dir =  File.join(File.dirname("."), "reports")
+  reports_dir =  File.join(File.dirname(__FILE__), "reports")
   FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
   FileUtils.chdir(File.dirname(__FILE__))
-  `nosetests --with-xunit --xunit-file=reports/TEST-SUITE.xml test` 
+  system("nosetests --with-xunit --xunit-file=reports/TEST-SUITE.xml test")
 end
 
 
