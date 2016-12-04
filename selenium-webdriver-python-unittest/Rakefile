@@ -19,8 +19,7 @@ $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution pa
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  reports_dir =  File.join(File.dirname(__FILE__), "reports") 
-  puts reports_dir
+  reports_dir =  File.join(File.dirname("."), "reports") 
   FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
   
