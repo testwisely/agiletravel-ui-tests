@@ -21,6 +21,13 @@ class LoginTestCase(unittest.TestCase):
     def setUp(self):
         self.driver.get("http://travel.agileway.net")
 
+    def test_sign_in_failed(self):
+        # ...
+        self.driver.find_element_by_id("username").send_keys("agileway")
+        self.driver.find_element_by_id("password").send_keys("guess")
+        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
+        self.assertIn(, driver.find_element_by_tag_name("body").text)
+        
     def test_sign_in_ok(self):
         # ...
         self.driver.find_element_by_id("username").send_keys("agileway")
