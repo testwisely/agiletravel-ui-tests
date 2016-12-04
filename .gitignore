@@ -2,3 +2,4 @@ selenium-webdriver-cucumber/log/*.xml
 selenium-webdriver-cucumber/log/*.log
 selenium-webdriver-cucumber/log/*.html
 selenium-webdriver-python-unittest/reports/*.html
+selenium-webdriver-python-unittest/reports/*.xml

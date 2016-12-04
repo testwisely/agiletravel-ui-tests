@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'fileutils'
 
 load File.join(File.dirname(__FILE__), "buildwise.rake")
 
@@ -12,15 +13,21 @@ FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution path if invoktion is not this directory
 
 # Preqrueisite
-# - Python 3
+# - Python 3 (make sure python3 is in PATH, Mac built-in python is Python2)
 # - unittest selenium installed by pip
 # - pip install unittest-xml-reporting
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  # `cd selenium-webdriver-python-unittest; python3 -m unittest  discover test -p "*_test.py"`
+  reports_dir =  File.join(File.dirname(__FILE__), "reports") 
+  puts reports_dir
+  FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
+  FileUtils.mkdir_p(reports_dir)
+  
+  # the below run all test scripts under test folder
+  # `cd selenium-webdriver-python-unittest; python -m unittest  discover test -p "*_test.py"`
   tests_for_quick_build.each do |file|
-    `python3 #{file}`
+    `python #{file}`
   end  
 end
 
