@@ -26,7 +26,7 @@ class LoginTestCase(unittest.TestCase):
         self.driver.find_element_by_id("username").send_keys("agileway")
         self.driver.find_element_by_id("password").send_keys("guess")
         self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
-        self.assertIn("Invalid email or password", driver.find_element_by_tag_name("body").text)
+        self.assertIn("Invalid email or password", self.driver.find_element_by_tag_name("body").text)
         
     def test_sign_in_ok(self):
         # ...
