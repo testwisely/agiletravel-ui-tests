@@ -37,9 +37,7 @@ class PassengerTestCase(unittest.TestCase):
         self.driver.find_element_by_name("passengerLastName").send_keys("Tester")
         self.driver.find_element_by_xpath("//input[@value='Next']").click()
 
-if __name__ == '__main__':
-    unittest.main(
-        testRunner=xmlrunner.XMLTestRunner(output='reports'),
-        # these make sure that some options that are not applicable
-        # remain hidden from the help menu.
-        failfast=False, buffer=False, catchbreak=False)
+# if __name__ == '__main__':
+#     unittest.main(
+#         testRunner=xmlrunner.XMLTestRunner(output='reports'),
+#         failfast=False, buffer=False, catchbreak=False)

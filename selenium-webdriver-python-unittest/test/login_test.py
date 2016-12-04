@@ -26,7 +26,7 @@ class LoginTestCase(unittest.TestCase):
         self.driver.find_element_by_id("username").send_keys("agileway")
         self.driver.find_element_by_id("password").send_keys("guess")
         self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
-        self.assertIn("Invalid email or password", self.driver.find_element_by_tag_name("body").text)
+        self.assertIn("Invalid email or password3", self.driver.find_element_by_tag_name("body").text)
         
     def test_sign_in_ok(self):
         # ...
@@ -34,15 +34,7 @@ class LoginTestCase(unittest.TestCase):
         self.driver.find_element_by_id("password").send_keys("testwise")
         self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
 
-if __name__ == '__main__':
-    unittest.main(
-        testRunner=xmlrunner.XMLTestRunner(output='reports'),
-        # these make sure that some options that are not applicable
-        # remain hidden from the help menu.
-        failfast=False, buffer=False, catchbreak=False)
-
 # if __name__ == '__main__':
-#     with open('test-results.xml', 'wb') as output:
-#         unittest.main(
-#             testRunner=xmlrunner.XMLTestRunner(output=output),
-#             failfast=False, buffer=False, catchbreak=False)
+#     unittest.main(
+#         testRunner=xmlrunner.XMLTestRunner(output='reports'),
+#         failfast=False, buffer=False, catchbreak=False)

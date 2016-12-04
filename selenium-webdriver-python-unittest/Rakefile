@@ -16,18 +16,28 @@ $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution pa
 # - Python 3 (make sure python3 is in PATH, Mac built-in python is Python2)
 # - unittest selenium installed by pip
 # - pip install unittest-xml-reporting
+# - pip install nose
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  reports_dir =  File.join(File.dirname("."), "reports") 
+  
+  ### the below run all test scripts under test folder, but without reporting  
+  # 
+  # `python -m unittest  discover test -p "*_test.py"`
+
+  ## Runing individually
+  #
+  # tests_for_quick_build.each do |file|
+  #   `python #{file}`
+  # end
+  
+  ## Runing with nose
+  # 
+  reports_dir =  File.join(File.dirname("."), "reports")
   FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
-  
-  # the below run all test scripts under test folder
-  # `cd selenium-webdriver-python-unittest; python -m unittest  discover test -p "*_test.py"`
-  tests_for_quick_build.each do |file|
-    `python #{file}`
-  end  
+  FileUtils.chdir(File.dirname(__FILE__))
+  `nosetests --with-xunit --xunit-file=reports/TEST-SUITE.xml test` 
 end
 
 
