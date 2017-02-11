@@ -4,6 +4,8 @@ describe "User Login" do
   include TestHelper
 
   before(:all) do
+    # for windows, when unable auto-detect firefox binary
+    Selenium::WebDriver::Firefox::Binary.path="C:/Program Files/Mozilla Firefox/firefox.exe"
     @driver = $browser = Selenium::WebDriver.for(browser_type)
     driver.navigate.to(site_url)
   end
