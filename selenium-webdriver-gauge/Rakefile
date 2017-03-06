@@ -51,7 +51,7 @@ def tests_for_quick_build
 end
 
 def excluded_test_files
-  ["test/ignored.spec"]
+  ["specs/ignored.spec"]
 end
 
 
@@ -66,7 +66,7 @@ task "ci:ui_tests:full" do
                                    :ui_test_dir => ["specs"],
                                    :excluded => excluded_test_files || [],
                                    :distributed => true,
-                                   :test_framework => "unittest"
+                                   :test_framework => "gauge"
   )
 
   the_build_status = buildwise_build_ui_test_status(build_id)
