@@ -5,7 +5,8 @@ describe "User Login" do
 
   before(:all) do
     # for windows, when unable auto-detect firefox binary
-    Selenium::WebDriver::Firefox::Binary.path="C:/Program Files/Mozilla Firefox/firefox.exe"
+    # Please note Firefox on 32 bit is "C:\Program Files (x86)\Mozilla Firefox\firefox.exe"
+    # Selenium::WebDriver::Firefox::Binary.path="C:/Program Files/Mozilla Firefox/firefox.exe"
     @driver = $browser = Selenium::WebDriver.for(browser_type)
     driver.navigate.to(site_url)
   end
