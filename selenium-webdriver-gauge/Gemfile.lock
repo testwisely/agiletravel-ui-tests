@@ -1,0 +1,27 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.3.0)
+    gauge-ruby (0.4.0)
+      method_source (~> 0.8.2)
+      os (= 0.9.6)
+      parser (~> 2.3)
+      ruby-protocol-buffers (= 1.5.1)
+    method_source (0.8.2)
+    os (0.9.6)
+    parser (2.4.0.0)
+      ast (~> 2.2)
+    power_assert (0.4.1)
+    ruby-protocol-buffers (1.5.1)
+    test-unit (3.2.3)
+      power_assert
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gauge-ruby (~> 0.4.0)
+  test-unit
+
+BUNDLED WITH
+   1.13.7
