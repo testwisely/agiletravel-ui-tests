@@ -24,8 +24,7 @@ $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution pa
 # List tests you want to exclude
 #
 def excluded_spec_files
-  # ["ignore_spec.rb", "bad_test.rb", "selected_scripts_spec.rb"]
-  ["#{$test_dir}/spec/passenger_spec.rb", "#{$test_dir}/spec/login_refactored_spec.rb"]
+  ["passenger_spec.rb", "flight_spec.rb", "selected_scripts_spec.rb"]
 end
 
 def all_specs

@@ -3,3 +3,9 @@ selenium-webdriver-cucumber/log/*.log
 selenium-webdriver-cucumber/log/*.html
 selenium-webdriver-python-unittest/reports/*.html
 selenium-webdriver-python-unittest/reports/*.xml
+.DS_Store
+selenium-webdriver-gauge/logs/
+selenium-webdriver-gauge/reports/
+selenium-webdriver-python-unittest/.cache/
+selenium-webdriver-python-unittest/test/.cache/
+selenium-webdriver-python-unittest/test/__pycache__/

@@ -1,5 +1,0 @@
-invokeUrl = http://travel.agileway.net
-login_page_usernameBox.value = "agileway"
-login_page_passwordBox.value = "testwise"
-login_page_signInButton.click
-verifyText = Signed in!
