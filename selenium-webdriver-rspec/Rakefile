@@ -25,7 +25,7 @@ $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution pa
 #
 def excluded_spec_files
   # NOTE, testing only for faster develping agent, remove a couple of test later
-  ["passenger_spec.rb", "flight_spec.rb", "selected_scripts_spec.rb", "payment_spec.rb"]
+  ["passenger_spec.rb", "flight_spec.rb", "selected_scripts_spec.rb"]
 end
 
 def all_specs
