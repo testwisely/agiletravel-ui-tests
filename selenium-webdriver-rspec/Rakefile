@@ -122,3 +122,84 @@ RSpec::Core::RakeTask.new("go") do |t|
   t.pattern = FileList[test_files]
   t.rspec_opts = "" # to enable warning: "-w"
 end
+
+
+
+
+desc "Generate stats for UI tests"
+task "test:stats" do
+
+  ui_test_dir = File.dirname(__FILE__)
+  STATS_SOURCES = {
+      "Tests" => "#{ui_test_dir}/spec",
+      "Pages" => "#{ui_test_dir}/pages",
+      "Helpers" => "#{ui_test_dir}/*_helper.rb",
+  }
+
+  test_stats = {"lines" => 0, "test_suites" => 0, "test_cases" => 0, "test_lines" => 0}
+  page_stats = {"lines" => 0, "classes" => 0, "methods" => 0, "code_lines" => 0}
+  helper_stats ={"lines" => 0, "helpers" => 0, "methods" => 0, "code_lines" => 0}
+
+  # Tests
+  directory = STATS_SOURCES["Tests"]
+  Dir.foreach(directory) do |file_name|
+    next if file_name == "." || file_name == ".." || file_name == "selected_scripts_spec.rb"
+    next if File.directory?(File.join(directory, file_name))
+    f = File.open(directory + "/" + file_name)
+    test_stats["test_suites"] += 1
+    while line = f.gets
+      test_stats["lines"] += 1
+      test_stats["test_cases"] += 1 if line =~ /^\s*it\s+['"]/ || line =~ /^\s*story\s+['"]/ || line =~ /^\s*test_case\s+['"]/
+      test_stats["test_lines"] += 1 unless line =~ /^\s*$/ || line =~ /^\s*#/
+    end
+    f.close
+  end
+  # puts test_stats.inspect
+
+  # Pages
+  directory = STATS_SOURCES["Pages"]
+  Dir.foreach(directory) do |file_name|
+    next if file_name == "." || file_name == ".."
+    f = File.open(directory + "/" + file_name)
+    while line = f.gets
+      page_stats["lines"] += 1
+      page_stats["classes"] += 1 if line =~ /class [A-Z]/
+      page_stats["methods"] += 1 if line =~ /def [a-z]/
+      page_stats["code_lines"] += 1 unless line =~ /^\s*$/ || line =~ /^\s*#/
+    end
+    f.close
+  end
+
+  # Helpers
+  # directory = File.dirname( STATS_SOURCES["Helpers"])
+  # helper_wildcard = File.basename( STATS_SOURCES["Helpers"])
+  # puts directory
+  # puts helper_wildcard
+  Dir.glob(STATS_SOURCES["Helpers"]).each do |helper_file|
+    f = File.open(helper_file)
+    helper_stats["helpers"] += 1
+    while line = f.gets
+      helper_stats["lines"] += 1
+      helper_stats["methods"] += 1 if line =~ /def [a-z]/
+      helper_stats["code_lines"] += 1 unless line =~ /^\s*$/ || line =~ /^\s*#/
+    end
+    f.close
+  end
+
+  total_lines = helper_stats["lines"] + page_stats["lines"] + test_stats["lines"]
+  total_code_lines = helper_stats["code_lines"] + page_stats["code_lines"] + test_stats["test_lines"]
+
+  puts "+------------+---------+---------+---------+--------+"
+  puts "| TEST       |   LINES |  SUITES |   CASES |    LOC |"
+  puts "|            | #{test_stats['lines'].to_s.rjust(7)} " + "| #{test_stats['test_suites'].to_s.rjust(7)} " + "| #{test_stats['test_cases'].to_s.rjust(7)} " + "| #{test_stats['test_lines'].to_s.rjust(6)} " + "|"
+  puts "+------------+---------+---------+---------+--------+"
+  puts "| PAGE       |   LINES | CLASSES | METHODS |    LOC |"
+  puts "|            | #{page_stats['lines'].to_s.rjust(7)} " + "| #{page_stats['classes'].to_s.rjust(7)} " + "| #{page_stats['methods'].to_s.rjust(7)} " + "| #{page_stats['code_lines'].to_s.rjust(6)} " + "|"
+  puts "+------------+---------+---------+---------+--------+"
+  puts "| HELPER     |   LINES |   COUNT | METHODS |    LOC |"
+  puts "|            | #{helper_stats['lines'].to_s.rjust(7)} " + "| #{helper_stats['helpers'].to_s.rjust(7)} " + "| #{helper_stats['methods'].to_s.rjust(7)} " + "| #{helper_stats['code_lines'].to_s.rjust(6)} " + "|"
+  puts "+------------+---------+---------+---------+--------+"
+  puts "| TOTAL      | " + total_lines.to_s.rjust(7) + " |         |         |" + total_code_lines.to_s.rjust(7) + " |"
+  puts "+------------+---------+---------+---------+--------+"
+
+end
