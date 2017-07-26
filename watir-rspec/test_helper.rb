@@ -1,4 +1,5 @@
 require 'rubygems'
+gem "watir"
 require 'watir'
 require 'rspec'
 
