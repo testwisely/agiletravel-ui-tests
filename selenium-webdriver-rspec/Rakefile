@@ -15,8 +15,8 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
 BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-rspec"
 BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-rspec" # import to set for full build
  
-FULL_BUILD_MAX_TIME = 60 * 60   # max build time, over this, time out
-FULL_BUILD_CHECK_INTERVAL = 20  # check interval for build complete
+FULL_BUILD_MAX_TIME = ENV["DISTRIBUTED_MAX_BUILD_TIME"].to_i || 60 * 60   # max build time, over this, time out
+FULL_BUILD_CHECK_INTERVAL =  ENV["DISTRIBUTED_BUILD_CHECK_INTERVAL"].to_i || 20  # check interval for build complete
 
 $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution path if invoktion is not this directory
 # rspec will be created 'spec/reports' under checkout dir
@@ -100,6 +100,14 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
   start_time = Time.now
 
   puts "[Rake] Keep checking build |#{build_id} | #{the_build_status}"
+  if (FULL_BUILD_MAX_TIME < 60)
+    FULL_BUILD_MAX_TIME = 60
+  end
+  
+  if FULL_BUILD_MAX_TIME < 5 
+    FULL_BUILD_MAX_TIME = 5
+  end
+  
   while ((Time.now - start_time ) < FULL_BUILD_MAX_TIME) # test exeuction timeout
     the_build_status = buildwise_build_ui_test_status(build_id)
     puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
