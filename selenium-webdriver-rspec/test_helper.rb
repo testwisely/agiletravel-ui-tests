@@ -38,7 +38,7 @@ module TestHelper
     elsif ENV["BROWSER"]
       ENV["BROWSER"].downcase.to_sym      
     else
-      RUBY_PLATFORM =~ /mingw/ ? "ie".to_sym : "firefox".to_sym
+      :chrome
     end
   end
   alias the_browser browser_type
