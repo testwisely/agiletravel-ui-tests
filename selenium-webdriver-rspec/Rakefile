@@ -95,7 +95,8 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
                                    :excluded => excluded_spec_files || [],
                                    :distributed => true
   )
-
+  
+  puts "[INFO] get BUILD ID: #{build_id} from server"
   if build_id.nil? || build_id.to_i < 1  
     raise "Build ID is not return correctly from BuildWise server, make sure the project identifier used in your Rakefile matches the BuildWise project identifer."
   end
