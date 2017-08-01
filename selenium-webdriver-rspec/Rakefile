@@ -132,7 +132,11 @@ RSpec::Core::RakeTask.new("go") do |t|
 end
 
 
-
+desc "testing - bomb"
+task "bomb" do
+  puts "Testing bad task"
+  raise "Boom..."
+end
 
 desc "Generate stats for UI tests"
 task "test:stats" do
