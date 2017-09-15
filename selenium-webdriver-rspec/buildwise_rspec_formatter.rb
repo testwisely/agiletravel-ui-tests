@@ -29,12 +29,21 @@ module CI::Reporter
            screenshots_dir = File.join(reports_dir, "screenshots")
            FileUtils.mkdir_p(screenshots_dir) unless File.exists?(screenshots_dir)
            
-           spec_file_name = File.basename(notification.example.full_path)
-           saved_to = File.join(screenshots_dir, spec_file_name)
+           begin
+             spec_file_name = File.basename(notification.example.full_path)
+             saved_to = File.join(screenshots_dir, spec_file_name)
             
-           FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
-      	   example_name =  notification.example.full_description           
-      	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
+             FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
+        	   example_name =  notification.example.full_description           
+        	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
+           rescue  => e
+             fio = File.open( File.join(reports_dir, "error.log"), "w")
+             fio.puts(e)
+             fio.puts(e.backtrace)
+             fio.flush
+             fio.close
+           end
+           
       	end
   
       end
