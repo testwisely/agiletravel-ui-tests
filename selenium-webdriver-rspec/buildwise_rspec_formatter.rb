@@ -34,7 +34,8 @@ module CI::Reporter
              saved_to = File.join(screenshots_dir, spec_file_name)
             
              FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
-        	   example_name =  notification.example.full_description           
+        	   example_name =  notification.example.description 
+             # with folder, not using full_description      
         	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
            rescue  => e
              # don't cause build to stop if errors happens
