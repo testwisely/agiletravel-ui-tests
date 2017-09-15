@@ -26,9 +26,13 @@ module CI::Reporter
 	
       	if $browser && $browser.respond_to?("save_screenshot") # shall be set in test script           
       	   reports_dir  =  ENV['CI_REPORTS'] || File.expand_path("#{Dir.getwd}/spec/reports")
-           FileUtils.mkdir_p(reports_dir)
-      	   example_name =  notification.example.full_description
-      	   $browser.save_screenshot(File.join(reports_dir, "screenshot-#{example_name}.png"))
+           screenshots_dir = File.join(reports_dir, "screenshots")
+           spec_file_name = File.basename(notification.example_name.path)
+           saved_to = File.join(screenshots_dir, spec_file_name)
+            
+           FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
+      	   example_name =  notification.example.full_description           
+      	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
       	end
   
       end
