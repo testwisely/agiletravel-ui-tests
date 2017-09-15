@@ -30,7 +30,7 @@ module CI::Reporter
            FileUtils.mkdir_p(screenshots_dir) unless File.exists?(screenshots_dir)
            
            begin
-             spec_file_name = File.basename(notification.example.full_path)
+             spec_file_name = File.basename(notification.example.file_path)
              saved_to = File.join(screenshots_dir, spec_file_name)
             
              FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
