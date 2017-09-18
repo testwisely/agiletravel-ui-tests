@@ -9,15 +9,50 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.macmini"
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
 FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 
-desc "run all tests in this folder"
-task "ui_tests:quick"  do
-  `cd selenium-webdriver-nodejs-mocha; mocha spec --reporter mocha-junit-reporter`
+$test_dir = File.join(File.dirname(__FILE__))
+
+def test_files 
+  [
+    "#{$test_dir}/spec/flight_spec.js",
+    "#{$test_dir}/spec/login_spec.js",
+    "#{$test_dir}/spec/passenger_spec.js",
+    "#{$test_dir}/spec/payment_spec.js",
+  ]
 end
+
 
 def excluded_spec_files
   # ["ignore_spec.rb", "bad_test.rb", "selected_scripts_spec.rb"]
   ["spec/ignored_spec.js"]
 end
+
+desc "run all tests in this folder"
+task "ui_tests:quick"  do
+  `cd selenium-webdriver-nodejs-mocha; mocha spec --reporter mocha-junit-reporter`
+end
+
+desc "run all tests in this folder"
+task "ci:test:quick" do
+    reports_dir = File.join(File.dirname(__FILE__),  "reports")
+    if File.exists?(reports_dir)
+      FileUtils.rm_rf(reports_dir)
+    end
+    FileUtils.mkdir_p(reports_dir)
+    exit_code = 0
+    test_files.each do |test_file|
+      mocha_file = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".js", ".xml"))
+      cmd = "mocha #{test_file} --reporter mocha-junit-reporter --reporter-options mochaFile=#{mocha_file}"
+      puts cmd
+      result = system(cmd)
+      if exit_code == 0 && !result
+        exit_code = -1
+      end   
+    end
+    exit(exit_code)
+  
+end
+
+
 
 ## Full Build
 #
