@@ -47,6 +47,7 @@ task "ci:test:quick" do
       if exit_code == 0 && !result
         exit_code = -1
       end   
+      sleep 1
     end
     exit(exit_code)
   
