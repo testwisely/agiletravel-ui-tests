@@ -46,8 +46,8 @@ test.describe('Flight', function () {
 	   assert(the_page_text.includes("2016-06-04 New York to Sydney"))
 	 });
   });
-
-  test.it.only('[2] One-way trip', function() {
+/*
+  test.it('[2] One-way trip', function() {
      this.timeout(timeOut);	  
 	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
 	 driver.findElement(By.name("fromPort")).sendKeys("New York");
@@ -60,5 +60,6 @@ test.describe('Flight', function () {
 	   assert(the_page_text.includes("2016-05-02 New York to Sydney"))
 	 });
   });
+*/
 
 });
