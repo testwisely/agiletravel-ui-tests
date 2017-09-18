@@ -27,10 +27,11 @@ test.describe('Passenger', function () {
   });
 
   test.after(function() {
-    // driver.quit();
+    driver.quit();
   });
 
   test.it('[4] Can enter passenger details', function() {
+     this.timeout(timeOut);	  
  	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
  	 driver.findElement(By.name("fromPort")).sendKeys("New York");
  	 driver.findElement(By.name("toPort")).sendKeys("Sydney");

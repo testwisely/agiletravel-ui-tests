@@ -31,7 +31,7 @@ test.describe('Payment', function () {
   });
 
   test.it('[5] Book flight with payment', function() {
-      this.timeout(timeOut);	  
+     this.timeout(timeOut);	  
   	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
   	 driver.findElement(By.name("fromPort")).sendKeys("New York");
   	 driver.findElement(By.name("toPort")).sendKeys("Sydney");

@@ -32,6 +32,7 @@ test.describe('Flight', function () {
   });
 
   test.it('[3] Return trip', function() {
+     this.timeout(timeOut);	  
 	 driver.findElement(By.xpath("//input[@name='tripType' and @value='return']")).click();
 	 driver.findElement(By.name("fromPort")).sendKeys("Sydney");
 	 driver.findElement(By.name("toPort")).sendKeys("New York");
@@ -47,6 +48,7 @@ test.describe('Flight', function () {
   });
 
   test.it.only('[2] One-way trip', function() {
+     this.timeout(timeOut);	  
 	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
 	 driver.findElement(By.name("fromPort")).sendKeys("New York");
 	 driver.findElement(By.name("toPort")).sendKeys("Sydney");
