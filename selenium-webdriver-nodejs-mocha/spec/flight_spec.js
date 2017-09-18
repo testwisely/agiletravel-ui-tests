@@ -13,13 +13,13 @@ test.describe('Flight', function () {
 
   test.before(function() {
      this.timeout(timeOut);
-      driver = new webdriver.Builder()
+     driver = new webdriver.Builder()
           .forBrowser('chrome')
           .build();
-		 driver.get('http://travel.agileway.net');
-		 driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
-		 driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
-		 driver.findElement(webdriver.By.name('commit')).click();
+	 driver.get('http://travel.agileway.net');
+	 driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+	 driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+	 driver.findElement(webdriver.By.name('commit')).click();
   });
 
   test.beforeEach(function() {
@@ -46,7 +46,7 @@ test.describe('Flight', function () {
 	   assert(the_page_text.includes("2016-06-04 New York to Sydney"))
 	 });
   });
-/*
+
   test.it('[2] One-way trip', function() {
      this.timeout(timeOut);	  
 	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
@@ -60,6 +60,6 @@ test.describe('Flight', function () {
 	   assert(the_page_text.includes("2016-05-02 New York to Sydney"))
 	 });
   });
-*/
+
 
 });

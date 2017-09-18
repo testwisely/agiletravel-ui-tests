@@ -13,9 +13,9 @@ $test_dir = File.join(File.dirname(__FILE__))
 
 def test_files 
   [
-    "#{$test_dir}/spec/passenger_spec.js",
+    # "#{$test_dir}/spec/passenger_spec.js",
     "#{$test_dir}/spec/flight_spec.js",
-    "#{$test_dir}/spec/payment_spec.js",
+    # "#{$test_dir}/spec/payment_spec.js",
     "#{$test_dir}/spec/login_spec.js",
   ]
 end
