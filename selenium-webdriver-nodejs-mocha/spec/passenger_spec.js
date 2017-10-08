@@ -21,35 +21,37 @@ test.describe('Passenger', function () {
   test.beforeEach(function() {
     this.timeout(timeOut);
     driver.get('http://travel.agileway.net');
+	driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+	driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+	driver.findElement(webdriver.By.name('commit')).click();
   });
 
   test.after(function() {
     driver.quit();
   });
 
-  test.it('[4] Can enter passenger details (using page objects)', function() {
-/*
-    flight_page = FlightPage.new(driver)
-    flight_page.select_trip_type("return")
-    flight_page.select_depart_from("Sydney")
-    flight_page.select_arrive_at("New York")
+  test.it('[4] Can enter passenger details', function() {
+     this.timeout(timeOut);	  
+ 	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
+ 	 driver.findElement(By.name("fromPort")).sendKeys("New York");
+ 	 driver.findElement(By.name("toPort")).sendKeys("Sydney");
+ 	 driver.findElement(By.name("departDay")).sendKeys("02");
+ 	 driver.findElement(By.name("departMonth")).sendKeys("May 2016");
+ 	 driver.findElement(By.xpath("//input[@value='Continue']")).click();
+	 
+ 	 driver.findElement(By.xpath("//input[@value='Next']")).click();
+	 driver.findElement(By.tagName("body")).getText().then(function(the_page_text){
+	   assert(the_page_text.includes("Must provide last name"))
+	 });
+	 
+ 	 driver.findElement(By.name("passengerFirstName")).sendKeys("Bob");
+ 	 driver.findElement(By.name("passengerLastName")).sendKeys("Tester");
+ 	 driver.findElement(By.xpath("//input[@value='Next']")).click();
+	 
+	 driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val){
+		assert.equal("Bob Tester", val)
+	 });
 
-    flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
-    flight_page.select_return_day("04")
-    flight_page.select_return_month("June 2016")
-    flight_page.click_continue
-
-    //  now on passenger page
-    passenger_page = PassengerPage.new(driver)
-    passenger_page.click_next
-    try_for(3) { expect(page_text).to include("Must provide last name") }
-    passenger_page.enter_first_name("Bob")
-    passenger_page.enter_last_name("Tester")
-    passenger_page.click_next
-
-    expect(driver.find_element(:name, "holder_name").attribute("value")).to eq("Bob Tester")
-*/
   });
 
 

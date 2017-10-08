@@ -60,6 +60,30 @@ def excluded_test_files
 end
 
 
+desc "run all tests in this folder"
+task "ci:test:quick" do
+    reports_dir = File.join(File.dirname(__FILE__),  "reports")
+    if File.exists?(reports_dir)
+      FileUtils.rm_rf(reports_dir)
+    end
+    FileUtils.mkdir_p(reports_dir)
+    exit_code = 0
+    tests_for_quick_build.each do |test_file|
+      junit_xml = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".py", ".xml"))
+      cmd = "pytest --junitxml=#{junit_xml} #{test_file} "
+      puts cmd
+      result = system(cmd)
+      if exit_code == 0 && !result
+        exit_code = -1
+      end   
+      sleep 0.25
+    end
+    exit(exit_code)  
+end
+
+
+
+
 ## Full Build
 #
 #  TODO - how to determin useing RSpec or Cucumber

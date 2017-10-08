@@ -13,13 +13,13 @@ test.describe('Flight', function () {
 
   test.before(function() {
      this.timeout(timeOut);
-      driver = new webdriver.Builder()
+     driver = new webdriver.Builder()
           .forBrowser('chrome')
           .build();
-		 driver.get('http://travel.agileway.net');
-		 driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
-		 driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
-		 driver.findElement(webdriver.By.name('commit')).click();
+	 driver.get('http://travel.agileway.net');
+	 driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+	 driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+	 driver.findElement(webdriver.By.name('commit')).click();
   });
 
   test.beforeEach(function() {
@@ -32,45 +32,34 @@ test.describe('Flight', function () {
   });
 
   test.it('[3] Return trip', function() {
-	   driver.findElement(By.xpath("//input[@name='tripType' and @value='return']")).click();
+     this.timeout(timeOut);	  
+	 driver.findElement(By.xpath("//input[@name='tripType' and @value='return']")).click();
+	 driver.findElement(By.name("fromPort")).sendKeys("Sydney");
+	 driver.findElement(By.name("toPort")).sendKeys("New York");
+	 driver.findElement(By.name("departDay")).sendKeys("02");
+	 driver.findElement(By.name("departMonth")).sendKeys("May 2016");
+	 driver.findElement(By.name("returnDay")).sendKeys("04");
+	 driver.findElement(By.name("returnMonth")).sendKeys("June 2016");	 
+	 driver.findElement(By.xpath("//input[@value='Continue']")).click();
+	 driver.findElement(By.tagName("body")).getText().then(function(the_page_text){
+	   assert(the_page_text.includes("2016-05-02 Sydney to New York"))
+	   assert(the_page_text.includes("2016-06-04 New York to Sydney"))
+	 });
   });
 
   test.it('[2] One-way trip', function() {
-	   driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
+     this.timeout(timeOut);	  
+	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
+	 driver.findElement(By.name("fromPort")).sendKeys("New York");
+	 driver.findElement(By.name("toPort")).sendKeys("Sydney");
+	 driver.findElement(By.name("departDay")).sendKeys("02");
+	 driver.findElement(By.name("departMonth")).sendKeys("May 2016");
+	 driver.findElement(By.xpath("//input[@value='Continue']")).click();
+	
+	 driver.findElement(By.tagName("body")).getText().then(function(the_page_text){
+	   assert(the_page_text.includes("2016-05-02 New York to Sydney"))
+	 });
   });
-
-
-/* 
-  it "" do
-    flight_page = FlightPage.new(driver)
-    flight_page.select_trip_type("return")
-    flight_page.select_depart_from("Sydney")
-    flight_page.select_arrive_at("New York")
-
-    flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
-    flight_page.select_return_day("04")
-    flight_page.select_return_month("June 2016")
-    flight_page.click_continue
-
-    expect(page_text).to include("2016-05-02 Sydney to New York")
-    expect(page_text).to include("2016-06-04 New York to Sydney")
-  end
-
-  it "[2] One-way trip" do
-    flight_page = FlightPage.new(driver)
-    flight_page.select_trip_type("oneway")
-    flight_page.select_trip_type("return")
-    flight_page.select_depart_from("Sydney")
-    flight_page.select_arrive_at("New York")
-
-    flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
-    flight_page.click_continue
-
-    expect(page_text).to include("2016-05-02 Sydney to New York")
-  end
-*/
 
 
 });

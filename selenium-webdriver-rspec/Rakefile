@@ -56,7 +56,8 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   puts "[INFO] Tests in order => #{specs_to_be_executed.collect {|x| File.basename(x)}.inspect}"
   # t.pattern = FileList[specs_to_be_executed]  # this will by alapabentical order
   t.pattern = [] # disable default rspec 3.5 pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
-  t.rspec_opts = "#{specs_to_be_executed.join(' ')} --order defined"
+  buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
+  t.rspec_opts = "--require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
 end
 
 
