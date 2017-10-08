@@ -52,6 +52,11 @@ module TestHelper
     @driver
   end
   
+  def browser
+    @driver
+  end
+  
+  
   # got to path based on current base url
   def goto_page(path)
     driver.navigate.to(site_url + path)
