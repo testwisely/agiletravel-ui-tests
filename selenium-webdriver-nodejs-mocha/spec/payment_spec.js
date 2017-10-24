@@ -21,6 +21,9 @@ test.describe('Payment', function () {
   test.beforeEach(function() {
     this.timeout(timeOut);
     driver.get('http://travel.agileway.net');
+	driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+	driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+	driver.findElement(webdriver.By.name('commit')).click();
   });
 
   test.after(function() {
@@ -28,30 +31,25 @@ test.describe('Payment', function () {
   });
 
   test.it('[5] Book flight with payment', function() {
-	/*
-	    flight_page = FlightPage.new(driver)
-	    flight_page.select_trip_type("oneway")
-	    flight_page.select_depart_from("Sydney")
-	    flight_page.select_arrive_at("New York")
+     this.timeout(timeOut);	  
+  	 driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();	
+  	 driver.findElement(By.name("fromPort")).sendKeys("New York");
+  	 driver.findElement(By.name("toPort")).sendKeys("Sydney");
+  	 driver.findElement(By.name("departDay")).sendKeys("02");
+  	 driver.findElement(By.name("departMonth")).sendKeys("May 2016");
+  	 driver.findElement(By.xpath("//input[@value='Continue']")).click();
 
-	    flight_page.select_depart_day("02")
-	    flight_page.select_depart_month("May 2016")
-	    flight_page.click_continue
+  	 driver.findElement(By.name("passengerFirstName")).sendKeys("Bob");
+  	 driver.findElement(By.name("passengerLastName")).sendKeys("Tester");
+  	 driver.findElement(By.xpath("//input[@value='Next']")).click();
 
-	    # now on passenger page
-	    passenger_page = PassengerPage.new(driver)
-	    passenger_page.enter_last_name("Tester")
-	    passenger_page.click_next
-
-	    payment_page = PaymentPage.new(driver)
-	    try_for(3) {  payment_page.select_card_type("master") }
-	    payment_page.enter_holder_name("Bob the Tester")
-	    payment_page.enter_card_number("4242424242424242")
-	    payment_page.enter_expiry_month("04")
-	    payment_page.enter_expiry_year("2016")
-	    payment_page.click_pay_now
-	    try_for(10) { expect(driver.page_source).to include("Booking number")}	 
-*/	
+  	 driver.findElement(By.xpath("//input[@name='card_type' and @value='visa']")).click();		 
+  	 driver.findElement(By.name("card_number")).sendKeys("4242424242424242");
+  	 driver.findElement(By.xpath("//input[@value='Pay now']")).click();
+	 driver.sleep(10000) 
+	 driver.findElement(By.tagName("body")).getText().then(function(text){
+	      assert(text.contains("Booking number"))
+	  });	 
   });
 
 

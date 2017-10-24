@@ -28,6 +28,7 @@ test.describe('User Authentication', function () {
   });
 
   test.it('Invalid user', function() {
+     this.timeout(timeOut);	  
      driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
      driver.findElement(webdriver.By.name('password')).sendKeys('badpass');
      driver.findElement(webdriver.By.name('commit')).click();
@@ -37,6 +38,7 @@ test.describe('User Authentication', function () {
   });
 
   test.it('User can login successfully', function() {
+     this.timeout(timeOut);	  
      driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
      driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
      driver.findElement(webdriver.By.name('commit')).click();
