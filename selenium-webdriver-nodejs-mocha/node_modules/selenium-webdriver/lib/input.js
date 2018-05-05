@@ -21,8 +21,6 @@
  * @fileoverview Defines types related to user input with the WebDriver API.
  */
 
-const promise = require('./promise');
-
 
 /**
  * Enumeration of the buttons used in the advanced interactions API.
@@ -146,7 +144,7 @@ class FileDetector {
   /**
    * Handles the file specified by the given path, preparing it for use with
    * the current browser. If the path does not refer to a valid file, it will
-   * be returned unchanged, otherwisee a path suitable for use with the current
+   * be returned unchanged, otherwise a path suitable for use with the current
    * browser will be returned.
    *
    * This default implementation is a no-op. Subtypes may override this function
@@ -154,12 +152,11 @@ class FileDetector {
    *
    * @param {!./webdriver.WebDriver} driver The driver for the current browser.
    * @param {string} path The path to process.
-   * @return {!./promise.Promise<string>} A promise for the processed file
-   *     path.
+   * @return {!Promise<string>} A promise for the processed file path.
    * @package
    */
   handleFile(driver, path) {
-    return promise.fulfilled(path);
+    return Promise.resolve(path);
   }
 }
 

@@ -21,18 +21,22 @@
  * AVD).
  */
 
-var webdriver = require('..'),
-    By = webdriver.By,
-    until = webdriver.until,
-    chrome = require('../chrome');
+'use strict';
 
-var driver = new webdriver.Builder()
-    .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().androidChrome())
-    .build();
+const {Builder, By, Key, promise, until} = require('..');
+const {Options} = require('../chrome');
 
-driver.get('http://www.google.com/ncr');
-driver.findElement(By.name('q')).sendKeys('webdriver');
-driver.findElement(By.name('btnG')).click();
-driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-driver.quit();
+promise.consume(function* () {
+  let driver;
+  try {
+    driver = yield new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(new Options().androidChrome())
+        .build();
+    yield driver.get('http://www.google.com/ncr');
+    yield driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+    yield driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+  } finally {
+    yield driver && driver.quit();
+  }
+}).then(_ => console.log('SUCCESS'), err => console.error('ERROR: ' + err));
