@@ -24,9 +24,21 @@ module TestWiseSupport
     else
       puts message
     end
-
   end
 
+  # override system puts 
+  def puts(message)
+  	if $RUN_IN_TESTWISE && message					
+			the_sent_msg = message.to_s
+			if the_sent_msg.size > MAX_MESSAGE_LENGTH 
+				the_sent_msg = the_sent_msg[0..MAX_MESSAGE_LENGTH] + "..."
+			end
+      connect_to_testwise(" DEBUG",  the_sent_msg + "\r\n") 
+    else
+      super(message) 		      
+		end          
+  end
+  
   # Support of TestWise to ajust the intervals between keystroke/mouse operations
   def operation_delay
     begin
