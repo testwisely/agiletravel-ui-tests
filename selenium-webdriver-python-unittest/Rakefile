@@ -89,7 +89,7 @@ end
 #  TODO - how to determin useing RSpec or Cucumber
 #
 desc "Running tests distributedly"
-task "ci:ui_tests:full" do
+task "ci:test:full" do
   build_id = buildwise_start_build(:project_name => BUILDWISE_FULL_PROJECT_ID,
                                    :working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["test"],
