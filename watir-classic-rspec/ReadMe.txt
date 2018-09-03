@@ -1,1 +1,0 @@
-Watir-Classic (running in IE using OLE way) test project no longer supported in TestWise 4.10+. Please use TestWise 4.9

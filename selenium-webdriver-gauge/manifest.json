@@ -1,7 +1,0 @@
-{
-  "Language": "ruby",
-  "Plugins": [
-    "html-report",
-    "xml-report"
-  ]
-}
