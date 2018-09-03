@@ -25,7 +25,7 @@ $test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution pa
 #
 def excluded_spec_files
   # NOTE, testing only for faster develping agent, remove a couple of test later
-  ["passenger_spec.rb", "flight_spec.rb", "selected_scripts_spec.rb"]
+  ["selected_scripts_spec.rb"]
 end
 
 def all_specs
@@ -45,21 +45,47 @@ end
 
 desc "run all tests in this folder"
 RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
-  specs_to_be_executed = specs_for_quick_build  
-  specs_to_be_executed -= excluded_spec_files
+  specs_to_be_executed = []
 
-  specs_to_be_executed.uniq!  
-  specs_to_be_executed.each do |a_test|
+  enable_dyanmic_build_queue = false
+  if enable_dyanmic_build_queue
+    begin
+      # dynamic build process: get tests from last failed full build
+      failed_full_build_tests = buildwise_failed_build_tests(BUILDWISE_FULL_PROJECT_ID)
+
+      if failed_full_build_tests && failed_full_build_tests.size > 0
+        failed_full_build_tests.each do |x|
+          full_path = File.join($spec_dir, x)
+          specs_to_be_executed << full_path unless specs_for_quick_build.include?(full_path)
+        end    
+      end
+    rescue => e
+      puts "[ERROR] failed to check for full build: #{e}"
+    end
+  end
+  
+  ordered_specs = buildwise_ui_test_order(BUILDWISE_QUICK_PROJECT_ID)
+  puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
+  if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
+    specs_to_be_executed += specs_for_quick_build
+  else
+    # neat sorting thanks to Ruby
+    specs_to_be_executed = specs_for_quick_build if specs_to_be_executed.empty?
+    specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
+    puts "[INFO] After sorting => #{specs_to_be_executed.inspect}"        
+  end
+  
+  specs_to_be_executed -= excluded_spec_files
+  specs_to_be_executed.uniq!
+    specs_to_be_executed.each do |a_test|
     specs_to_be_executed.delete(a_test) unless File.exists?(a_test)
   end
   
-  puts "[INFO] Tests in order => #{specs_to_be_executed.collect {|x| File.basename(x)}.inspect}"
-  # t.pattern = FileList[specs_to_be_executed]  # this will by alapabentical order
-  t.pattern = [] # disable default rspec 3.5 pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+  puts "[INFO] Test execution in order => #{specs_to_be_executed.inspect}"
+  # t.pattern = FileList[specs_to_be_executed]
   buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
-  t.rspec_opts = "--require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
+  t.rspec_opts = "--pattern my_own_custom_order --require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
 end
-
 
 
 desc "run quick tests from BuildWise"
