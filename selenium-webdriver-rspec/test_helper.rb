@@ -47,12 +47,34 @@ module TestHelper
     $TESTWISE_PROJECT_BASE_URL || ENV["BASE_URL"] || default
   end
 	
-  def chrome_options
-    the_chrome_options = Selenium::WebDriver::Chrome::Options.new  
-    if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
-      the_chrome_options.add_argument('--headless')  
+  def browser_options
+    the_browser_type =  browser_type.to_s
+    if the_browser_type == "chrome"
+      the_chrome_options = Selenium::WebDriver::Chrome::Options.new  
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        the_chrome_options.add_argument('--headless')  
+      end
+      return :options => the_chrome_options
+      
+    elsif the_browser_type == "firefox"
+      the_firefox_options = Selenium::WebDriver::Firefox::Options.new  
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        the_firefox_options.add_argument('--headless')
+      end
+      return :options => the_firefox_options
+
+    elsif the_browser_type == "ie"
+      the_ie_options =  Selenium::WebDriver::IE::Options.new  
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        # not supported yet?
+        # the_ie_options.add_argument('--headless')
+      end
+      return :options => the_ie_options
+
+    else
+      
+      return {}
     end
-    return the_chrome_options
   end
 	
   def driver

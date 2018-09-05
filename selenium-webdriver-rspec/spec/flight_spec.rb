@@ -4,7 +4,7 @@ describe "Select Flights" do
   include TestHelper
 
   before(:all) do
-    @driver = $browser = Selenium::WebDriver.for(browser_type, :options => chrome_options)
+    @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
     driver.navigate.to(site_url)
     
     login_page = LoginPage.new(driver)
