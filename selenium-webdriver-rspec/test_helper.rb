@@ -47,6 +47,13 @@ module TestHelper
     $TESTWISE_PROJECT_BASE_URL || ENV["BASE_URL"] || default
   end
 	
+  def chrome_options
+    the_chrome_options = Selenium::WebDriver::Chrome::Options.new  
+    if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+      the_chrome_options.add_argument('--headless')  
+    end
+    return the_chrome_options
+  end
 	
   def driver
     @driver
