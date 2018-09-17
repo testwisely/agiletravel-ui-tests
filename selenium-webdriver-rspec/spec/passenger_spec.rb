@@ -36,7 +36,7 @@ describe "Passenger" do
     passenger_page.enter_last_name("Tester")
     passenger_page.click_next
 
-    expect(driver.find_element(:name, "holder_name").attribute("value")).to eq("Wendy Tester")
+    expect(driver.find_element(:name, "holder_name").attribute("value")).to eq("Bob Tester")
   end
 
 end
