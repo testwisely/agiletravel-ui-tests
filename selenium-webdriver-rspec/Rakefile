@@ -12,8 +12,8 @@ load File.join(File.dirname(__FILE__), "buildwise.rake")
 ## Settings: Customize here...
 # 
 BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
-BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-rspec"
-BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-rspec" # import to set for full build
+# BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-rspec"
+# BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-rspec" # import to set for full build
  
 FULL_BUILD_MAX_TIME = ENV["DISTRIBUTED_MAX_BUILD_TIME"].to_i || 60 * 60   # max build time, over this, time out
 FULL_BUILD_CHECK_INTERVAL =  ENV["DISTRIBUTED_BUILD_CHECK_INTERVAL"].to_i || 20  # check interval for build complete
@@ -47,10 +47,10 @@ desc "run all tests in this folder"
 RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   specs_to_be_executed = []
 
-  enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true"
+  enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
   puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
-  if enable_intelligent_ordering
-    ordered_specs = buildwise_ui_test_order(BUILDWISE_QUICK_PROJECT_ID)
+  if enable_intelligent_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
+    ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
       specs_to_be_executed += specs_for_quick_build
@@ -62,12 +62,12 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
     end    
   end
   
-  enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_ID"]
+  enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
   puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
   if enable_dyanmic_build_queue
     begin
       # dynamic build process: get failed tests from last failed full build
-      failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_ID"])
+      failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"])
       if failed_full_build_tests && failed_full_build_tests.size > 0
         failed_full_build_tests.each do |x|
           full_path = File.join($spec_dir, x)
@@ -99,7 +99,7 @@ end
 
 desc "run quick tests from BuildWise"
 task "ci:ui_tests:quick" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:project_name => BUILDWISE_QUICK_PROJECT_ID,
+  build_id = buildwise_start_build(:project_name => ENV["BUILDWISE_PROJECT_IDENTIFIER"],
   :working_dir => File.expand_path(File.dirname(__FILE__)),
   :ui_test_dir => ["."],
   :excluded => excluded_spec_files
@@ -125,7 +125,7 @@ end
 #
 desc "Running tests distributedly"
 task "ci:ui_tests:full" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:project_name => BUILDWISE_FULL_PROJECT_ID,
+  build_id = buildwise_start_build(:project_name => ENV["BUILDWISE_PROJECT_IDENTIFIER"],
                                    :working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
                                    :excluded => excluded_spec_files || [],
