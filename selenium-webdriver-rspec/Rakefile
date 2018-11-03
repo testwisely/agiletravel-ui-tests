@@ -80,6 +80,10 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
     end
   end
   
+  if specs_to_be_executed.empty?
+    specs_to_be_executed = specs_for_quick_build
+  end
+  
   specs_to_be_executed -= excluded_spec_files
   specs_to_be_executed.uniq!
     specs_to_be_executed.each do |a_test|
