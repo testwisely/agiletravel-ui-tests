@@ -3,6 +3,7 @@ require 'net/http'
 require 'yaml'
 
 def buildwise_start_build(options)
+  options[:project_name] ||= ENV["BUILDWISE_PROJECT_IDENTIFIER"]
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
   new_build_id = the_response_content
 end

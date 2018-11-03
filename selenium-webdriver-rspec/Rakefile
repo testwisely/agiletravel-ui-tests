@@ -18,37 +18,38 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
 FULL_BUILD_MAX_TIME = ENV["DISTRIBUTED_MAX_BUILD_TIME"].to_i || 60 * 60   # max build time, over this, time out
 FULL_BUILD_CHECK_INTERVAL =  ENV["DISTRIBUTED_BUILD_CHECK_INTERVAL"].to_i || 20  # check interval for build complete
 
-$test_dir =  File.expand_path(File.dirname(__FILE__))  # change to aboslution path if invoktion is not this directory
-# rspec will be created 'spec/reports' under checkout dir
+$test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "spec" ) )  # change to aboslution path if invocation is not this directory
+# rspec will create 'spec/reports' under check out dir
 
 # List tests you want to exclude
 #
 def excluded_spec_files
   # NOTE, testing only for faster develping agent, remove a couple of test later
-  ["selected_scripts_spec.rb"]
+  ["selected_scripts_spec.rb", "passenger_spec.rb"]
 end
 
 def all_specs
-  Dir.glob("#{$test_dir}/spec/*_spec.rb")
+  Dir.glob("#{$test_dir}/*_spec.rb")
 end
 
 def specs_for_quick_build
-  # list test files to be run in a quick build
+  # list test files to be run in a quick build, leave the caller to set full path
   [
-    "#{$test_dir}/spec/login_spec.rb", 
-    "#{$test_dir}/spec/flight_spec.rb",
-    "#{$test_dir}/spec/payment_spec.rb",
-    "#{$test_dir}/spec/passenger_spec.rb",   # this will be excluded see 'excluded_spec_files'
+    "login_spec.rb", 
+    "flight_spec.rb",
+    "payment_spec.rb",
+    "passenger_spec.rb",
+    "not_exists_spec.rb" # test hanlding non exists scenario
   ]
 end
 
 
-desc "run all tests in this folder"
+desc "run tests in this spec/ folder, option to use INTELLIGENT_ORDERING or/and DYNAMIC_FEEDBACK"
 RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   specs_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
-  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
+  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering.to_s rescue 'false'}"
   if enable_intelligent_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
     ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
@@ -62,9 +63,9 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
     end    
   end
   
-  enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
-  puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
-  if enable_dyanmic_build_queue
+  enable_dynamic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
+  puts "[INFO] dynamic feedback? => #{enable_dynamic_build_queue}"  
+  if enable_dynamic_build_queue
     begin
       # dynamic build process: get failed tests from last failed full build
       failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"])
@@ -82,15 +83,20 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   
   if specs_to_be_executed.empty?
     specs_to_be_executed = specs_for_quick_build
+    puts "[INFO] all quick tests: #{specs_to_be_executed.inspect}"
   end
   
   specs_to_be_executed -= excluded_spec_files
+  puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
   specs_to_be_executed.uniq!
-    specs_to_be_executed.each do |a_test|
-    specs_to_be_executed.delete(a_test) unless File.exists?(a_test)
-  end
+  puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
+  specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
+  puts "[INFO] Not exists : #{specs_to_be_executed.inspect}"
   
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
+  # using full path
+  specs_to_be_executed = specs_to_be_executed.collect{|x| File.join($test_dir, x)}  
+
   # t.pattern = FileList[specs_to_be_executed]
   buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
   t.rspec_opts = "--pattern my_own_custom_order --require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
@@ -99,10 +105,10 @@ end
 
 desc "run quick tests from BuildWise"
 task "ci:ui_tests:quick" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:project_name => ENV["BUILDWISE_PROJECT_IDENTIFIER"],
-  :working_dir => File.expand_path(File.dirname(__FILE__)),
-  :ui_test_dir => ["."],
-  :excluded => excluded_spec_files
+  build_id = buildwise_start_build(
+    :working_dir => File.expand_path(File.dirname(__FILE__)),
+    :ui_test_dir => ["."],
+    :excluded => excluded_spec_files
   )
   puts "[Rake] new build id =>|#{build_id}|"
   begin
@@ -125,8 +131,7 @@ end
 #
 desc "Running tests distributedly"
 task "ci:ui_tests:full" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:project_name => ENV["BUILDWISE_PROJECT_IDENTIFIER"],
-                                   :working_dir => File.expand_path(File.dirname(__FILE__)),
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
                                    :excluded => excluded_spec_files || [],
                                    :distributed => true
