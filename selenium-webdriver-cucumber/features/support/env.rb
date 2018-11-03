@@ -20,7 +20,7 @@ def the_browser
   elsif ENV["BROWSER"] &&  ENV["BROWSER"].size > 1
     ENV["BROWSER"].downcase.to_sym
   else
-    RUBY_PLATFORM =~ /mingw/ ? "ie".to_sym : "firefox".to_sym
+    :chrome
   end
 end
 driver = Selenium::WebDriver.for(the_browser)

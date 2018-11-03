@@ -3,6 +3,7 @@ require 'net/http'
 require 'yaml'
 
 def buildwise_start_build(options)
+  options[:project_name] ||= ENV["BUILDWISE_PROJECT_IDENTIFIER"]
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
   new_build_id = the_response_content
 end
@@ -24,7 +25,7 @@ def buildwise_build_status(build_id)
 end
 
 def buildwise_build_ui_test_status(build_id)
-  return contact_buildwise_get("/builds/#{build_id}/ui_test_status")
+  return contact_buildwise_get("/builds/#{build_id}/ui_test_status", true)
 end
 
 def buildwise_build_failed(build_id)
@@ -69,7 +70,7 @@ def buildwise_successful_build_tests(project_identifier)
 end
 
 
-def contact_buildwise_get(path, raise_exception = false)
+def contact_buildwise_get(path, raise_exception = true)
   begin
     client = HTTPClient.new
     url = "#{BUILDWISE_URL}#{path}"

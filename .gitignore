@@ -9,3 +9,7 @@ selenium-webdriver-gauge/reports/
 selenium-webdriver-python-unittest/.cache/
 selenium-webdriver-python-unittest/test/.cache/
 selenium-webdriver-python-unittest/test/__pycache__/
+capybara-rspec/spec/reports/
+selenium-webdriver-nodejs-mocha/reports/
+selenium-webdriver-python-unittest/.pytest_cache/
+watir-rspec/spec/reports/

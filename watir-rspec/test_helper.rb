@@ -53,9 +53,9 @@ module TestHelper
     if $TESTWISE_BROWSER then
       $TESTWISE_BROWSER.downcase.to_sym
     elsif ENV["BROWSER"]
-      ENV["BROWSER"].downcase.to_sym
+      ENV["BROWSER"].downcase.to_sym      
     else
-      RUBY_PLATFORM =~ /mingw/ ? "ie".to_sym : "firefox".to_sym
+      :chrome
     end
   end
   alias the_browser browser_type

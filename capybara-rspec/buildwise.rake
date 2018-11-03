@@ -15,7 +15,7 @@ def buildwise_finish_build(build_id)
       "id" =>  build_id,
     }         
     outcome = contact_buildwise_post("/builds/#{build_id}/finish", pdata)    
-    puts "[buildwise.rake] Post /builds/#{build_id}/finish => #{outcome}"x
+    puts "[buildwise.rake] Post /builds/#{build_id}/finish => #{outcome}"
     return outcome
   end
 end
