@@ -48,6 +48,7 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   specs_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true"
+  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
   if enable_intelligent_ordering
     ordered_specs = buildwise_ui_test_order(BUILDWISE_QUICK_PROJECT_ID)
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
@@ -62,6 +63,7 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   end
   
   enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_ID"]
+  puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
   if enable_dyanmic_build_queue
     begin
       # dynamic build process: get failed tests from last failed full build
