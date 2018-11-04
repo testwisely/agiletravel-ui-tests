@@ -57,7 +57,7 @@ def specs_for_quick_build
 end
 
 def excluded_spec_files
-  ["passenger_test.py"]
+  []
 end
 
 

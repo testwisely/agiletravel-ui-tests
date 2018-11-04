@@ -33,9 +33,11 @@ class PassengerTestCase(unittest.TestCase):
         Select(self.driver.find_element_by_name("departMonth")).select_by_visible_text("March 2016")
         self.driver.find_element_by_xpath("//input[@value='Continue']").click()
         time.sleep(1)
-        self.driver.find_element_by_name("passengerFirstName").send_keys("Wise")
+        self.driver.find_element_by_name("passengerFirstName").send_keys("Wendy")
         self.driver.find_element_by_name("passengerLastName").send_keys("Tester")
         self.driver.find_element_by_xpath("//input[@value='Next']").click()
+        
+        self.assertEqual("Bob Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
 
 # if __name__ == '__main__':
 #     unittest.main(
