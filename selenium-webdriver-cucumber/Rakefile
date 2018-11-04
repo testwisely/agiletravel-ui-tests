@@ -101,7 +101,7 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
 
   puts "[INFO] Final Test execution in order => #{features_to_be_executed.inspect}"
   # using full path
-  features_to_be_executed = features_to_be_executed.collect{|x| File.join($test_dir, x)}  
+  features_to_be_executed = features_to_be_executed.collect{|x| File.join("features", x)}  
   
   
   puts "[INFO] Tests in order => #{features_to_be_executed.collect {|x| File.basename(x)}.inspect}"
