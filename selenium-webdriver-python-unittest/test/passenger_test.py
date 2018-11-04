@@ -37,7 +37,7 @@ class PassengerTestCase(unittest.TestCase):
         self.driver.find_element_by_name("passengerLastName").send_keys("Tester")
         self.driver.find_element_by_xpath("//input[@value='Next']").click()
         
-        self.assertEqual("Bob Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
+        self.assertEqual("Wendy Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
 
 # if __name__ == '__main__':
 #     unittest.main(
