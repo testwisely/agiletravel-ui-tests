@@ -3,6 +3,7 @@ import xmlrunner
 import time
 import datetime
 import sys
+import os
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
