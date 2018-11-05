@@ -48,10 +48,10 @@ end
 def specs_for_quick_build
   # list test files to be run in a quick build
   [
-    "login_test.py", 
-    "flight_test.py",
-    "payment_test.py",
-    "passenger_test.py", 
+    "1_login_test.py", 
+    "2_flight_test.py",
+    "3_passenger_test.py", 
+    "4_payment_test.py",
     "not_exists_test.py"
   ]
 end

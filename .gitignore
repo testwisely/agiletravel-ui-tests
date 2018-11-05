@@ -13,3 +13,4 @@ capybara-rspec/spec/reports/
 selenium-webdriver-nodejs-mocha/reports/
 selenium-webdriver-python-unittest/.pytest_cache/
 watir-rspec/spec/reports/
+.pytest_cache/
