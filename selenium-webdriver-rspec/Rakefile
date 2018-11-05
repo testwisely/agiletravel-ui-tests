@@ -54,10 +54,10 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
     ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-      specs_to_be_executed += specs_for_quick_build
+      specs_to_be_executed += specs_for_quick_build  if specs_to_be_executed.empty?
     else
       # neat sorting thanks to Ruby
-      specs_to_be_executed = specs_for_quick_build if specs_to_be_executed.empty?
+      specs_to_be_executed = ordered_specs.dup
       specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
       puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
     end    
@@ -74,17 +74,13 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
           full_path = File.join($spec_dir, x)
           specs_to_be_executed.insert(0, full_path) unless specs_to_be_executed.include?(full_path)
         end    
-      end
-      
+      end      
     rescue => e
       puts "[ERROR] failed to check for full build: #{e}"
     end
   end
   
-  if specs_to_be_executed.empty?
-    specs_to_be_executed = specs_for_quick_build
-  end
-  
+  specs_to_be_executed = specs_for_quick_build   if specs_to_be_executed.empty?
   specs_to_be_executed -= excluded_spec_files
   puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
 

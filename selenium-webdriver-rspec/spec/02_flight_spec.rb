@@ -5,7 +5,9 @@ describe "Select Flights" do
 
   before(:all) do
     @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
-    driver.navigate.to(site_url)
+    driver.resize_to(1280, 720)
+    driver.move_to(30, 78)
+    driver.get(site_url)
     
     login_page = LoginPage.new(driver)
     login_page.login("agileway", "testwise")

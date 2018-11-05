@@ -9,6 +9,10 @@ describe "User Login" do
     # Selenium::WebDriver::Firefox::Binary.path="C:/Program Files/Mozilla Firefox/firefox.exe"
     
     @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    driver.resize_to(1280, 720)
+    driver.move_to(30, 78)
+    driver.get(site_url)
+    
     driver.navigate.to(site_url)
   end
 
