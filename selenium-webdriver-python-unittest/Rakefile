@@ -78,7 +78,7 @@ task "ci:ui_tests:quick" do
       ordered_specs = buildwise_ui_test_order(sequential_build_project_identifier)
       puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
       if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-        specs_to_be_executed += specs_for_quick_build
+        specs_to_be_executed = ordered_specs.dup
       else
         # neat sorting thanks to Ruby
         specs_to_be_executed = specs_for_quick_build if specs_for_quick_build.empty?
