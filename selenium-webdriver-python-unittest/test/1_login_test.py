@@ -3,6 +3,7 @@ import xmlrunner
 import time
 import datetime
 import sys
+import os
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
@@ -12,7 +13,11 @@ from selenium.webdriver.support import expected_conditions as EC
 class LoginTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.driver = webdriver.Chrome()
+        if os.environ['BROWSER'] == "firefox":
+          cls.driver = webdriver.Firefox()
+        else:
+          cls.driver = webdriver.Chrome()
+          
         cls.driver.set_window_size(1280, 720)
         cls.driver.set_window_position(30, 78)
 
