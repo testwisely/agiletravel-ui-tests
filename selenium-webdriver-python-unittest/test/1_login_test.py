@@ -14,7 +14,7 @@ class LoginTestCase(unittest.TestCase):
     def setUpClass(cls):
         cls.driver = webdriver.Chrome()
         cls.driver.set_window_size(1280, 720)
-        cls.driver.set_window_position(30, 80)
+        cls.driver.set_window_position(30, 78)
 
     @classmethod
     def tearDownClass(cls):
