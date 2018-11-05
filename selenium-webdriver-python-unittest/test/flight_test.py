@@ -14,6 +14,7 @@ class FlightTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Chrome()
+        cls.driver.set_window_size(1280, 720)
 
     @classmethod
     def tearDownClass(cls):
