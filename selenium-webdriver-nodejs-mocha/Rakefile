@@ -16,10 +16,10 @@ $test_dir = File.join(File.join(File.dirname(__FILE__), "spec"))
 # instead of list one by one, you may change to include all in $test_dir, which is the way for parallel build
 def specs_for_quick_build 
   [
-    "passenger_spec.js",
-    "flight_spec.js",
-    "payment_spec.js",
-    "login_spec.js",
+    "03_passenger_spec.js",
+    "02_flight_spec.js",
+    "04_payment_spec.js",
+    "01_login_spec.js",
     "not_exists_spec.js"
   ]
 end
@@ -27,7 +27,7 @@ end
 
 def excluded_spec_files
   # ["ignore_spec.rb", "bad_test.rb", "selected_scripts_spec.rb"]
-  ["ignored_spec.js", "passenger_spec.js"]
+  ["ignored_spec.js", "03_passenger_spec.js"]
 end
 
 desc "run all tests in this folder"
