@@ -29,5 +29,8 @@ When /^I click 'Pay now'$/ do
 end
 
 Then /^I should see 'Booking Number' in confirmation section$/ do
-  #AJAX  
+  #AJAX 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
+  wait.until{ @driver.find_element(:id => "booking_number").text.to_i > 100 }
+  puts "Booking number is " + @driver.find_element(:id => "booking_number").text
 end
