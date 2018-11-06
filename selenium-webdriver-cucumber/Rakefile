@@ -118,11 +118,7 @@ end
 
 desc "run quick tests from BuildWise"
 task "ci:ui_tests:quick"  do
-  build_id = buildwise_start_build(
-    :working_dir => File.expand_path(File.dirname(__FILE__)),
-    :ui_test_dir => ["."],
-    :excluded => excluded_feature_files
-  )
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)))
   puts "[Rake] new build id =>|#{build_id}|"
   begin
     Rake::Task["ui_tests:quick"].invoke

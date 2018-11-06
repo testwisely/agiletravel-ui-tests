@@ -51,10 +51,10 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
     ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-      specs_to_be_executed += specs_for_quick_build
+      specs_to_be_executed += specs_for_quick_build  if specs_to_be_executed.empty?
     else
       # neat sorting thanks to Ruby
-      specs_to_be_executed = specs_for_quick_build if specs_to_be_executed.empty?
+      specs_to_be_executed = ordered_specs.dup
       specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
       puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
     end    
@@ -104,11 +104,7 @@ end
 
 desc "run quick tests from BuildWise"
 task "ci:ui_tests:quick" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(
-    :working_dir => File.expand_path(File.dirname(__FILE__)),
-    :ui_test_dir => ["."],
-    :excluded => excluded_spec_files
-  )
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)))
   puts "[Rake] new build id =>|#{build_id}|"
   begin
     # puts "[Rake] Invoke"
@@ -130,8 +126,7 @@ end
 #
 desc "Running tests distributedly"
 task "ci:ui_tests:full" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:project_name => BUILDWISE_FULL_PROJECT_ID,
-                                   :working_dir => File.expand_path(File.dirname(__FILE__)),
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
                                    :excluded => excluded_spec_files || [],
                                    :distributed => true
