@@ -44,8 +44,7 @@ def specs_for_quick_build
 end
 
 
-desc "run tests in this spec/ folder, option to use INTELLIGENT_ORDERING or/and DYNAMIC_FEEDBACK"
-RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
+def determine_specs_for_quick_build
   specs_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
@@ -62,7 +61,7 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
       puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
     end    
   end
-  
+
   enable_dynamic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
   puts "[INFO] dynamic feedback? => #{enable_dynamic_build_queue}"  
   if enable_dynamic_build_queue
@@ -79,7 +78,7 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
       puts "[ERROR] failed to check for full build: #{e}"
     end
   end
-  
+
   specs_to_be_executed = specs_for_quick_build   if specs_to_be_executed.empty?
   specs_to_be_executed -= excluded_spec_files
   puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
@@ -89,11 +88,16 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
 
   specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
   puts "[INFO] Filter Not exists : #{specs_to_be_executed.inspect}"
-  
+
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
   # using full path
   specs_to_be_executed = specs_to_be_executed.collect{|x| File.join($test_dir, x)}  
+end
 
+desc "run tests in this spec/ folder, option to use INTELLIGENT_ORDERING or/and DYNAMIC_FEEDBACK"
+RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
+  
+  specs_to_be_executed = determine_specs_for_quick_build();
   # t.pattern = FileList[specs_to_be_executed]
   buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
   t.rspec_opts = "--pattern my_own_custom_order --require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"

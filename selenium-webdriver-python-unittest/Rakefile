@@ -61,6 +61,61 @@ def excluded_spec_files
 end
 
 
+def determine_specs_for_quick_build  
+  specs_to_be_executed = []
+
+  enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
+  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
+  sequential_build_project_identifier = ENV["BUILDWISE_PROJECT_IDENTIFIER"] || "selenium-recipes-python"
+  if enable_intelligent_ordering && sequential_build_project_identifier
+    ordered_specs = buildwise_ui_test_order(sequential_build_project_identifier)
+    puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
+    if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
+      specs_to_be_executed = specs_for_quick_build.dup if specs_for_quick_build.empty?
+    else
+      # neat sorting thanks to Ruby
+      specs_to_be_executed = ordered_specs.dup 
+      specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
+      puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
+    end    
+  end
+
+  enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
+  puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
+  if enable_dyanmic_build_queue
+    begin
+      # dynamic build process: get failed tests from last failed full build
+      failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"])
+      if failed_full_build_tests && failed_full_build_tests.size > 0
+        failed_full_build_tests.each do |x|
+          full_path = File.join($spec_dir, x)
+          specs_to_be_executed.insert(0, full_path) unless specs_to_be_executed.include?(full_path)
+        end    
+      end
+    
+    rescue => e
+      puts "[ERROR] failed to check for full build: #{e}"
+    end
+  end
+
+  if specs_to_be_executed.empty?
+    specs_to_be_executed = specs_for_quick_build
+  end
+  
+  specs_to_be_executed -= excluded_spec_files
+  puts "[INFO] After Exclude : #{specs_to_be_executed.inspect}"
+
+  specs_to_be_executed.uniq!
+  puts "[INFO] After Uniq : #{specs_to_be_executed.inspect}"
+
+  specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
+  puts "[INFO] Filter out Not exists : #{specs_to_be_executed.inspect}"
+
+  puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
+  # using full path
+  specs_to_be_executed = specs_to_be_executed.collect{|x| File.join($test_dir, x)}  
+end
+
 desc "run all tests in this folder"
 task "ci:ui_tests:quick" do
     reports_dir = File.join(File.dirname(__FILE__),  "reports")
@@ -68,60 +123,8 @@ task "ci:ui_tests:quick" do
     FileUtils.mkdir_p(reports_dir)
     
     exit_code = 0
-    
-    specs_to_be_executed = []
 
-    enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
-    puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
-    sequential_build_project_identifier = ENV["BUILDWISE_PROJECT_IDENTIFIER"] || "selenium-recipes-python"
-    if enable_intelligent_ordering && sequential_build_project_identifier
-      ordered_specs = buildwise_ui_test_order(sequential_build_project_identifier)
-      puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
-      if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-        specs_to_be_executed = specs_for_quick_build.dup if specs_for_quick_build.empty?
-      else
-        # neat sorting thanks to Ruby
-        specs_to_be_executed = ordered_specs.dup 
-        specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
-        puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
-      end    
-    end
-  
-    enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
-    puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
-    if enable_dyanmic_build_queue
-      begin
-        # dynamic build process: get failed tests from last failed full build
-        failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"])
-        if failed_full_build_tests && failed_full_build_tests.size > 0
-          failed_full_build_tests.each do |x|
-            full_path = File.join($spec_dir, x)
-            specs_to_be_executed.insert(0, full_path) unless specs_to_be_executed.include?(full_path)
-          end    
-        end
-      
-      rescue => e
-        puts "[ERROR] failed to check for full build: #{e}"
-      end
-    end
-  
-    if specs_to_be_executed.empty?
-      specs_to_be_executed = specs_for_quick_build
-    end
-    
-    specs_to_be_executed -= excluded_spec_files
-    puts "[INFO] After Exclude : #{specs_to_be_executed.inspect}"
-
-    specs_to_be_executed.uniq!
-    puts "[INFO] After Uniq : #{specs_to_be_executed.inspect}"
-
-    specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
-    puts "[INFO] Filter out Not exists : #{specs_to_be_executed.inspect}"
-  
-    puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
-    # using full path
-    specs_to_be_executed = specs_to_be_executed.collect{|x| File.join($test_dir, x)}  
-
+    specs_to_be_executed = determine_specs_for_quick_build();
     specs_to_be_executed.each do |test_file|
       junit_xml = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".py", ".xml"))
       cmd = "pytest --junitxml=#{junit_xml} #{test_file} "

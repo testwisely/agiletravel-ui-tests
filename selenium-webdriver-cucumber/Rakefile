@@ -37,18 +37,7 @@ def features_for_quick_build
   ]
 end
 
-task "set_work_directory"  do
-  FileUtils.chdir(File.dirname(__FILE__));
-end
-
-desc "run all tests in this folder"
-Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
-  Rake::Task['set_work_directory'].invoke
-  
-  log_dir = File.expand_path(File.join(File.dirname(__FILE__), "log"))
-  FileUtils.rm_rf(log_dir) if File.exists?(log_dir)
-  FileUtils.mkdir(log_dir)
-  
+def determine_specs_for_quick_build
   features_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
@@ -99,9 +88,24 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
 
   puts "[INFO] Final Test execution in order => #{features_to_be_executed.inspect}"
   # using full path
-  features_to_be_executed = features_to_be_executed.collect{|x| File.join("features", x)}  
+  features_to_be_executed = features_to_be_executed.collect{|x| File.join("features", x)}    
+end
+
+task "set_work_directory"  do
+  FileUtils.chdir(File.dirname(__FILE__));
+end
+
+desc "run all tests in this folder"
+Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
+  Rake::Task['set_work_directory'].invoke
   
+  log_dir = File.expand_path(File.join(File.dirname(__FILE__), "log"))
+  FileUtils.rm_rf(log_dir) if File.exists?(log_dir)
+  FileUtils.mkdir(log_dir)
+  
+  features_to_be_executed = determine_specs_for_quick_build()
   puts "[INFO] Tests in order => #{features_to_be_executed.collect {|x| File.basename(x)}.inspect}"
+  
   file_list = features_to_be_executed.join(" ")
 
   # feel free to add/rmeove formatter, junit is required for CI reporting
@@ -112,12 +116,11 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
     # "--format pretty",      # can be quite lengthy
     file_list
   ]
-
 end
 
 
-desc "run quick tests from BuildWise"
-task "ci:ui_tests:quick"  do
+desc "run a set of cucumber feature tests in one process"
+task "ci:ui_tests:quick_one_process"  do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)))
   puts "[Rake] new build id =>|#{build_id}|"
   begin
@@ -129,6 +132,37 @@ task "ci:ui_tests:quick"  do
     puts "[Rake] finish the build"
     buildwise_finish_build(build_id)
   end
+end
+
+
+desc "run a set of cucumber feature tests one by one"
+task "ci:ui_tests:quick_one_by_one" do
+    reports_dir = File.join(File.dirname(__FILE__),  "log")
+    FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
+    FileUtils.mkdir_p(reports_dir)
+    
+    exit_code = 0    
+
+    specs_to_be_executed = determine_specs_for_quick_build()
+    specs_to_be_executed.each do |test_file|
+      junit_xml = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".feature", ".xml"))
+      cmd = "cucumber #{test_file} --format junit --out log"
+      # cmd = "cucumber #{test_file} --format junit --out log/#{junit_xml}"
+      puts cmd
+      result = system(cmd)
+      if exit_code == 0 && !result
+        exit_code = -1
+      end   
+      sleep 0.25
+    end
+    exit(exit_code)
+end
+
+
+
+desc "run all tests in this folder"
+task "ci:ui_tests:quick" do
+  Rake::Task["ci:ui_tests:quick_one_by_one"].invoke
 end
 
 

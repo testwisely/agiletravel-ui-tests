@@ -1,5 +1,5 @@
 @feature
-Feature: User Authentication
+Feature: User Authentication Outline
   As a reigstered user
   I can log in 
 
