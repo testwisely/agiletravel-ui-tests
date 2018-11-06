@@ -12,7 +12,7 @@
       <base_url>http://test.agiletravel.macmini</base_url>
     </entry>
     <entry default='true' id='3' name='production'>
-      <base_url>http://travel.agileway.net</base_url>
+      <base_url>https://travel.agileway.net</base_url>
     </entry>
     <entry default='false' id='4' name='ci1'>
       <base_url>http://ci1.agiletravel.dev</base_url>

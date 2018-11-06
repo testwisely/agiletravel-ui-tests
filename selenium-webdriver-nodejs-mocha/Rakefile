@@ -46,21 +46,20 @@ task "ci:ui_tests:quick" do
     specs_to_be_executed = []
 
     enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
-    puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
-    sequential_build_project_identifier = ENV["BUILDWISE_PROJECT_IDENTIFIER"] || "selenium-recipes-python"
-    if enable_intelligent_ordering && sequential_build_project_identifier
-      ordered_specs = buildwise_ui_test_order(sequential_build_project_identifier)
+    puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering.to_s rescue 'false'}"
+    if enable_intelligent_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
+      ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
       puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
       if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-        specs_to_be_executed += specs_for_quick_build
+        specs_to_be_executed += specs_for_quick_build  if specs_to_be_executed.empty?
       else
         # neat sorting thanks to Ruby
-        specs_to_be_executed = specs_for_quick_build if specs_for_quick_build.empty?
+        specs_to_be_executed = ordered_specs.dup
         specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
         puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
       end    
     end
-  
+    
     enable_dyanmic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
     puts "[INFO] dynamic feedback? => #{enable_dyanmic_build_queue}"  
     if enable_dyanmic_build_queue

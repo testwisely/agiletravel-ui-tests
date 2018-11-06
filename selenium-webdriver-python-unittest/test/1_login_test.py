@@ -26,7 +26,7 @@ class LoginTestCase(unittest.TestCase):
         cls.driver.quit()
 
     def setUp(self):
-        self.driver.get("http://travel.agileway.net")
+        self.driver.get("https://travel.agileway.net")
 
     def test_sign_in_failed(self):
         # ...

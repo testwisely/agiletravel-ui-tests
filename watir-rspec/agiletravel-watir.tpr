@@ -9,7 +9,7 @@
       <base_url>http://agiletravel.herokuapp.com</base_url>
     </entry>
     <entry default='true' id='3' name='production'>
-      <base_url>http://travel.agileway.net</base_url>
+      <base_url>https://travel.agileway.net</base_url>
     </entry>
   </environments>
   <exclude_dirs/>

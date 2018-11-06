@@ -19,7 +19,7 @@ Dir["#{File.dirname(__FILE__)}/pages/*_page.rb"].each { |file| load file }
 
 
 # The default base URL for running from command line or continuous build process
-$BASE_URL = "http://travel.agileway.net"
+$BASE_URL = "https://travel.agileway.net"
 
 # This is the helper for your tests, every test file will include all the operation
 # defined here.

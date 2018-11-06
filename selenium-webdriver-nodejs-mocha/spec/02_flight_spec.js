@@ -12,19 +12,22 @@ String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 test.describe('Flight', function () {
 
   test.before(function() {
-     this.timeout(timeOut);
-     driver = new webdriver.Builder()
+    this.timeout(timeOut);
+    driver = new webdriver.Builder()
           .forBrowser('chrome')
           .build();
-	 driver.get('http://travel.agileway.net');
-	 driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
-	 driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
-	 driver.findElement(webdriver.By.name('commit')).click();
+    driver.manage().window().setSize(1280, 720);    
+    driver.manage().window().setPosition(30, 78);
+     
+	  driver.get('https://travel.agileway.net');
+	  driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+	  driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+	  driver.findElement(webdriver.By.name('commit')).click();
   });
 
   test.beforeEach(function() {
     this.timeout(timeOut);
-    driver.get('http://travel.agileway.net');
+    driver.get('https://travel.agileway.net');
   });
 
   test.after(function() {

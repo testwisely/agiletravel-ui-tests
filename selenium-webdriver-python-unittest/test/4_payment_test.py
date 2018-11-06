@@ -25,7 +25,7 @@ class PaymentTestCase(unittest.TestCase):
         cls.driver.quit()
 
     def setUp(self):
-        self.driver.get("http://travel.agileway.net")
+        self.driver.get("https://travel.agileway.net")
 
     def wait_for_ajax_complete(self, max_seconds):
         count = 0

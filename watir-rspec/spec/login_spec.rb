@@ -11,7 +11,7 @@ describe "User Login" do
   end
 
   before(:each) do
-    browser.goto $TESTWISE_PROJECT_BASE_URL || "http://travel.agileway.net" # set back to home page to start next one
+    browser.goto $TESTWISE_PROJECT_BASE_URL || "https://travel.agileway.net" # set back to home page to start next one
   end
 
   after(:each) do

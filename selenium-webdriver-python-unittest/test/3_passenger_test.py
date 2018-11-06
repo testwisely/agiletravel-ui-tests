@@ -25,7 +25,7 @@ class PassengerTestCase(unittest.TestCase):
         cls.driver.quit()
 
     def setUp(self):
-        self.driver.get("http://travel.agileway.net")
+        self.driver.get("https://travel.agileway.net")
 
     def test_enter_passenger_details(self):
         # ...

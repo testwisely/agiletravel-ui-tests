@@ -13,14 +13,16 @@ test.describe('User Authentication', function () {
 
   test.before(function() {
      this.timeout(timeOut);
-      driver = new webdriver.Builder()
+     driver = new webdriver.Builder()
           .forBrowser('chrome')
           .build();
+     driver.manage().window().setSize(1280, 720);    
+     driver.manage().window().setPosition(30, 78);
   });
 
   test.beforeEach(function() {
     this.timeout(timeOut);
-    driver.get('http://travel.agileway.net');
+    driver.get('https://travel.agileway.net');
   });
 
   test.after(function() {

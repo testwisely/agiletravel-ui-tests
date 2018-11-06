@@ -12,7 +12,7 @@ if defined?(TestWiseRuntimeSupport)
   ::TestWise::Runtime.load_webdriver_support # for selenium webdriver support
 end
 
-$BASE_URL = "http://travel.agileway.net"
+$BASE_URL = "https://travel.agileway.net"
 
 def the_browser
   if $TESTWISE_BROWSER then

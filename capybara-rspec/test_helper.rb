@@ -20,7 +20,7 @@ Dir["#{File.dirname(__FILE__)}/pages/*_page.rb"].each { |file| load file }
 
 
 # The default base URL for running from command line or continuous build process
-$BASE_URL = "http://travel.agileway.net"
+$BASE_URL = "https://travel.agileway.net"
 
 Capybara.default_driver = :selenium
 Capybara.app_host = $BASE_URL
