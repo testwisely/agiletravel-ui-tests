@@ -10,7 +10,6 @@ load File.join(File.dirname(__FILE__), "buildwise.rake")
 ## Settings: Customize here...
 #
 BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
-BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-cucumber"
 BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-cucumber"
 
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
@@ -21,7 +20,7 @@ $test_dir =  File.expand_path(File.join(File.dirname(__FILE__), "features"))  # 
 # List tests you want to exclude
 #
 def excluded_feature_files
-  ["ignore.feature", "bad_test.feature", "passenger.feature"]
+  ["ignore.feature", "bad_test.feature", "03_passenger.feature"]
 end
 
 def all_features
@@ -31,10 +30,10 @@ end
 def features_for_quick_build
   # list test files to be run in a quick build
   [
-    "login.feature",
-    "flight.feature",
-    "passenger.feature",
-    "payment.feature"
+    "01_login.feature",
+    "02_flight.feature",
+    "03_passenger.feature",
+    "04_payment.feature"
   ]
 end
 
@@ -53,18 +52,17 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
   features_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
-  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering}"
-  sequential_build_project_identifier = ENV["BUILDWISE_PROJECT_IDENTIFIER"] || "selenium-recipes-python"
-  if enable_intelligent_ordering && sequential_build_project_identifier
-    ordered_specs = buildwise_ui_test_order(sequential_build_project_identifier)
+  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering.to_s rescue 'false'}"
+  if enable_intelligent_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
+    ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
-      features_to_be_executed += features_for_quick_build
+      specs_to_be_executed += specs_for_quick_build  if specs_to_be_executed.empty?
     else
       # neat sorting thanks to Ruby
-      features_to_be_executed = features_for_quick_build if features_for_quick_build.empty?
-      features_to_be_executed = features_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : features_to_be_executed.count }    
-      puts "[INFO] After intelligent sorting => #{features_to_be_executed.inspect}"        
+      specs_to_be_executed = ordered_specs.dup
+      specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
+      puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
     end    
   end
 
@@ -102,7 +100,6 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
   puts "[INFO] Final Test execution in order => #{features_to_be_executed.inspect}"
   # using full path
   features_to_be_executed = features_to_be_executed.collect{|x| File.join("features", x)}  
-  
   
   puts "[INFO] Tests in order => #{features_to_be_executed.collect {|x| File.basename(x)}.inspect}"
   file_list = features_to_be_executed.join(" ")
@@ -145,12 +142,11 @@ end
 #
 desc "Running tests distributedly"
 task "ci:ui_tests:full"  do
-  build_id = buildwise_start_build(:project_name => BUILDWISE_FULL_PROJECT_ID,
-  :working_dir => File.expand_path(File.dirname(__FILE__)),
-  :ui_test_dir => ["features"],
-  :excluded => excluded_feature_files || [],
-  :distributed => true,
-  :test_framework => "Cucumber"  
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
+    :ui_test_dir => ["features"],
+    :excluded => excluded_feature_files || [],
+    :distributed => true,
+    :test_framework => "Cucumber"  
   )
 
   the_build_status = buildwise_build_ui_test_status(build_id)
