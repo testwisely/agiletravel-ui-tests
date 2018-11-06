@@ -162,7 +162,7 @@ end
 
 desc "run all tests in this folder"
 task "ci:ui_tests:quick" do
-  Rake::Task["ci:ui_tests:quick_one_by_one"].invoke
+  Rake::Task["ci:ui_tests:quick_one_process"].invoke
 end
 
 
