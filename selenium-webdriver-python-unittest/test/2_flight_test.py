@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class FlightTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        if os.environ['BROWSER'] == "firefox":
+        if os.environ.get('BROWSER') == "firefox":
           cls.driver = webdriver.Firefox()
         else:
           cls.driver = webdriver.Chrome()
