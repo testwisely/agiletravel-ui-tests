@@ -73,6 +73,10 @@ def determine_specs_for_quick_build
 
   if specs_to_be_executed.empty?
     specs_to_be_executed = specs_for_quick_build
+  else
+    specs_left_over = specs_for_quick_build - specs_to_be_executed
+    specs_to_be_executed += specs_left_over
+    specs_to_be_executed.flatten!    
   end
   
   specs_to_be_executed -= excluded_spec_files

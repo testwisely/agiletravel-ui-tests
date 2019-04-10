@@ -75,6 +75,10 @@ def determine_specs_for_quick_build
 
   if features_to_be_executed.empty?
     features_to_be_executed = features_for_quick_build
+  else
+    specs_left_over = features_for_quick_build - features_to_be_executed
+    features_to_be_executed += specs_left_over
+    features_to_be_executed.flatten!    
   end
   
   features_to_be_executed -= excluded_feature_files
