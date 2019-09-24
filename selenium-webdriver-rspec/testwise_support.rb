@@ -7,7 +7,7 @@ $testwise_support = true
 module TestWiseSupport
 
   def debugging?
-    if ENV["TESTWISE_DEBUGGING"].to_s == "true" && ENV["TESTWISE_RUNNING_AS"] == "test_case"
+    if ENV["RUN_IN_TESTWISE"].to_s == "true" && ENV["TESTWISE_RUNNING_AS"] == "test_case"
       return true
     end
     return $TESTWISE_DEBUGGING && $TESTWISE_RUNNING_AS == "test_case"

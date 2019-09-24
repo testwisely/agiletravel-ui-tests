@@ -26,19 +26,19 @@
   <test_named_as>specification</test_named_as>
   <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
 
-describe "&lt;%= @info[:description]%&gt;" do
+describe "{{ TEST_SUITE }}" do
   include TestHelper
 
   before(:all) do    
-    @browser = $browser = Selenium::WebDriver.for(browser_type)
-    @browser.navigate.to(site_url)
+    @browser = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    @browser.get(site_url)
   end
 
   after(:all) do
     @browser.quit unless debugging?
   end
 
-  it "&lt;%= @info[:first_test_case] %&gt;" do
+  it "{{ TEST_CASE }}" do
     # Test Steps go here
   end
 
@@ -46,13 +46,13 @@ end
 </spec_template>
   <page_template>require File.join(File.dirname(__FILE__), "abstract_page.rb")
 
-class &lt;%= @info[:page_class]%&gt; &lt; AbstractPage
+class {{ PAGE_NAME }} &lt; AbstractPage
 
   def initialize(driver)
-    super(driver, "&lt;%= @info[:page_text] %&gt;") # &lt;= TEXT UNIQUE TO THIS PAGE
+    super(driver, "") # &lt;= TEXT UNIQUE TO THIS PAGE
   end
 
-&lt;%= @info[:page_method] rescue nil %&gt;
+  # page functions here ...
 end</page_template>
   <storywise_url/>
   <storywise_access_token/>
