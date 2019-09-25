@@ -1,71 +1,66 @@
-<?xml version='1.1' encoding='US-ASCII'?>
 <project>
-  <name>agiletravel-selenium-webdriver.tpr</name>
-  <default_browser>Chrome</default_browser>
-  <test_framework>Selenium</test_framework>
-  <syntax_framework>Pytest</syntax_framework>
-  <environments>
-    <entry default='false' id='1' name='development'>
-      <base_url>http://agiletravel.herokuapp.com</base_url>
-    </entry>
-    <entry default='false' id='2' name='test'>
-      <base_url>http://test.agiletravel.macmini</base_url>
-    </entry>
-    <entry default='true' id='3' name='production'>
-      <base_url>https://travel.agileway.net</base_url>
-    </entry>
-    <entry default='false' id='4' name='ci1'>
-      <base_url>http://ci1.agiletravel.dev</base_url>
-    </entry>
-    <entry default='false' id='5' name='ci2'>
-      <base_url>http://ci2.agiletravel.dev</base_url>
-    </entry>
-  </environments>
-  <exclude_dirs/>
-  <exclude_files>tmp_syntax_check.feature</exclude_files>
-  <test_named_as>specification</test_named_as>
-  <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
+    <name>agiletravel-selenium-webdriver.tpr</name>
+    <default_browser>Chrome</default_browser>
+    <test_framework>Selenium</test_framework>
+    <syntax_framework>RSpec</syntax_framework>
+    <environments>
+        <entry name="development" default="false">
+            <base_url>http://agiletravel.herokuapp.com</base_url>
+        </entry>
+        <entry name="test" default="false">
+            <base_url>http://test.agiletravel.macmini</base_url>
+        </entry>
+        <entry name="production" default="true">
+            <base_url>https://travel.agileway.net</base_url>
+        </entry>
+        <entry name="ci1" default="false">
+            <base_url>http://ci1.agiletravel.dev</base_url>
+        </entry>
+        <entry name="ci2" default="false">
+            <base_url>http://ci2.agiletravel.dev</base_url>
+        </entry>
+    </environments>
+    <exclude_dirs></exclude_dirs>
+    <exclude_files>tmp_syntax_check.feature</exclude_files>
+    <spec_template>import unittest
+import xmlrunner
+import time
+import datetime
+import sys
+import os
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-describe "{{ TEST_SUITE }}" do
-  include TestHelper
+class {{ TEST_SUITE }}TestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if os.environ.get('BROWSER') == "firefox":
+          cls.driver = webdriver.Firefox()
+        else:
+          cls.driver = webdriver.Chrome()
+          
+        cls.driver.set_window_size(1280, 720)
+        cls.driver.set_window_position(30, 78)
 
-  before(:all) do    
-    @browser = $browser = Selenium::WebDriver.for(browser_type, browser_options)
-    @browser.get(site_url)
-  end
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
 
-  after(:all) do
-    @browser.quit unless debugging?
-  end
+    def setUp(self):
+        self.driver.get("https://travel.agileway.net")
 
-  it "{{ TEST_CASE }}" do
-    # Test Steps go here
-  end
+    def test_sign_in_failed(self):
+        # ...
+        self.driver.find_element_by_id("username").send_keys("agileway")
+        self.driver.find_element_by_id("password").send_keys("guess")
+        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
+        # self.assertIn("Demo Fail this test case", self.driver.find_element_by_tag_name("body").text)</spec_template>
+    <page_template>from abstract_page import AbstractPage
 
-end
-</spec_template>
-  <page_template>require File.join(File.dirname(__FILE__), "abstract_page.rb")
-
-class {{ PAGE_NAME }} &lt; AbstractPage
-
-  def initialize(driver)
-    super(driver, "") # &lt;= TEXT UNIQUE TO THIS PAGE
-  end
-
-  # page functions here ...
-end</page_template>
-  <storywise_url/>
-  <storywise_access_token/>
-  <jira_url/>
-  <jira_project/>
-  <jira_login/>
-  <jira_password/>
-  <heart_beat>
-    <spec_suite/>
-    <environment/>
-    <start_time/>
-    <repeat/>
-    <end_repeat/>
-    <emails/>
-  </heart_beat>
+class {{ PAGE_NAME }}Page(AbstractPage):
+  
+  # define your page methods here ...</page_template>
 </project>

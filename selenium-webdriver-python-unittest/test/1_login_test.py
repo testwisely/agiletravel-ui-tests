@@ -10,6 +10,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+sys.path.append(os.path.abspath('../pages'))
+from login_page import LoginPage
+
 class LoginTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -29,17 +32,13 @@ class LoginTestCase(unittest.TestCase):
         self.driver.get("https://travel.agileway.net")
 
     def test_sign_in_failed(self):
-        # ...
-        self.driver.find_element_by_id("username").send_keys("agileway")
-        self.driver.find_element_by_id("password").send_keys("guess")
-        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
+        login_page = LoginPage(self.driver)
+        login_page.login("agileway", "guess")
         # self.assertIn("Demo Fail this test case", self.driver.find_element_by_tag_name("body").text)
         
     def test_sign_in_ok(self):
-        # ...
-        self.driver.find_element_by_id("username").send_keys("agileway")
-        self.driver.find_element_by_id("password").send_keys("testwise")
-        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
+        login_page = LoginPage(self.driver)
+        login_page.login("agileway", "testwise")
 
 # if __name__ == '__main__':
 #     unittest.main(
