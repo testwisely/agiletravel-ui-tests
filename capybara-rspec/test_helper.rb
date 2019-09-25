@@ -1,8 +1,9 @@
 require 'rubygems'
+require "json"
+require 'active_support/all'
 require 'selenium-webdriver'
 require 'capybara/rspec'
 require 'rspec'
-
 # Capybara cheatsheet
 # https://gist.github.com/zhengjia/428105
 
@@ -24,6 +25,7 @@ $BASE_URL = "https://travel.agileway.net"
 
 Capybara.default_driver = :selenium
 Capybara.app_host = $BASE_URL
+
 
 # This is the helper for your tests, every test file will include all the operation
 # defined here.
@@ -93,4 +95,38 @@ module TestHelper
     click_link("Sign off")
   end
 
+  def browser_options
+    the_browser_type =  browser_type.to_s
+    if the_browser_type == "chrome"
+      the_chrome_options = Selenium::WebDriver::Chrome::Options.new  
+      # make the same behaviour as Python/JS
+      # leave browser open until calls 'driver.quit'
+      the_chrome_options.add_option("detach", true)
+      
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        the_chrome_options.add_argument('--headless')  
+      end
+      return {:browser => :chrome, :options => the_chrome_options}
+      
+    elsif the_browser_type == "firefox"
+      the_firefox_options = Selenium::WebDriver::Firefox::Options.new  
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        the_firefox_options.add_argument('--headless')
+      end
+      return :options => the_firefox_options
+
+    elsif the_browser_type == "ie"
+      the_ie_options =  Selenium::WebDriver::IE::Options.new  
+      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+        # not supported yet?
+        # the_ie_options.add_argument('--headless')
+      end
+      return :options => the_ie_options
+
+    else
+      
+      return {}
+    end
+  end
+  
 end
