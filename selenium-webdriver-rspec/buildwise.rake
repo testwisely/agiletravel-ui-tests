@@ -74,7 +74,7 @@ def contact_buildwise_get(path, raise_exception = true)
   begin
     client = HTTPClient.new
     url = "#{BUILDWISE_URL}#{path}"
-    puts "  [buildwise.rake] Contacting Server: #{url}"
+    # puts "  [buildwise.rake] Contacting Server: #{url}"
     the_res = client.get(url).body
     the_res = the_res.content if the_res.respond_to?("content")
     return nil if the_res.include?("Internal Server Error")
