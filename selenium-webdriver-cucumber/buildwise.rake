@@ -10,7 +10,7 @@ end
 
 def buildwise_finish_build(build_id)
   puts "[buildwise.rake] Finishing build: #{build_id}"
-  if build_id && (build_id.class == Fixnum  || build_id =~ /\d+/)
+  if build_id && (build_id.class == Integer  || build_id =~ /\d+/)
     pdata = {
       "id" =>  build_id,
     }         
@@ -74,7 +74,7 @@ def contact_buildwise_get(path, raise_exception = true)
   begin
     client = HTTPClient.new
     url = "#{BUILDWISE_URL}#{path}"
-    puts "  [buildwise.rake] Contacting Server: #{url}"
+    # puts "  [buildwise.rake] Contacting Server: #{url}"
     the_res = client.get(url).body
     the_res = the_res.content if the_res.respond_to?("content")
     return nil if the_res.include?("Internal Server Error")

@@ -124,7 +124,7 @@ end
 #
 #  TODO - how to determin useing RSpec or Cucumber
 #
-desc "Running tests distributedly"
+desc "Running tests in parallel"
 task "ci:ui_tests:full" => ["ci:setup:rspec"] do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
@@ -138,7 +138,11 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
   puts "[Rake] Keep checking build |#{build_id} | #{the_build_status}"
   while ((Time.now - start_time ) < FULL_BUILD_MAX_TIME) # test exeuction timeout
     the_build_status = buildwise_build_ui_test_status(build_id)
-    puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
+    if ($last_buildwise_server_build_status != the_build_status)
+      puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
+      $last_buildwise_server_build_status = the_build_status
+    end
+    
     if the_build_status == "OK"
       exit 0
     elsif the_build_status == "Failed"
