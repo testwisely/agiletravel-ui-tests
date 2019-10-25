@@ -10,7 +10,7 @@ end
 
 def buildwise_finish_build(build_id)
   puts "[buildwise.rake] Finishing build: #{build_id}"
-  if build_id && (build_id.class == Fixnum  || build_id =~ /\d+/)
+  if build_id && (build_id.class == Integer  || build_id =~ /\d+/)
     pdata = {
       "id" =>  build_id,
     }         
