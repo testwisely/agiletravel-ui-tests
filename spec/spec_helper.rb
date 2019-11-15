@@ -2,12 +2,12 @@
 
 # if use below, ci/rspec_reporter does not get output
 
-=begin
 RSpec.configure do |config|
   # register around filter that captures stdout and stderr
   config.around(:each) do |example|
-    $stdout = StringIO.new
-    $stderr = StringIO.new
+    
+    stdout, stderr = StringIO.new, StringIO.new
+    $stdout, $stderr = stdout, stderr
 
     example.run
 
@@ -18,4 +18,3 @@ RSpec.configure do |config|
     $stderr = STDERR
   end
 end
-=end
