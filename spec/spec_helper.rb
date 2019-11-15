@@ -1,5 +1,8 @@
 # spec_helper.rb
 
+# if use below, ci/rspec_reporter does not get output
+
+=begin
 RSpec.configure do |config|
   # register around filter that captures stdout and stderr
   config.around(:each) do |example|
@@ -15,3 +18,4 @@ RSpec.configure do |config|
     $stderr = STDERR
   end
 end
+=end
