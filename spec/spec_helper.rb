@@ -5,7 +5,7 @@
 RSpec.configure do |config|
 
   # only when run in BuildWise Agent, catpure output in result junit xml files
-  if defined?(BuildWise::RSpecFormatter) 
+  if defined?(RSpecJUnitFormatter) 
     
     # register around filter that captures stdout and stderr
     config.around(:each) do |example|
