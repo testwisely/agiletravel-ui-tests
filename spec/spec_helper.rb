@@ -9,7 +9,7 @@ RSpec.configure do |config|
     # register around filter that captures stdout and stderr
     config.around(:each) do |example|
     
-      if defined?(RSpecJUnitFormatter) 
+      if ENV["RUN_IN_BUILDWISE_AGENT"] == "true" 
         stdout, stderr = StringIO.new, StringIO.new
         $stdout, $stderr = stdout, stderr
 
