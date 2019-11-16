@@ -14,3 +14,6 @@ selenium-webdriver-nodejs-mocha/reports/
 selenium-webdriver-python-unittest/.pytest_cache/
 watir-rspec/spec/reports/
 .pytest_cache/
+spec/reports/
+test-results.xml
+selenium-webdriver-rspec/agiletravel-selenium-webdriver.tws
