@@ -158,6 +158,12 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
 end
 
 
+desc "install the gem libraries required for running tests"
+task "install-lib" do
+  system("gem install rspec ci_reporter_rspec selenium-webdriver watir")  
+end
+
+
 desc "run all tests in this folder"
 RSpec::Core::RakeTask.new("go") do |t|
   test_files = Dir.glob("*_spec.rb") + Dir.glob("*_test.rb") - excluded_test_files
