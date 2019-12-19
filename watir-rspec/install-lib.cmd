@@ -1,0 +1,1 @@
+gem install rspec ci_reporter_rspec selenium-webdriver watir

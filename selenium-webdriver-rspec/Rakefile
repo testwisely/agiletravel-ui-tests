@@ -184,12 +184,6 @@ RSpec::Core::RakeTask.new("go") do |t|
   t.rspec_opts = "" # to enable warning: "-w"
 end
 
-
-desc "install the gem libraries required for running tests"
-task "install-lib" do
-  system("gem install rspec selenium-webdriver")  
-end
-
 desc "testing - bomb"
 task "bomb" do
   puts "Testing bad task"
