@@ -1,0 +1,1 @@
+gem install rspec selenium-webdriver ci_reporter_rspec
