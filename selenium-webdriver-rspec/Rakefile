@@ -187,7 +187,7 @@ end
 
 desc "install the gem libraries required for running tests"
 task "install-lib" do
-  system("gem install rspec ci_reporter_rspec selenium-webdriver")  
+  system("gem install rspec selenium-webdriver")  
 end
 
 desc "testing - bomb"
