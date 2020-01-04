@@ -1,5 +1,5 @@
 # Extract from RWebSpec to use 
-module RWebSpecUtils
+module AgilewayUtils
 
 	## for debugging, reuse current browser window and run selected test scripts in it.
 	#

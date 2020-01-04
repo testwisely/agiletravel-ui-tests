@@ -37,7 +37,7 @@ describe "Payment" do
     payment_page.enter_expiry_year("2016")
     payment_page.click_pay_now
     Watir::Wait.until{ browser.text.include?("Booking number") }
-    debug browser.span(:id, "booking_number").text
+    puts browser.span(id: "booking_number").text
   end
 
 end

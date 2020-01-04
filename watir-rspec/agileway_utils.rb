@@ -1,13 +1,51 @@
-# Extract from RWebSpec to use 
-module RWebSpecUtils
+# Extract from RWebSpec to use
+module AgilewayUtils
 
-	## for debugging, reuse current browser window and run selected test scripts in it.
-	#
-	def use_current_browser
-  	@browser = @driver = $browser
-	end
+  ## for debugging, reuse current browser window and run selected test scripts in it.
+  #
+  def use_current_browser
+    if $browser
+      # TestWise 4 way, deprecated
+      @browser = @driver = $browser
+    else
+      if ENV["BROWSER"] == "firefox" || ENV["BROWSER"] == "safari" || ENV["BROWSER"] == "edge" || ENV["BROWSER"] == "ie"
 
-	# Try the operation up to specified timeout (in seconds), and sleep given interval (in seconds).
+        #NOTE, not reliable, sometimes "end of file reached"
+        # caps = Selenium::WebDriver::Remote::Capabilities.firefox()
+        # @browser = @driver = Selenium::WebDriver.for(:remote, :url => "http://localhost:7055/hub", :desired_capabilities => caps)
+
+        raise "Selenium WebDriver does not support attaching browsers for IE and Chrome yet"
+      else
+        # chrome, using remote debugging port
+        the_chrome_options = Selenium::WebDriver::Chrome::Options.new
+        
+        browser_debugging_port = nil 
+        begin
+          browser_debugging_port = last_session_browser_debugging_port
+        rescue => e 
+          # failed to load from TestWise runtime store
+        end
+        
+        port_set_in_env_var = ENV["BROWSER_DEBUGGING_PORT"].to_i rescue 0        
+        if (browser_debugging_port && browser_debugging_port > 1000 && browser_debugging_port < 65500) 
+          # OK to used from pstore   
+          puts("[DEBUG] use debugging port from TestWise pstore")
+        elsif port_set_in_env_var > 1000 && port_set_in_env_var < 65500
+          puts("[DEBUG] use debugging port set in environment variable")  
+          browser_debugging_port = port_set_in_env_var
+        else
+          puts("[DEBUG] use default port ")
+          browser_debugging_port = 19218
+        end
+        puts(" => #{browser_debugging_port}")
+      
+        the_chrome_options.add_option("debuggerAddress", "127.0.0.1:#{browser_debugging_port}")
+        @browser = @driver = Selenium::WebDriver.for(:chrome, :options => the_chrome_options)
+      end
+    end
+  end
+
+  # Try the operation up to specified timeout (in seconds), and sleep given interval (in seconds).
   # Error will be ignored until timeout
   # Example
   #    try_for { click_link('waiting')}
@@ -21,7 +59,11 @@ module RWebSpecUtils
       begin
         yield
         last_error = nil
-				return true 
+        return true
+      rescue ArgumentError => ae
+        last_error = ae
+      rescue RSpec::Expectations::ExpectationNotMetError => ree
+        last_error = ree
       rescue => e
         last_error = e
       end
@@ -34,13 +76,13 @@ module RWebSpecUtils
 
   alias try_upto try_for
   alias try_until try_for
-  
+
   # Try the operation up to specified times, and sleep given interval (in seconds)
   # Error will be ignored until timeout
   # Example
   #    repeat_try(3, 2) { click_button('Search' } # 3 times, 6 seconds in total
   #    repeat_try { click_button('Search' } # using default 5 tries, 2 second interval
-  def repeat_try(num_tries = $testwise_polling_timeout || 30, interval = $testwise_polling_interval || 1, & block)
+  def repeat_try(num_tries = $testwise_polling_timeout || 30, interval = $testwise_polling_interval || 1, &block)
     num_tries ||= 1
     (num_tries - 1).times do |num|
       begin
@@ -61,25 +103,22 @@ module RWebSpecUtils
     yield
   end
 
-  
   ##
   #  Convert :first to 1, :second to 2, and so on...
   def symbol_to_sequence(symb)
-    value = {:zero => 0,
-             :first => 1,
-             :second => 2,
-             :third => 3,
-             :fourth => 4,
-             :fifth => 5,
-             :sixth => 6,
-             :seventh => 7,
-             :eighth => 8,
-             :ninth => 9,
-             :tenth => 10}[symb]
+    value = { :zero => 0,
+              :first => 1,
+              :second => 2,
+              :third => 3,
+              :fourth => 4,
+              :fifth => 5,
+              :sixth => 6,
+              :seventh => 7,
+              :eighth => 8,
+              :ninth => 9,
+              :tenth => 10 }[symb]
     return value || symb.to_i
   end
-
-
 
   # use win32screenshot library to save curernt active window, which shall be IE
   #
@@ -87,27 +126,26 @@ module RWebSpecUtils
   def take_screenshot(opts = {})
     # puts "calling new take screenshot: #{$screenshot_supported}"
     unless $screenshot_supported
-      puts " [WARN] Screenhost not supported, check whether win32screenshot gem is installed" 
+      puts " [WARN] Screenhost not supported, check whether win32screenshot gem is installed"
       return
     end
 
-     begin
-        screenshot_image_filename =  "screenshot_" + Time.now.strftime("%m%d%H%M%S") + ".jpg"
-        the_dump_dir = opts[:to_dir] || default_dump_dir
-        FileUtils.mkdir_p(the_dump_dir) unless File.exists?(the_dump_dir)
-        screenshot_image_filepath = File.join(the_dump_dir, screenshot_image_filename)
-        screenshot_image_filepath.gsub!("/", "\\") if is_windows?
+    begin
+      screenshot_image_filename = "screenshot_" + Time.now.strftime("%m%d%H%M%S") + ".jpg"
+      the_dump_dir = opts[:to_dir] || default_dump_dir
+      FileUtils.mkdir_p(the_dump_dir) unless File.exists?(the_dump_dir)
+      screenshot_image_filepath = File.join(the_dump_dir, screenshot_image_filename)
+      screenshot_image_filepath.gsub!("/", "\\") if is_windows?
 
-        FileUtils.rm_f(screenshot_image_filepath) if File.exist?(screenshot_image_filepath)
+      FileUtils.rm_f(screenshot_image_filepath) if File.exist?(screenshot_image_filepath)
 
-        Win32::Screenshot::Take.of(:foreground).write(screenshot_image_filepath)
-        notify_screenshot_location(screenshot_image_filepath)
-			rescue ::DL::DLTypeError => de
-				puts "No screenshot libray found: #{de}"
-      rescue => e
-        puts "error on taking screenshot: #{e}"
-      end
-    
+      Win32::Screenshot::Take.of(:foreground).write(screenshot_image_filepath)
+      notify_screenshot_location(screenshot_image_filepath)
+    rescue ::DL::DLTypeError => de
+      puts "No screenshot libray found: #{de}"
+    rescue => e
+      puts "error on taking screenshot: #{e}"
+    end
   end
 
   #= Convenient functions
@@ -121,7 +159,7 @@ module RWebSpecUtils
   #    i.enter_text('btn1')
   #    i.click_button('btn1')
   #  end
-  def on(page, & block)
+  def on(page, &block)
     yield page
   end
 
@@ -129,7 +167,7 @@ module RWebSpecUtils
   #
   # Example:
   #  shall_not_allow { 1/0 }
-  def shall_not_allow(& block)
+  def shall_not_allow(&block)
     operation_performed_ok = false
     begin
       yield
@@ -145,7 +183,7 @@ module RWebSpecUtils
   #
   # Example:
   #   allow { click_button('Register') }
-  def allow(& block)
+  def allow(&block)
     yield
   end
 
@@ -156,10 +194,10 @@ module RWebSpecUtils
   #
   # Example:
   #   failsafe { click_link("Logout") }  # try logout, but it still OK if not being able to (already logout))
-  def failsafe(& block)
+  def failsafe(&block)
     begin
       yield
-    rescue =>e
+    rescue => e
     end
   end
 
@@ -196,15 +234,15 @@ module RWebSpecUtils
   #  %Z - Time zone name
   #  %% - Literal ``%'' character
 
-  def today(format = nil)                
+  def today(format = nil)
     format_date(Time.now, date_format(format))
   end
+
   alias getToday_AU today
   alias getToday_US today
   alias getToday today
 
-
-  def days_before(days, format = nil)        
+  def days_before(days, format = nil)
     return nil if !(days.instance_of?(Fixnum))
     format_date(Time.now - days * 24 * 3600, date_format(format))
   end
@@ -217,16 +255,16 @@ module RWebSpecUtils
     return nil if !(days.instance_of?(Fixnum))
     format_date(Time.now + days * 24 * 3600, date_format(format))
   end
+
   alias days_after days_from_now
 
   def tomorrow(format = nil)
     days_from_now(1, date_format(format))
   end
 
-
   # return a random number >= min, but <= max
   def random_number(min, max)
-    rand(max-min+1)+min
+    rand(max - min + 1) + min
   end
 
   def random_boolean
@@ -256,11 +294,11 @@ module RWebSpecUtils
   # Return a random string in a rangeof pre-defined strings
   def random_string_in(arr)
     return nil if arr.empty?
-    index = random_number(0, arr.length-1)
+    index = random_number(0, arr.length - 1)
     arr[index]
   end
-  alias random_string_in_collection random_string_in
 
+  alias random_string_in_collection random_string_in
 
   WORDS = %w(alias consequatur aut perferendis sit voluptatem accusantium doloremque aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem ut enim ad minima veniam quis nostrum exercitationem ullam corporis nemo enim ipsam voluptatem quia voluptas sit suscipit laboriosam nisi ut aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae et iusto odio dignissimos ducimus qui blanditiis praesentium laudantium totam rem voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident sed ut perspiciatis unde omnis iste natus error similique sunt in culpa qui officia deserunt mollitia animi id est laborum et dolorum fuga et harum quidem rerum facilis est et expedita distinctio nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo porro quisquam est qui minus id quod maxime placeat facere possimus omnis voluptas assumenda est omnis dolor repellendus temporibus autem quibusdam et aut consequatur vel illum qui dolorem eum fugiat quo voluptas nulla pariatur at vero eos et accusamus officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores doloribus asperiores repellat)
 
@@ -278,9 +316,9 @@ module RWebSpecUtils
   # a random number of words within that range.
   def words(total)
     if total.class == Range
-      (1..interpret_value(total)).map { WORDS[random_number(total.min, total.max)] }.join(' ')
+      (1..interpret_value(total)).map { WORDS[random_number(total.min, total.max)] }.join(" ")
     else
-      (1..interpret_value(total)).map { WORDS[random_number(0, total)] }.join(' ')
+      (1..interpret_value(total)).map { WORDS[random_number(0, total)] }.join(" ")
     end
   end
 
@@ -289,7 +327,7 @@ module RWebSpecUtils
   def sentences(total)
     (1..interpret_value(total)).map do
       words(5..20).capitalize
-    end.join('. ')
+    end.join(". ")
   end
 
   # Generate a given number of paragraphs. If a range is passed, it will generate
@@ -324,26 +362,25 @@ module RWebSpecUtils
     if range.exclude_end?
       rand(range.last - range.first) + range.first
     else
-      rand((range.last+1) - range.first) + range.first
+      rand((range.last + 1) - range.first) + range.first
     end
   end
 
-  def format_date(date, date_format = '%d/%m/%Y')
+  def format_date(date, date_format = "%d/%m/%Y")
     date.strftime(date_format)
   end
 
   def date_format(format_argument)
-    if format_argument.nil? then
-      get_locale_date_format(default_locale)        
-    elsif format_argument.class == Symbol then
+    if format_argument.nil?
+      get_locale_date_format(default_locale)
+    elsif format_argument.class == Symbol
       get_locale_date_format(format_argument)
-    elsif format_argument.class == String then
+    elsif format_argument.class == String
       format_argument
     else
       # invalid input, use default
       get_locale_date_format(default_date_format)
     end
-
   end
 
   def get_locale_date_format(locale)
@@ -361,7 +398,6 @@ module RWebSpecUtils
     return :au
   end
 
-
   def average_of(array)
     array.inject(0.0) { |sum, e| sum + e } / array.length
   end
@@ -372,43 +408,40 @@ module RWebSpecUtils
     array.inject(0.0) { |sum, e| sum + e }
   end
 
-	## Data Driven Tests
-	#
-	#  Processing each row in a CSV file, must have heading rows
-	# 
-	#  Usage:
-	# 
-	#   process_each_row_in_csv_file(@csv_file) { |row| 
-	#     goto_page("/")
-	#     enter_text("username", row[1])
-	#     enter_text("password", row[2])
-	#     click_button("Sign in")
-	#     page_text.should contain(row[3])
-	#     failsafe{ click_link("Sign off") }
-	#   }
+  ## Data Driven Tests
   #
-	def process_each_row_in_csv_file(csv_file, &block)
-    require 'faster_csv'
-    connect_to_testwise("CSV_START",  csv_file) if $testwise_support
+  #  Processing each row in a CSV file, must have heading rows
+  #
+  #  Usage:
+  #
+  #   process_each_row_in_csv_file(@csv_file) { |row|
+  #     goto_page("/")
+  #     enter_text("username", row[1])
+  #     enter_text("password", row[2])
+  #     click_button("Sign in")
+  #     page_text.should contain(row[3])
+  #     failsafe{ click_link("Sign off") }
+  #   }
+  #
+  def process_each_row_in_csv_file(csv_file, &block)
+    require "faster_csv"
+    connect_to_testwise("CSV_START", csv_file) if $testwise_support
     has_error = false
     idx = 0
-    FasterCSV.foreach(csv_file, :headers => :first_row, :encoding => 'u') do |row|
-			connect_to_testwise("CSV_ON_ROW",  idx.to_s)  if $testwise_support 
-			begin
+    FasterCSV.foreach(csv_file, :headers => :first_row, :encoding => "u") do |row|
+      connect_to_testwise("CSV_ON_ROW", idx.to_s) if $testwise_support
+      begin
         yield row
-				connect_to_testwise("CSV_ROW_PASS",  idx.to_s)  if $testwise_support
-			rescue => e
-				connect_to_testwise("CSV_ROW_FAIL",  idx.to_s)  if $testwise_support
+        connect_to_testwise("CSV_ROW_PASS", idx.to_s) if $testwise_support
+      rescue => e
+        connect_to_testwise("CSV_ROW_FAIL", idx.to_s) if $testwise_support
         has_error = true
       ensure
         idx += 1
-			end
+      end
     end
 
-		connect_to_testwise("CSV_END",  "")  if $testwise_support
-		raise "Test failed on data" if has_error
+    connect_to_testwise("CSV_END", "") if $testwise_support
+    raise "Test failed on data" if has_error
   end
-
-	
 end
-

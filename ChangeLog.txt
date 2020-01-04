@@ -1,0 +1,8 @@
+
+
+2020-01-04
+
+- Remove Watir deprecation, :id, "ABc" => id: "abc" 
+
+- Change #visible? to #present?
+  #visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)

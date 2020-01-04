@@ -33,7 +33,7 @@ describe "Passenger" do
     passenger_page.enter_last_name("Tester")
     passenger_page.click_next
 
-    expect(browser.text_field(:name, "holder_name").attribute_value("value")).to eq("Bob Tester")
+    expect(browser.text_field(name: "holder_name").attribute_value("value")).to eq("Bob Tester")
   end
 
 end

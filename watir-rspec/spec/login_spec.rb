@@ -15,7 +15,7 @@ describe "User Login" do
   end
 
   after(:each) do
-    failsafe { browser.link(:text, "Sign off").click }  unless debugging? 
+    failsafe { browser.link(text: "Sign off").click }  unless debugging? 
   end
 
   after(:all) do

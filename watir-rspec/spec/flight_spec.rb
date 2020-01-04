@@ -36,7 +36,7 @@ describe "Select Flights" do
   it "One-way trip" do
     flight_page = FlightPage.new(browser)
     flight_page.select_trip_type("oneway")
-    expect(browser.div(:id, "returnTrip").visible?).to be_falsey
+    expect(browser.div(id: "returnTrip").present?).to be_falsey
 
     flight_page.select_trip_type("return")
     flight_page.select_depart_from("Sydney")

@@ -9,16 +9,16 @@ class HomePage < AbstractPage
   end
 
   def enter_user_name(user_name)
-    browser.text_field(:name, "username").set(user_name)
+    browser.text_field(name: "username").set(user_name)
   end
 
   def enter_password(password)
-    browser.text_field(:name, "password").set(password)
+    browser.text_field(name: "password").set(password)
   end
 
   def click_sign_in
     #    browser.button(:src, /btn_signin\.gif/).click
-    browser.button(:value,"Sign in").click
+    browser.button(value: "Sign in").click
   end
 
 end

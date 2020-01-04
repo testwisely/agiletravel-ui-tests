@@ -22,7 +22,7 @@
         <entry name="$PROJECT_DIR$/test_helper.rb"/>
         <entry name="$PROJECT_DIR$/spec/login_spec.rb"/>
         <entry name="$PROJECT_DIR$/pages/abstract_page.rb"/>
-        <entry name="$PROJECT_DIR$/rwebspec_utils.rb"/>
+        <entry name="$PROJECT_DIR$/agileway_utils.rb"/>
         <entry name="$PROJECT_DIR$/testwise_support.rb"/>
     </recent_files>
     <test_suites/>

@@ -4,7 +4,7 @@ require 'watir'
 require 'rspec'
 
 # use utils in RWebSpec and better integration with TestWise
-require "#{File.dirname(__FILE__)}/rwebspec_utils.rb"
+require "#{File.dirname(__FILE__)}/agileway_utils.rb"
 
 # when running in TestWise, it will auto load TestWiseRuntimeSupport, ignore otherwise
 if defined?(TestWiseRuntimeSupport)
@@ -25,7 +25,7 @@ $BASE_URL = "https://travel.agileway.net"
 # defined here.
 module TestHelper
 
-  include RWebSpecUtils
+  include AgilewayUtils
   if defined?(TestWiseRuntimeSupport)  # TestWise 5
     include TestWiseRuntimeSupport 
   else
@@ -69,13 +69,13 @@ module TestHelper
   end
 
   def login_as(username, password = "testwise")
-    browser.text_field(:name, "username").set(username)
-    browser.text_field(:name, "password").set(password)
-    browser.button(:value,"Sign in").click
+    browser.text_field(name: "username").set(username)
+    browser.text_field(name: "password").set(password)
+    browser.button(value: "Sign in").click
   end
 
   def sign_off
-    browser.link(:text, "Sign off").click
+    browser.link(text: "Sign off").click
   end
 
 end

@@ -1,5 +1,5 @@
 # use utils in RWebSpec and better integration with TestWise
-require "#{File.dirname(__FILE__)}/../rwebspec_utils.rb"
+require "#{File.dirname(__FILE__)}/../agileway_utils.rb"
 require "#{File.dirname(__FILE__)}/../testwise_support.rb"
 
 # This is the parent page for all page objects, for operations across all pages, define here
@@ -8,7 +8,7 @@ class AbstractPage
   
   # If want to use utility methods such as fail_safe { }, uncomment the line below 
   # 
-  include RWebSpecUtils
+  include AgilewayUtils
 
   # If want to use debug('message') to TestWise Console, uncomment the line below
   #
