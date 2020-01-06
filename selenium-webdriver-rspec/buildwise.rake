@@ -151,8 +151,6 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   exit -2
 end
 
-end
-
 def contact_buildwise_get(path, raise_exception = false)
   if path.nil? || path.size() > 256
     raise "Invalid path"
