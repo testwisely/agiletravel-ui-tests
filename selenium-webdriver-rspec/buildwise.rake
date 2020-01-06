@@ -1,10 +1,11 @@
 require 'httpclient'
 require 'net/http'
 require 'yaml'
+require 'timeout'
 
 def buildwise_start_build(options)
-  options[:project_name] ||= ENV["BUILDWISE_PROJECT_IDENTIFIER"]
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
+  # puts "DEBUG: " + YAML.dump(options)
   new_build_id = the_response_content
 end
 
@@ -21,11 +22,21 @@ def buildwise_finish_build(build_id)
 end
 
 def buildwise_build_status(build_id)
-  return contact_buildwise_get("/builds/#{build_id}/status")
+  begin
+    return contact_buildwise_get("/builds/#{build_id}/status")
+  rescue => e
+    return "Pending"
+  end
 end
 
 def buildwise_build_ui_test_status(build_id)
-  return contact_buildwise_get("/builds/#{build_id}/ui_test_status", true)
+  begin
+    the_status = contact_buildwise_get("/builds/#{build_id}/ui_test_status")
+    the_status = the_status[0..20].strip rescue "" # avoid long html error in case server error
+  rescue => e
+    the_status = "Pending"
+  end
+  return the_status
 end
 
 def buildwise_build_failed(build_id)
@@ -70,7 +81,83 @@ def buildwise_successful_build_tests(project_identifier)
 end
 
 
-def contact_buildwise_get(path, raise_exception = true)
+## Invoke a build task to run test sequentially, when it finished, inform BuildWise
+# :max_wait_time => 3600, :check_interval => 20,
+#
+def buildwise_run_sequential_build_target(build_id, task_name)  
+  puts "[Rake] new build id =>|#{build_id}|"
+  begin
+    FileUtils.rm_rf("spec/reports") if File.exists?("spec/reports")
+    Rake::Task[task_name].invoke
+  ensure
+    puts "Finished: Notify build status"
+    sleep 2 # wait a couple of seconds to finish writing last test results xml file out
+    puts "[Rake] finish the build"
+    buildwise_finish_build(build_id)
+  end
+end
+
+
+#
+# :max_wait_time => 3600, :check_interval => 20,
+#
+def buildwise_montior_parallel_execution(build_id, opts = {})  
+  start_time = Time.now 
+  
+  default_opts = {:max_wait_time => 3600, :check_interval => 15}
+  # default to checking ervery 10 seconds for one hour, unless specified
+  the_opts = default_opts.merge(opts)
+  
+  max_wait_time = the_opts[:max_wait_time]
+  check_interval = the_opts[:check_interval]
+  
+  max_wait_time = 1800 if max_wait_time < 60
+  check_interval = 15 if check_interval < 5
+  
+  puts "[buildwise.rake] Keep checking build |#{build_id} for max #{max_wait_time} for every #{check_interval} seconds"
+  
+  tmp_log_file = File.join(File.dirname(__FILE__), "..", "tmp", "rake_ui_test.log")
+  FileUitls.rm(tmp_log_file) if File.exists?(tmp_log_file)
+  fio = File.open(tmp_log_file, "a")    
+  fio.puts("[#{Time.now}]  Keep checking build |#{build_id} | #{the_build_status} for max #{max_wait_time} for every #{check_interval} seconds")
+  
+  $last_buildwise_server_build_status = nil
+  while ((Time.now - start_time ) < max_wait_time) # test exeuction timeout
+    the_build_status = buildwise_build_ui_test_status(build_id) rescue "Pending"
+    fio.puts("[#{Time.now}] build status => |#{the_build_status}|")
+    fio.flush
+    
+    if ($last_buildwise_server_build_status != the_build_status)
+      puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
+      $last_buildwise_server_build_status = the_build_status
+    end
+    
+    if the_build_status == "OK"
+      fio.close
+      exit 0
+    elsif the_build_status == "Failed"
+      fio.close
+      exit -1
+    else 
+      if (the_build_status != "Pending")
+        puts("[Rake] functional testing status => #{the_build_status},  next check in #{FULL_BUILD_CHECK_INTERVAL} seconds")
+      end
+      sleep FULL_BUILD_CHECK_INTERVAL  # check the build status every minute
+    end
+  end
+  puts "[Rake] Execution UI tests expired"
+  fio.puts("[#{Time.now}] ends normally")
+  fio.close
+  exit -2
+end
+
+end
+
+def contact_buildwise_get(path, raise_exception = false)
+  if path.nil? || path.size() > 256
+    raise "Invalid path"
+  end
+  
   begin
     client = HTTPClient.new
     url = "#{BUILDWISE_URL}#{path}"
