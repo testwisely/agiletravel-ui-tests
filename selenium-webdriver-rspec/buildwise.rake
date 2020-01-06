@@ -115,16 +115,22 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   
   puts "[buildwise.rake] Keep checking build |#{build_id} for max #{max_wait_time} for every #{check_interval} seconds"
   
-  tmp_log_file = "/Users/zhimin/tmp/rake_ui_test.log"
-  FileUtils.rm(tmp_log_file) if File.exists?(tmp_log_file)
-  fio = File.open(tmp_log_file, "a")    
-  fio.puts("[#{Time.now}]  Keep checking build |#{build_id}| for max #{max_wait_time} for every #{check_interval} seconds")
+  fio = nil
+  if ENV["ARTIFACT_DIR"] && Dir.exists?(ENV["ARTIFACT_DIR"])
+    tmp_log_file = File.join(ENV["ARTIFACT_DIR"], "rake_parallel.log")    
+    FileUtils.rm(tmp_log_file) if File.exists?(tmp_log_file)
+    puts("[buildwise.rake] logging parallel monitoring to #{tmp_log_file}")
+    fio = File.open(tmp_log_file, "a")    
+    fio.puts("[#{Time.now}]  Keep checking build |#{build_id}| for max #{max_wait_time} for every #{check_interval} seconds")
+  end
   
   $last_buildwise_server_build_status = nil
   while ((Time.now - start_time ) < max_wait_time) # test exeuction timeout
     the_build_status = buildwise_build_ui_test_status(build_id) rescue "Pending"
-    fio.puts("[#{Time.now}] build status => |#{the_build_status}|")
-    fio.flush
+    if fio
+      fio.puts("[#{Time.now}] build status => |#{the_build_status}|")
+      fio.flush
+    end
     
     if ($last_buildwise_server_build_status != the_build_status)
       puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
@@ -145,8 +151,10 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
     end
   end
   puts "[Rake] Execution UI tests expired"
-  fio.puts("[#{Time.now}] ends normally")
-  fio.close
+  if fio
+    fio.puts("[#{Time.now}] ends normally")
+    fio.close
+  end
   exit -2
 end
 
