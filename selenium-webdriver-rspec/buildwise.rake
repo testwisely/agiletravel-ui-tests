@@ -218,7 +218,7 @@ def contact_buildwise_post(path, pdata)
   #
   # @spec_file_list: an arary containing a list of spec to be in the build
   # @excluded: an array containing specs exluced from the build
-  #
+  #      
   def buildwise_determine_specs_for_quick_build(spec_file_list, excluded)
     specs_to_be_executed = []
 
