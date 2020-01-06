@@ -219,8 +219,9 @@ end
 #
 # @spec_file_list: an arary containing a list of spec to be in the build
 # @excluded: an array containing specs exluced from the build
+# @spec_dir: if provided, 
 #      
-def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [])
+def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spec_dir=nil)
   specs_to_be_executed = []
 
   enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
@@ -269,11 +270,20 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [])
   specs_to_be_executed.uniq!
   puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
 
-  specs_to_be_executed.reject! {|a_test|  !File.exists?(a_test) }
+  
+  if spec_dir
+    specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join(spec_dir, a_test)) }
+  else
+    specs_to_be_executed.reject! {|a_test|  !File.exists?(a_test) }  
+  end
   puts "[INFO] Filter Not exists : #{specs_to_be_executed.inspect}"
 
+
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
-  # using full path
-  specs_to_be_executed = specs_to_be_executed.collect{|x| File.expand_path(x) }  
+  if spec_dir
+    specs_to_be_executed = specs_to_be_executed.collect{|x| File.expand_path( File.join(spec_dir, x) ) }  
+  else
+    specs_to_be_executed = specs_to_be_executed.collect{|x| File.expand_path(x) }  
+  end
 end
 

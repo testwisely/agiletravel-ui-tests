@@ -25,7 +25,7 @@ $test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "spec" ) )  # 
 #
 def excluded_spec_files
   # NOTE, testing only for faster develping agent, remove a couple of test later
-  ["selected_scripts_spec.rb"].collect{|x| File.join($test_dir, spec)}
+  ["selected_scripts_spec.rb"]
 end
 
 def all_specs
@@ -40,13 +40,13 @@ def specs_for_quick_build
     "03_passenger_spec.rb",
     "04_payment_spec.rb",
     "not_exists_spec.rb" # test hanlding non exists scenario
-  ].collect{|x| File.join($test_dir, spec)}
+  ]
 end
 
 
 desc "run tests in this spec/ folder, option to use INTELLIGENT_ORDERING or/and DYNAMIC_FEEDBACK"
 RSpec::Core::RakeTask.new("ui_tests:quick") do |t|  
-  specs_to_be_executed = buildwise_determine_specs_for_quick_build(specs_for_quick_build, excluded_spec_files);
+  specs_to_be_executed = buildwise_determine_specs_for_quick_build(specs_for_quick_build, excluded_spec_files, $test_dir);
   buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
   t.rspec_opts = "--pattern my_own_custom_order --require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
 end
