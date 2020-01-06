@@ -127,7 +127,7 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
                                    :excluded => excluded_spec_files || [],
-                                   :distributed => true)  
+                                   :parallel => true)  
   puts "[Rake] new build id =>|#{build_id}|"
   if build_id.nil? || build_id.to_i < 1  
     raise "Build ID is not return correctly from BuildWise server, make sure the project identifier used in your Rakefile matches the BuildWise project identifer."
