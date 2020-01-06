@@ -85,7 +85,6 @@ end
 # :max_wait_time => 3600, :check_interval => 20,
 #
 def buildwise_run_sequential_build_target(build_id, task_name)  
-  puts "[Rake] new build id =>|#{build_id}|"
   begin
     FileUtils.rm_rf("spec/reports") if File.exists?("spec/reports")
     Rake::Task[task_name].invoke
