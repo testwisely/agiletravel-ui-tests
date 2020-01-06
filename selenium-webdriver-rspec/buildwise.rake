@@ -180,9 +180,10 @@ def contact_buildwise_post(path, pdata)
     response = HTTPClient.new.post(url, pdata)
     the_res = response.body
     the_res = the_res.content if the_res.respond_to?("content")    
+    puts "=> " + the_res.inspect
     return the_res
   rescue => e
-    puts "error to contact BAM with POST:  #{e}"
+    puts "error to contact BuildWise Server #{BUILDWISE_URL} with POST:  #{e}"
     return nil
   end
 end
