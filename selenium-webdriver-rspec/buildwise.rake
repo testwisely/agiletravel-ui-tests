@@ -116,7 +116,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   puts "[buildwise.rake] Keep checking build |#{build_id} for max #{max_wait_time} for every #{check_interval} seconds"
   
   tmp_log_file = "/Users/zhimin/tmp/rake_ui_test.log"
-  FileUitls.rm(tmp_log_file) if File.exists?(tmp_log_file)
+  FileUtils.rm(tmp_log_file) if File.exists?(tmp_log_file)
   fio = File.open(tmp_log_file, "a")    
   fio.puts("[#{Time.now}]  Keep checking build |#{build_id}| for max #{max_wait_time} for every #{check_interval} seconds")
   
