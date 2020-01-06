@@ -124,32 +124,46 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
     fio.puts("[#{Time.now}]  Keep checking build |#{build_id}| for max #{max_wait_time} for every #{check_interval} seconds")
   end
   
-  $last_buildwise_server_build_status = nil
-  while ((Time.now - start_time ) < max_wait_time) # test exeuction timeout
-    the_build_status = buildwise_build_ui_test_status(build_id) rescue "Pending"
-    if fio
-      fio.puts("[#{Time.now}] build status => |#{the_build_status}|")
-      fio.flush
-    end
+  begin 
+    Timeout::timeout(max_wait_time + 120) { 
+  
+      $last_buildwise_server_build_status = nil
+      while ((Time.now - start_time ) < max_wait_time) # test exeuction timeout
+        the_build_status = buildwise_build_ui_test_status(build_id) rescue "Pending"
+        if fio
+          fio.puts("[#{Time.now}] build status => |#{the_build_status}|")
+          fio.flush
+        end
     
-    if ($last_buildwise_server_build_status != the_build_status)
-      puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
-      $last_buildwise_server_build_status = the_build_status
-    end
+        if ($last_buildwise_server_build_status != the_build_status)
+          puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
+          $last_buildwise_server_build_status = the_build_status
+        end
     
-    if the_build_status == "OK"
-      fio.close
-      exit 0
-    elsif the_build_status == "Failed"
-      fio.close
-      exit -1
-    else 
-      if (the_build_status != "Pending")
-        puts("[Rake] functional testing status => #{the_build_status},  next check in #{FULL_BUILD_CHECK_INTERVAL} seconds")
+        if the_build_status == "OK"
+          fio.close
+          exit 0
+        elsif the_build_status == "Failed"
+          fio.close
+          exit -1
+        else 
+          if (the_build_status != "Pending")
+            puts("[Rake] functional testing status => #{the_build_status},  next check in #{FULL_BUILD_CHECK_INTERVAL} seconds")
+          end
+          sleep FULL_BUILD_CHECK_INTERVAL  # check the build status every minute
+        end
       end
-      sleep FULL_BUILD_CHECK_INTERVAL  # check the build status every minute
-    end
+  
+    }
+  rescue Timeout::Error => e
+    if fio
+      fio.puts("[#{Time.now}] execution timeouts!")
+      fio.close
+    end    
+    puts("[Rake] execution time outs!")
+    exit -3  
   end
+    
   puts "[Rake] Execution UI tests expired"
   if fio
     fio.puts("[#{Time.now}] ends normally")
