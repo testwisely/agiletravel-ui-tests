@@ -115,7 +115,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   
   puts "[buildwise.rake] Keep checking build |#{build_id} for max #{max_wait_time} for every #{check_interval} seconds"
   
-  tmp_log_file = File.join(File.dirname(__FILE__), "..", "tmp", "rake_ui_test.log")
+  tmp_log_file = "/Users/zhimin/tmp/rake_ui_test.log")
   FileUitls.rm(tmp_log_file) if File.exists?(tmp_log_file)
   fio = File.open(tmp_log_file, "a")    
   fio.puts("[#{Time.now}]  Keep checking build |#{build_id} | #{the_build_status} for max #{max_wait_time} for every #{check_interval} seconds")
@@ -180,7 +180,6 @@ def contact_buildwise_post(path, pdata)
     response = HTTPClient.new.post(url, pdata)
     the_res = response.body
     the_res = the_res.content if the_res.respond_to?("content")    
-    puts "=> " + the_res.inspect
     return the_res
   rescue => e
     puts "error to contact BuildWise Server #{BUILDWISE_URL} with POST:  #{e}"
