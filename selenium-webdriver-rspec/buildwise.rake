@@ -269,11 +269,11 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [])
   specs_to_be_executed.uniq!
   puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
 
-  specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
+  specs_to_be_executed.reject! {|a_test|  !File.exists?(a_test) }
   puts "[INFO] Filter Not exists : #{specs_to_be_executed.inspect}"
 
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
   # using full path
-  specs_to_be_executed = specs_to_be_executed.collect{|x| File.join($test_dir, x)}  
+  specs_to_be_executed = specs_to_be_executed.collect{|x| File.expand_path(x) }  
 end
 
