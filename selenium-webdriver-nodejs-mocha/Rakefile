@@ -127,29 +127,9 @@ task "ci:ui_tests:full" do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["spec"],
                                    :excluded => excluded_spec_files || [],
-                                   :distributed => true,
+                                   :parallel => true,
                                    :test_framework => "Mocha"
   )
 
-  the_build_status = buildwise_build_ui_test_status(build_id)
-  start_time = Time.now
-
-  puts "[Rake] Keep checking build |#{build_id} | #{the_build_status}"
-  while ((Time.now - start_time ) < FULL_BUILD_MAX_TIME) # test exeuction timeout
-    the_build_status = buildwise_build_ui_test_status(build_id)
-    if ($last_buildwise_server_build_status != the_build_status)
-      puts "[Rake] #{Time.now} Checking build status: |#{the_build_status}|"
-      $last_buildwise_server_build_status = the_build_status
-    end
-    
-    if the_build_status == "OK"
-      exit 0
-    elsif the_build_status == "Failed"
-      exit -1
-    else 
-      sleep FULL_BUILD_CHECK_INTERVAL  # check the build status every minute
-    end
-  end
-  puts "[Rake] Execution UI tests expired"
-  exit -2
+  buildwise_montior_parallel_execution(build_id, :max_wait_time => FULL_BUILD_MAX_TIME, :check_interval => FULL_BUILD_CHECK_INTERVAL)  
 end
