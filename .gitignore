@@ -17,3 +17,7 @@ watir-rspec/spec/reports/
 spec/reports/
 test-results.xml
 selenium-webdriver-rspec/agiletravel-selenium-webdriver.tws
+selenium-webdriver-junit/.idea/
+selenium-webdriver-junit/lib/
+selenium-webdriver-junit/out/
+selenium-webdriver-junit/selenium-webdriver-junit.iml
