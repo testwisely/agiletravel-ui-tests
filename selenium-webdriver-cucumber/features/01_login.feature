@@ -1,6 +1,6 @@
 @feature
 Feature: User Authentication
-  As a reigstered user
+  As a registered user
   I can log in 
 
   Scenario: Deny access due to invalid password

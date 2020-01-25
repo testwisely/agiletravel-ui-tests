@@ -18,6 +18,7 @@ describe "Select Flights" do
   end
 
   it "Return trip" do
+    
     flight_page = FlightPage.new(browser)
     flight_page.select_trip_type("return")
     flight_page.select_depart_from("Sydney")

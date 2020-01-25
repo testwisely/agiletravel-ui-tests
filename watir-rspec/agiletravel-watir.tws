@@ -1,12 +1,14 @@
 <workspace>
     <opened_files>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/confirmation_page.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/home_page.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/passenger_spec.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/login_spec.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/payment_spec.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/flight_spec.rb"/>
     </opened_files>
     <recent_files>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/flight_spec.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/payment_spec.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/login_spec.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/flight_page.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/passenger_spec.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/home_page.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/confirmation_page.rb"/>
