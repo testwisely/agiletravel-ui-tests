@@ -30,9 +30,7 @@ module TestHelper
   end
 
   def browser_type
-    if $TESTWISE_BROWSER
-      $TESTWISE_BROWSER.downcase.to_sym
-    elsif ENV["BROWSER"]
+   if ENV["BROWSER"] && !ENV["BROWSER"].empty?
       ENV["BROWSER"].downcase.to_sym
     else
       :chrome
@@ -42,7 +40,7 @@ module TestHelper
   alias the_browser browser_type
 
   def site_url(default = $BASE_URL)
-    $TESTWISE_PROJECT_BASE_URL || ENV["BASE_URL"] || default
+     ENV["BASE_URL"] || default
   end
 
   def browser_options

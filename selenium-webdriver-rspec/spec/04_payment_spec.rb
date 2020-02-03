@@ -4,7 +4,7 @@ describe "Payment" do
   include TestHelper
 
   before(:all) do
-    @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    @driver = Selenium::WebDriver.for(browser_type, browser_options)
     driver.manage().window().resize_to(1280, 720)
     driver.manage().window().move_to(30, 78)
     driver.get(site_url)

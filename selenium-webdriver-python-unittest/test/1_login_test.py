@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-sys.path.append(os.path.abspath('../pages'))
+sys.path.insert(0, os.getcwd() + "/pages")
 from login_page import LoginPage
 
 class LoginTestCase(unittest.TestCase):
