@@ -24,8 +24,7 @@ $test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "spec" ) )  # 
 # List tests you want to exclude
 #
 def excluded_spec_files
-  # NOTE, testing only for faster develping agent, remove a couple of test later
-  ["selected_scripts_spec.rb", "03_passenger_spec.rb"]
+  ["debugging_spec.rb"]
 end
 
 def all_specs

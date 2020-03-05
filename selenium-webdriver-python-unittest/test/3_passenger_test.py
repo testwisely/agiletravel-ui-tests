@@ -10,40 +10,52 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class PassengerTestCase(unittest.TestCase):
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + "/../")
+from test_helper import TestHelper
+
+from pages.login_page import LoginPage
+from pages.flight_page import FlightPage
+from pages.passenger_page import PassengerPage
+
+class PassengerTestCase(unittest.TestCase, TestHelper):
+
     @classmethod
     def setUpClass(cls):
-        if os.environ.get('BROWSER') == "firefox":
-          cls.driver = webdriver.Firefox()
-        else:
-          cls.driver = webdriver.Chrome()
-        cls.driver.set_window_size(1280, 720)
-        cls.driver.set_window_position(30, 78)
+      if os.environ.get('BROWSER') == "firefox":
+        cls.driver = webdriver.Firefox()
+      else:
+        cls.driver = webdriver.Chrome()
+
+      cls.driver.set_window_size(1280, 720)
+      cls.driver.set_window_position(30, 78)
+
+      cls.driver.get(cls.site_url())
+      login_page = LoginPage(cls.driver)
+      login_page.enter_username("agileway")
+      login_page.enter_password("testwise")
+      login_page.click_sign_in()
 
     @classmethod
     def tearDownClass(cls):
+        time.sleep(1)
         cls.driver.quit()
 
-    def setUp(self):
-        self.driver.get("https://travel.agileway.net")
-
     def test_enter_passenger_details(self):
-        # ...
-        self.driver.find_element_by_id("username").send_keys("agileway")
-        self.driver.find_element_by_id("password").send_keys("testwise")
-        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
-        self.driver.find_element_by_xpath("//input[@name='tripType' and @value='oneway']").click()
-        Select(self.driver.find_element_by_name("fromPort")).select_by_visible_text("New York")
-        Select(self.driver.find_element_by_name("toPort")).select_by_visible_text("Sydney")
-        Select(self.driver.find_element_by_name("departDay")).select_by_visible_text("04")
-        Select(self.driver.find_element_by_name("departMonth")).select_by_visible_text("March 2016")
-        self.driver.find_element_by_xpath("//input[@value='Continue']").click()
-        time.sleep(1)
-        self.driver.find_element_by_name("passengerFirstName").send_keys("Wendy")
-        self.driver.find_element_by_name("passengerLastName").send_keys("Tester")
-        self.driver.find_element_by_xpath("//input[@value='Next']").click()
+      flight_page = FlightPage(self.driver)
+      flight_page.select_trip_type("oneway")
+      flight_page.select_depart_from("New York")
+      flight_page.select_arrive_at("Sydney")
+      flight_page.select_depart_day("04")
+      flight_page.select_depart_month("March 2016")
+      flight_page.click_continue()
+  
+      time.sleep(1)
+      passenger_page = PassengerPage(self.driver)
+      passenger_page.enter_first_name("Wendy")
+      passenger_page.enter_last_name("Tester")
+      passenger_page.click_next()
         
-        self.assertEqual("Wendy Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
+      self.assertEqual("Wendy Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
 
 # if __name__ == '__main__':
 #     unittest.main(

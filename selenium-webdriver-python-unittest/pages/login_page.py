@@ -1,11 +1,12 @@
+from pages.base_page import BasePage
 
-from abstract_page import AbstractPage
+class LoginPage(BasePage):
 
-class LoginPage(AbstractPage):
-  
-  def login(self, user, password):
+  def enter_username(self, user):
     self.driver.find_element_by_id("username").send_keys(user)
+ 
+  def enter_password(self, password):
     self.driver.find_element_by_id("password").send_keys(password)
-    self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
 
-  
+  def click_sign_in(self):
+    self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
