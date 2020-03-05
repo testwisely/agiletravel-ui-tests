@@ -21,3 +21,5 @@ selenium-webdriver-junit/.idea/
 selenium-webdriver-junit/lib/
 selenium-webdriver-junit/out/
 selenium-webdriver-junit/selenium-webdriver-junit.iml
+selenium-webdriver-python-unittest/pages/__pycache__/
+selenium-webdriver-python-unittest/test/debugging_test.py
