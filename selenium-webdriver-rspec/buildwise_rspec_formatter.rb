@@ -2,8 +2,8 @@ require 'ci/reporter/rspec' # version 1.0.0
 require 'fileutils'
 # Overrides default example failed behaviour to add saving screenshot to the reports dir.
 #
-# Prerequiste: the test script requires defines $browser
-#    @driver = $browser = Selenium::WebDriver.for(browser_type)
+# Prerequiste: the test script requires defines $driver
+#    @driver = $driver = Selenium::WebDriver.for(browser_type)
 #
 # 
 # Save to folder: ENV['CI_REPORTS'] || reports under current folder
@@ -24,7 +24,7 @@ module CI::Reporter
         current_spec.name = notification.example.full_description
         current_spec.failures << failure
 	
-      	if $browser && $browser.respond_to?("save_screenshot") # shall be set in test script           
+      	if $driver && driver.respond_to?("save_screenshot") # shall be set in test script           
       	   reports_dir  =  ENV['CI_REPORTS'] || File.expand_path("#{Dir.getwd}/spec/reports")
            begin
              screenshots_dir = File.join(reports_dir, "screenshots")
@@ -36,7 +36,7 @@ module CI::Reporter
              FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
         	   example_name =  notification.example.description 
              # with folder, not using full_description      
-        	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
+        	   $driver.save_screenshot(File.join(saved_to, "#{example_name}.png"))
            rescue  => e
              # don't cause build to stop if errors happens
              fio = File.open( File.join(reports_dir, "error.log"), "a")

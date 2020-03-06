@@ -8,7 +8,7 @@ describe "User Login" do
     # Please note Firefox on 32 bit is "C:\Program Files (x86)\Mozilla Firefox\firefox.exe"
     # Selenium::WebDriver::Firefox::Binary.path="C:/Program Files/Mozilla Firefox/firefox.exe"
       
-    @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    @driver = $driver = Selenium::WebDriver.for(browser_type, browser_options)
     driver.manage().window().resize_to(1280, 720)
     driver.manage().window().move_to(30, 78)
     driver.get(site_url)

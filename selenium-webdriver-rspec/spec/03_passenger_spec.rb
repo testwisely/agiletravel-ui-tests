@@ -4,8 +4,8 @@ describe "Passenger" do
   include TestHelper
 
   before(:all) do
-    # by setting $browser global variable for build_rspec_formatter can save screenshot if error occurs
-    @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    # by setting $driver global variable for build_rspec_formatter can save screenshot if error occurs
+    @driver = $driver = Selenium::WebDriver.for(browser_type, browser_options)
     driver.manage().window().resize_to(1280, 720)
     driver.manage().window().move_to(30, 78)
     driver.get(site_url)

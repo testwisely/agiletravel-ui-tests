@@ -28,7 +28,7 @@ describe "{{ TEST_SUITE }}" do
   include TestHelper
 
   before(:all) do    
-    @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    @driver = $driver = Selenium::WebDriver.for(browser_type, browser_options)
     @driver.get(site_url)
   end
 

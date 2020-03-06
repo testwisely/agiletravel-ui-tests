@@ -4,7 +4,7 @@ module AgilewayUtils
 	## for debugging, reuse current browser window and run selected test scripts in it.
 	#
 	def use_current_browser
-  	@browser = @driver = $browser
+  	@browser = @driver = $driver
 	end
 
 	# Try the operation up to specified timeout (in seconds), and sleep given interval (in seconds).

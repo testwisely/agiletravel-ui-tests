@@ -4,9 +4,9 @@ module AgilewayUtils
   ## for debugging, reuse current browser window and run selected test scripts in it.
   #
   def use_current_browser
-    if $browser
+    if $driver
       # TestWise 4 way, deprecated
-      @browser = @driver = $browser
+      @browser = @driver = $driver
     else
       if ENV["BROWSER"] == "firefox" || ENV["BROWSER"] == "safari" || ENV["BROWSER"] == "edge" || ENV["BROWSER"] == "ie"
 
