@@ -265,8 +265,6 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spe
     specs_to_be_executed.flatten!
   end
   specs_to_be_executed -= excluded
-  puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
-
   specs_to_be_executed.uniq!
   puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
 

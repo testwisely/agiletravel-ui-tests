@@ -80,8 +80,6 @@ def determine_specs_for_quick_build
   end
   
   specs_to_be_executed -= excluded_spec_files
-  puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
-
   specs_to_be_executed.uniq!
   puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
 

@@ -24,7 +24,7 @@ module CI::Reporter
         current_spec.name = notification.example.full_description
         current_spec.failures << failure
 	
-      	if $driver && driver.respond_to?("save_screenshot") # shall be set in test script           
+      	if $driver && $driver.respond_to?("save_screenshot") # shall be set in test script           
       	   reports_dir  =  ENV['CI_REPORTS'] || File.expand_path("#{Dir.getwd}/spec/reports")
            begin
              screenshots_dir = File.join(reports_dir, "screenshots")
