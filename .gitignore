@@ -23,3 +23,7 @@ selenium-webdriver-junit/out/
 selenium-webdriver-junit/selenium-webdriver-junit.iml
 selenium-webdriver-python-unittest/pages/__pycache__/
 selenium-webdriver-python-unittest/test/debugging_test.py
+selenium-webdriver-cucumber/agiletravel-selenium-webdriver.tws
+selenium-webdriver-nodejs-mocha/agiletravel-selenium-webdriver.tws
+selenium-webdriver-python-unittest/agiletravel-selenium-webdriver.tws
+selenium-webdriver-rspec/spec/debugging_spec.rb

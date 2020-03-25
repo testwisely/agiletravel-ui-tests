@@ -56,7 +56,7 @@ module TestHelper
         the_chrome_options.add_argument("--headless")
       end
 
-      if defined?(TestWiseRuntimeSupport)
+      if defined?(TestWiseRuntimeSupport) && debugging?
         browser_debugging_port = get_browser_debugging_port() rescue 19218 # default port
         puts("Enabled chrome browser debug port: #{browser_debugging_port}")
         the_chrome_options.add_argument("--remote-debugging-port=#{browser_debugging_port}")
