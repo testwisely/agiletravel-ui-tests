@@ -10,9 +10,7 @@ require 'rspec'
 
 # when running in TestWise, it will auto load TestWiseRuntimeSupport, ignore otherwise
 if defined?(TestWiseRuntimeSupport)
-  ::TestWise::Runtime.load_watir_support # for watir support
-else
-  require "#{File.dirname(__FILE__)}/testwise_support.rb"
+  ::TestWise::Runtime.load_webdriver_support
 end
 
 # this loads defined page objects under pages folder
@@ -35,8 +33,6 @@ module TestHelper
 
   if defined?(TestWiseRuntimeSupport)  # TestWise 5
     include TestWiseRuntimeSupport
-  else
-    include TestWiseSupport
   end
 
   #

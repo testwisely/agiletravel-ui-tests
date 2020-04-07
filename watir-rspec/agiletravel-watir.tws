@@ -3,15 +3,11 @@
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/abstract_page.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/passenger_spec.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/test_helper.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/payment_spec.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/install-lib.cmd"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/Rakefile"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/agileway_utils.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/flight_spec.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/spec_helper.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/login_spec.rb"/>
     </opened_files>
     <recent_files>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/test_helper.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/passenger_spec.rb"/>
+        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/abstract_page.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/login_spec.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/spec_helper.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/flight_spec.rb"/>
@@ -20,9 +16,6 @@
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/install-lib.cmd"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/testwise_support.rb"/>
         <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/payment_spec.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/test_helper.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/spec/passenger_spec.rb"/>
-        <entry name="/Users/zhimin/work/projects/agiletravel-ui-tests/watir-rspec/pages/abstract_page.rb"/>
     </recent_files>
     <test_suites/>
 </workspace>
