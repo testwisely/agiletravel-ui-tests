@@ -1,6 +1,4 @@
 # use utils in RWebSpec and better integration with TestWise
-require "#{File.dirname(__FILE__)}/../testwise_support.rb"
-
 # This is the parent page for all page objects, for operations across all pages, define here
 class AbstractPage 
 
@@ -8,8 +6,6 @@ class AbstractPage
   #
 	if defined?(TestWiseRuntimeSupport)
 	  ::TestWise::Runtime.load_webdriver_support # for selenium webdriver support
-  else
-  	include TestWiseSupport
 	end
   
 

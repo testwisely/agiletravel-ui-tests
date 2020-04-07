@@ -4,7 +4,7 @@ MAX_MESSAGE_LENGTH = 8192 # < 10K
 
 $testwise_support = true
 
-module TestWiseSupport
+module 
 
   def debugging?
     if ENV["RUN_IN_TESTWISE"].to_s == "true" && ENV["TESTWISE_RUNNING_AS"] == "test_case"

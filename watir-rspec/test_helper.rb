@@ -2,6 +2,7 @@ require 'rubygems'
 gem "watir"
 require 'watir'
 require 'rspec'
+require 'webdrivers'
 
 # use utils in RWebSpec and better integration with TestWise
 require "#{File.dirname(__FILE__)}/agileway_utils.rb"
@@ -9,8 +10,6 @@ require "#{File.dirname(__FILE__)}/agileway_utils.rb"
 # when running in TestWise, it will auto load TestWiseRuntimeSupport, ignore otherwise
 if defined?(TestWiseRuntimeSupport)
   ::TestWise::Runtime.load_watir_support # for watir support
-else
-	require "#{File.dirname(__FILE__)}/testwise_support.rb"
 end
 
 # this loads defined page objects under pages folder
@@ -28,8 +27,6 @@ module TestHelper
   include AgilewayUtils
   if defined?(TestWiseRuntimeSupport)  # TestWise 5
     include TestWiseRuntimeSupport 
-  else
-    include TestWiseSupport
   end
 	
   #
@@ -77,5 +74,10 @@ module TestHelper
   def sign_off
     browser.link(text: "Sign off").click
   end
+  
 
+  def debugging?
+    return ENV["RUN_IN_TESTWISE"].to_s == "true" && ENV["TESTWISE_RUNNING_AS"] == "test_case"
+  end
+    
 end
