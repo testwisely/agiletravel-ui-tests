@@ -28,3 +28,4 @@ selenium-webdriver-nodejs-mocha/agiletravel-selenium-webdriver.tws
 selenium-webdriver-python-unittest/agiletravel-selenium-webdriver.tws
 selenium-webdriver-rspec/spec/debugging_spec.rb
 watir-rspec/agiletravel-watir.tws
+capybara-rspec/agiletravel-capybara-rspec.tws
