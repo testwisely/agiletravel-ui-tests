@@ -10,7 +10,7 @@ describe "User Login" do
   end
 
   before(:each) do
-    browser.goto site_url("https://travel.agileway.net")
+    browser.goto "https://travel.agileway.net"
   end
 
   after(:each) do

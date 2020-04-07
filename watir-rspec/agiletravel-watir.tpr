@@ -1,5 +1,6 @@
 <project>
     <name>agiletravel-watir.tpr</name>
+    <app_type>WinApp</app_type>
     <default_browser>IE</default_browser>
     <test_framework>Watir</test_framework>
     <syntax_framework>RSpec</syntax_framework>
@@ -8,7 +9,7 @@
             <base_url>http://travel.agileway.net</base_url>
         </entry>
         <entry name="test" default="true">
-            <base_url></base_url>
+            <base_url>http://travel.agileway.net</base_url>
         </entry>
     </environments>
     <exclude_dirs></exclude_dirs>

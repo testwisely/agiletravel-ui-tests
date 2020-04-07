@@ -58,7 +58,7 @@ module TestHelper
   alias the_browser browser_type
 
   def site_url(default = $BASE_URL)
-    $TESTWISE_PROJECT_BASE_URL || ENV["BASE_URL"] || default
+    ENV["BASE_URL"] || default
   end
 	
   def browser
