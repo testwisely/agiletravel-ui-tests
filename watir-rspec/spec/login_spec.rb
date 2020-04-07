@@ -7,11 +7,10 @@ describe "User Login" do
 
   before(:all) do
     @browser = Watir::Browser.new(browser_type)
-    @browser.goto(site_url)
   end
 
   before(:each) do
-    browser.goto $TESTWISE_PROJECT_BASE_URL || "https://travel.agileway.net" # set back to home page to start next one
+    browser.goto site_url("https://travel.agileway.net")
   end
 
   after(:each) do
@@ -22,6 +21,7 @@ describe "User Login" do
     @browser.close unless debugging?
   end
 
+  
   it "Login OK" do
     home_page = HomePage.new(browser)
     home_page.enter_user_name "agileway"
@@ -30,6 +30,7 @@ describe "User Login" do
     try_for(3) { expect(browser.text).to include("Welcome agileway") }
   end
 
+
   it "Login failed (incorrect password)" do
     home_page = HomePage.new(browser)
     home_page.enter_user_name "agileway"
@@ -37,5 +38,5 @@ describe "User Login" do
     home_page.click_sign_in
     try_for(3) { expect(browser.text).to include("Invalid email or password") }
   end
-
+  
 end
