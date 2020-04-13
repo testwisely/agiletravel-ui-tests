@@ -9,13 +9,15 @@ const timeOut = 15000;
 
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
+var helper = require('../test_helper');
+
 test.describe('Flight', function () {
 
   test.before(function() {
     this.timeout(timeOut);
-    driver = new webdriver.Builder()
-          .forBrowser('chrome')
-          .build();
+    driver = new webdriver.Builder().forBrowser('chrome')
+             .setChromeOptions(helper.debuggingChromeOptions()).build();
+
     driver.manage().window().setSize(1280, 720);    
     driver.manage().window().setPosition(30, 78);
      
