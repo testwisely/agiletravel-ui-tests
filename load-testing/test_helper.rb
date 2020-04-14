@@ -51,7 +51,7 @@ module TestHelper
       # leave browser open until calls 'driver.quit'
       the_chrome_options.add_option("detach", true)
 
-      if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
+      if ENV["BROWSER_HEADLESS"] == "true"
         the_chrome_options.add_argument("--headless")
       end
 

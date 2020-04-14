@@ -4,7 +4,7 @@ load File.dirname(__FILE__) + "/../load_test_helper.rb"
 describe "User Login" do
   include TestHelper
   include LoadTestHelper
-  
+
   before(:all) do
     # browser_type, browser_options, site_url are defined in test_helper.rb
     @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
@@ -15,21 +15,28 @@ describe "User Login" do
   after(:all) do
     count = $db.get_first_value("SELECT count(*) FROM timings")
     puts "count(*): #{count}"
-    $db.execute('select * from timings') do |row|
+    $db.execute("select * from timings") do |row|
       puts row.inspect + "\n"
     end
     @driver.quit unless debugging?
   end
 
   it "[1] User sign in and sign out" do
-    3.times do
-      log_time("Visit Home Page") { driver.get(site_url) }
-      visit("/login")
+    1.times do
+      log_time("Visit Home Page") {
+        driver.get(site_url)
+      }
       driver.find_element(:id, "username").send_keys("agileway")
       driver.find_element(:id, "password").send_keys("testwise")
-      log_time("Sign in") { driver.find_element(:name, "commit").click }
-      log_time("Sign out") { visit("/logout") }
+
+      log_time("Sign in") {
+        driver.find_element(:name, "commit").click
+        expect(driver.find_element(:id, "flash_notice").text).to include("Signed in!")
+      }
+
+      log_time("Sign out") {
+#        visit("/logout")
+      }
     end
   end
-  
 end
