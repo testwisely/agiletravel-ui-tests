@@ -1,0 +1,50 @@
+<project>
+    <name>Load Testing</name>
+    <app_type>WebApp</app_type>
+    <default_browser>Chrome</default_browser>
+    <test_framework>Selenium</test_framework>
+    <syntax_framework>RSpec</syntax_framework>
+    <environments>
+        <entry name="Test" default="false">
+            <base_url>http://travel.agileway.net</base_url>
+        </entry>
+    </environments>
+    <exclude_dirs></exclude_dirs>
+    <exclude_files></exclude_files>
+    <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
+
+describe "{{ TEST_SUITE }}" do
+    include TestHelper
+
+    before(:all) do
+		  # browser_type, browser_options, site_url are defined in test_helper.rb
+      @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+      driver.manage().window().resize_to(1280, 720)
+      driver.get(site_url)
+    end
+
+    after(:all) do
+      driver.quit unless debugging?
+    end
+
+    it "{{ TEST_CASE }}" do
+      # driver.find_element(...)
+      # expect(page_text).to include(..)
+    end
+
+end</spec_template>
+    <page_template>require File.join(File.dirname(__FILE__), "abstract_page.rb")
+
+class {{ PAGE_NAME }} &lt; AbstractPage
+
+  def initialize(driver)
+    super(driver, "") # &lt;= TEXT UNIQUE TO THIS PAGE
+  end
+
+  # page functions here ...
+
+end</page_template>
+    <integration>
+        <jira url="" username="" password=""/>
+    </integration>
+</project>
