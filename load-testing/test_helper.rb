@@ -119,6 +119,14 @@ module TestHelper
     end
   end
   
+  def login_as(user, pass = "testwise")
+    driver.find_element(:id, "username").send_keys(user)
+    driver.find_element(:id, "password").send_keys(pass)
+    driver.find_element(:name, "commit").click
+  end
+
+  def logout
+    driver.find_element(:link_text, "Sign off").click
+  end
   
-	
 end

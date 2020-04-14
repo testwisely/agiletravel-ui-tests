@@ -8,7 +8,7 @@ describe "User Login" do
   before(:all) do
     # browser_type, browser_options, site_url are defined in test_helper.rb
     @driver = $browser = Selenium::WebDriver.for(browser_type, browser_options)
-    driver.manage().window().resize_to(1280, 720)
+    # driver.manage().window().resize_to(1280, 720)
     driver.get(site_url)
   end
 
@@ -16,7 +16,7 @@ describe "User Login" do
     count = $db.get_first_value("SELECT count(*) FROM timings")
     puts "count(*): #{count}"
     $db.execute('select * from timings') do |row|
-      puts row.join("\t") + "\n"
+      puts row.inspect + "\n"
     end
     @driver.quit unless debugging?
   end
