@@ -21,7 +21,7 @@ describe "User Login" do
     @driver.quit unless debugging?
   end
 
-  it "User sign in and sign out" do
+  it "[1] User sign in and sign out" do
     3.times do
       log_time("Visit Home Page") { driver.get(site_url) }
       visit("/login")
