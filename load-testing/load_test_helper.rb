@@ -44,6 +44,13 @@ module LoadTestHelper
     end
   end
   
-    
+  
+  def dump_timings
+    count = $db.get_first_value("SELECT count(*) FROM timings")
+    puts "count(*): #{count}"
+    $db.execute("select * from timings") do |row|
+      puts row.inspect + "\n"
+    end
+  end
   
 end

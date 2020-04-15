@@ -18,19 +18,30 @@ describe "Select Flights" do
   end
 
   it "[2] Return trip" do
-    log_time("Visit Home Page") { driver.get(site_url) }
+    log_time("Visit Home Page") {
+      driver.get(site_url)
+      expect(driver.title).to eq("Agile Travel")
+    }
     driver.find_element(:id, "username").send_keys("agileway")
     driver.find_element(:id, "password").send_keys("testwise")
-    log_time("Sign in") { driver.find_element(:name, "commit").click }
-
+    log_time("Sign in") {
+        driver.find_element(:name, "commit").click
+        expect(driver.find_element(:id, "flash_notice").text).to include("Signed in!")
+    }
+    
     flight_page = FlightPage.new(driver)
     flight_page.select_trip_type("oneway")
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
-    log_time("Select Flight") { flight_page.click_continue }
-    expect(page_text).to include("2016-01-01 Sydney to New York")
     
+    log_time("Select Flight") { 
+      flight_page.click_continue 
+      #  simple page get_page_text costs about 0.03 seconds
+      # start_time = Time.now
+      expect(page_text).to include("2016-01-01 Sydney to New York")
+      # puts("#{Time.now - start_time}: check flight")
+    }
+
     log_time("Sign out") { logout }
-    
   end
 end

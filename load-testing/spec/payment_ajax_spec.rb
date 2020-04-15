@@ -11,29 +11,40 @@ describe "Payment Load (AJAX)" do
   end
 
   before(:each) do
+    log_time("Visit Home Page") {
+      driver.get(site_url)
+      expect(driver.title).to eq("Agile Travel")
+    }
+    driver.find_element(:id, "username").send_keys("agileway")
+    driver.find_element(:id, "password").send_keys("testwise")
+    log_time("Sign in") {
+        driver.find_element(:name, "commit").click
+        expect(driver.find_element(:id, "flash_notice").text).to include("Signed in!")
+    }
   end
 
   after(:all) do
+    dump_timings
     driver.quit unless debugging?
   end
 
   it "[3] Payment with AJAX" do
-    log_time("Visit Home Page") { driver.get(site_url) }
-    driver.find_element(:id, "username").send_keys("agileway")
-    driver.find_element(:id, "password").send_keys("testwise")
-    log_time("Sign in") { driver.find_element(:name, "commit").click }
 
     flight_page = FlightPage.new(driver)
     flight_page.select_trip_type("oneway")
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
-    log_time("Select Flight") { flight_page.click_continue }
-    expect(page_text).to include("2016-01-01 Sydney to New York")
+    log_time("Select Flight") { 
+      flight_page.click_continue 
+      expect(page_text).to include("2016-01-01 Sydney to New York")
+    }
 
     # now on passenger page
     passenger_page = PassengerPage.new(driver)
     passenger_page.enter_last_name("Tester")
-    log_time("Passenger") { passenger_page.click_next }
+    log_time("Passenger") { 
+      passenger_page.click_next 
+    }
 
     payment_page = PaymentPage.new(driver)
     payment_page.select_card_type("master")
@@ -41,8 +52,9 @@ describe "Payment Load (AJAX)" do
     payment_page.enter_card_number("4242424242424242")
     payment_page.enter_expiry_month("04")
     payment_page.enter_expiry_year("2016")
-    payment_page.click_pay_now
+    
     log_time("Payment") {
+      payment_page.click_pay_now
       wait = Selenium::WebDriver::Wait.new(:timeout => 10)
       wait.until { driver.page_source.include?("Booking number") }
     }
