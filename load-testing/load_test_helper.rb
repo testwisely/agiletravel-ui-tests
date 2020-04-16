@@ -13,7 +13,7 @@ $db.execute(<<EOS)
     id integer,
     operation varchar(255),
     start_time datetime,
-    duration decimal(10, 5),
+    duration bigint,
     successful tinyint,
     error text,
     PRIMARY KEY(id)
