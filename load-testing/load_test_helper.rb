@@ -32,7 +32,7 @@ module LoadTestHelper
   # Usage
   #  log_time { browser.click_button('Confirm') }
   def log_time(operation, &block)
-    start_time = Time.now
+    start_time = (Time.now.to_f * 1000).to_i
     error_occurred = nil
     begin
       yield
@@ -40,10 +40,11 @@ module LoadTestHelper
       error_occurred = e.to_s
     ensure
       # puts [operation, start_time, (Time.now - start_time), 1].inspect
+
       if error_occurred
-        $log_time_stmt.execute(:operation => operation, :start_time => start_time, :duration => Time.now - start_time, :successful => 0, :error => error_occurred)
+        $log_time_stmt.execute(:operation => operation, :start_time => start_time, :duration => (Time.now.to_f * 1000).to_i - start_time, :successful => 0, :error => error_occurred)
       else
-        $log_time_stmt.execute(:operation => operation, :start_time => start_time.to_i, :duration => Time.now - start_time, :successful => 1)
+        $log_time_stmt.execute(:operation => operation, :start_time => start_time, :duration => (Time.now.to_f * 1000).to_i - start_time, :successful => 1)
       end
     end
   end
