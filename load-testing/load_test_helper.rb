@@ -51,28 +51,38 @@ module LoadTestHelper
   def dump_timings
     count = $db.get_first_value("SELECT count(*) FROM timings")
     puts "count(*): #{count}"
+    data = []
     $db.execute("select * from timings") do |row|
+      hash = {}
+      hash[:operation] = row[1]
+      hash[:start_ts] = row[2]
+      hash[:duration] = row[3]
+      hash[:success] = row[4]
+      hash[:error] = row[5] 
+      data << hash   
       puts row.inspect + "\n"
     end
 
     #TODO post to BuildWise Server
-
+    post_results_to_buildwise_server(1, data)
   end
   
   
-  def post_results_to_buildwise_server(build_id)
+  def post_results_to_buildwise_server(build_id, timings)
 
-    reply = post_load_test_timings(url,
-      "/parallel/builds/#{build_id}/report_load_test_result",
+    server_uri = "http://localhost:3618";
+    agent_name = "Foo";
+    
+    reply = post_load_test_timings(server_uri, "/parallel/builds/#{build_id}/report_load_test_result",
        { :build_id => build_id, 
-         :agent_name => $ip_address, 
+         :agent_name => agent_name, 
          :timings_json => timings.to_json, 
        }
     )
     
   end
   
-  def post_load_test_timings(uri, path, hash)
+  def post_load_test_timings(server_uri, path, hash)
     build_id = hash[:build_id]
     param_part_1 = Part.new("timings_json", hash[:timings_json])
     param_part_2 = Part.new("agent_name", hash[:agent_name])
@@ -88,7 +98,7 @@ module LoadTestHelper
       body = MultipartBody.new [param_part_1, param_part_2], boundary
     end
 
-    uri = URI.parse(url)
+    uri = URI.parse(server_uri)
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new path
     request.body = body.to_s
