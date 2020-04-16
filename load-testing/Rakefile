@@ -18,7 +18,7 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
 FULL_BUILD_MAX_TIME = ENV["DISTRIBUTED_MAX_BUILD_TIME"].to_i || 60 * 60   # max build time, over this, time out
 FULL_BUILD_CHECK_INTERVAL =  ENV["DISTRIBUTED_BUILD_CHECK_INTERVAL"].to_i || 20  # check interval for build complete
 
-$test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "spec" ) )  # change to aboslution path if invocation is not this directory
+$test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "load" ) )  # change to aboslution path if invocation is not this directory
 # rspec will create 'spec/reports' under check out dir
 
 # List tests you want to exclude
@@ -32,22 +32,11 @@ def all_specs
   Dir.glob("#{$test_dir}/*_spec.rb")
 end
 
-def specs_for_quick_build
-  # list test files to be run in a quick build, leave the caller to set full path
-  [
-    "01_login_spec.rb", 
-    "02_flight_spec.rb",
-    "03_passenger_spec.rb",
-    "04_payment_spec.rb",
-    "not_exists_spec.rb" # test hanlding non exists scenario
-  ]
-end
-
 
 desc "Running tests distributedly"
 task "ci:load_tests:light" => ["ci:setup:rspec"] do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
-                                   :ui_test_dir => ["spec"],
+                                   :ui_test_dir => ["load"],
                                    :excluded => excluded_spec_files || [],
                                    :distributed => true
   )
