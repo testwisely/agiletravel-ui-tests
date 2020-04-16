@@ -10,10 +10,8 @@ describe "Select Flights" do
     driver.get(site_url)
   end
 
-  before(:each) do
-  end
-
   after(:all) do
+    dump_timings
     driver.quit unless debugging?
   end
 
