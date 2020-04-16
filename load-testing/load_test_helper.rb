@@ -65,7 +65,7 @@ module LoadTestHelper
     end
 
     #TODO post to BuildWise Server
-    post_results_to_buildwise_server(1, data)
+    post_results_to_buildwise_server(nil, data)
   end
   
   
