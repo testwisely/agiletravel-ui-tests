@@ -74,13 +74,14 @@ module LoadTestHelper
     server_uri = ENV["BUILDWISE_SERVER"]
     agent_name = ENV["AGENT_NAME"]
     
-    if (server_uri.nil? || server_uri.strip.empty?)
+    if server_uri.nil? || server_uri.strip.empty?
       return
+    end
       
     reply = post_load_test_timings(server_uri, "/parallel/builds/#{build_id}/report_load_test_result",
        { :build_id => build_id, 
          :agent_name => agent_name, 
-         :timings_json => timings.to_json, 
+         :timings_json => timings.to_json
        }
     )
   end
