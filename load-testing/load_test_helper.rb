@@ -112,4 +112,10 @@ module LoadTestHelper
     reply = http.request(request)
   end
   
+  def load_test_repeat
+    the_repeat_count = ENV["LOAD_TEST_REPEAT"].to_i rescue 1
+    the_repeat_count = 1 if the_repeat_count < 1
+    return the_repeat_count
+  end
+  
 end

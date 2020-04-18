@@ -18,7 +18,7 @@ describe "User Login" do
   end
 
   it "[1] User sign in and sign out" do
-    1.times do
+    load_test_repeat.times do
       # add simple verification after visit a URL, to make sure it is correct,
       # the `driver.title` costs only 0.005 seconds
       log_time("Visit Home Page") {
