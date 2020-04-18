@@ -2,7 +2,8 @@ require 'rubygems'
 gem "watir"
 require 'watir'
 require 'rspec'
-require 'webdrivers'
+
+# require 'webdrivers'
 
 # use utils in RWebSpec and better integration with TestWise
 require "#{File.dirname(__FILE__)}/agileway_utils.rb"

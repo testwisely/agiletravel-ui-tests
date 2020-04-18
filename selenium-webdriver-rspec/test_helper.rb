@@ -3,7 +3,7 @@ gem "selenium-webdriver"
 require "selenium-webdriver"
 
 # if you want to self-managed browser drivers (e.g. chromedriver)
-require "webdrivers" 
+#require "webdrivers" 
 
 require "rspec"
 require "socket"
