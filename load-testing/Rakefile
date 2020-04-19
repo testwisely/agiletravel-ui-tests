@@ -34,7 +34,7 @@ end
 
 
 desc "Running tests distributedly"
-task "ci:load_tests:light" => ["ci:setup:rspec"] do
+task "ci:load_tests:mix" => ["ci:setup:rspec"] do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["load"],
                                    :excluded => [ "login_repeat_spec.rb"],
