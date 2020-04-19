@@ -1,7 +1,7 @@
 load File.dirname(__FILE__) + "/../test_helper.rb"
 load File.dirname(__FILE__) + "/../load_test_helper.rb"
 
-describe "User Login" do
+describe "User Login Repeat" do
   include TestHelper
   include LoadTestHelper
 
@@ -17,7 +17,8 @@ describe "User Login" do
     @driver.quit unless debugging?
   end
 
-  it "[1] User sign in and sign out" do
+  it "[1] User sign in and sign out repeatedly" do
+    load_test_repeat.times do
       # add simple verification after visit a URL, to make sure it is correct,
       # the `driver.title` costs only 0.005 seconds
       log_time("Visit Home Page") {
@@ -45,5 +46,6 @@ describe "User Login" do
         expect(driver.find_element(:id, "flash_notice").text).to include("Signed out!")
         # puts("#{Time.now - start_time}: check signed out")
       }
+    end
   end
 end
