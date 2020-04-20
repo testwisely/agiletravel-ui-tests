@@ -6,7 +6,6 @@ require "multipart_body"
 require "openssl"
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-#if $db.nil?
 $db = SQLite3::Database.new(":memory:")
 $db.execute(<<EOS)
   CREATE TABLE timings (
@@ -19,7 +18,6 @@ $db.execute(<<EOS)
     PRIMARY KEY(id)
   )
 EOS
-#end
 
 $log_time_stmt = $db.prepare(<<EOS)
   INSERT INTO timings(operation, start_time, duration, successful, error) VALUES(:operation, :start_time, :duration, :successful, :error)
@@ -113,7 +111,13 @@ module LoadTestHelper
   end
   
   def load_test_repeat
-    the_repeat_count = ENV["LOAD_TEST_REPEAT"].to_i rescue 1
+    the_repeat_count = ENV["LOAD_TEST_REPEAT"]
+    if the_repeat_count && !the_repeat_count.strip.empty? && the_repeat_count.to_i > 0
+      puts("Load repeat times: #{the_repeat_count}")
+      the_repeat_count = the_repeat_count.to_i
+    else
+      the_repeat_count = 1
+    end
     the_repeat_count = 1 if the_repeat_count < 1
     return the_repeat_count
   end
