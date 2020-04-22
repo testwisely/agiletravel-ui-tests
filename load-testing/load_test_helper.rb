@@ -1,4 +1,4 @@
-require "sqlite3"
+require "sqlite3" # on windows install command: gem install --platform=ruby sqlite3
 
 require "json"
 require "net/http"
@@ -33,7 +33,17 @@ module LoadTestHelper
   #
   # Usage
   #  log_time("Login") { browser.click_button('Confirm') }
-  def log_time(operation, &block)
+  #  log_time(opration: "Login", request_type: "GET") { browser.click_button('Confirm') }
+  def log_time(opts, &block)
+    data = {}
+    if opts.class == Hash
+      data = opts
+    elsif 
+      data[:operation] = opts.to_s
+    end
+    
+    puts data.inspect
+    
     start_time = (Time.now.to_f * 1000).to_i
     error_occurred = nil
     begin
@@ -42,24 +52,10 @@ module LoadTestHelper
       error_occurred = e.to_s
     ensure
       # puts [operation, start_time, (Time.now - start_time), 1].inspect
-      $log_time_stmt.execute(:operation => operation, :request_type => nil, :start_time => start_time, :duration => (Time.now.to_f * 1000).to_i - start_time, :successful => error_occurred ? 0 : 1, :error => error_occurred ? error_occurred : nil)
+      $log_time_stmt.execute(:operation => data[:operation], :request_type => data[:request_type], :start_time => start_time, :duration => (Time.now.to_f * 1000).to_i - start_time, :successful => error_occurred ? 0 : 1, :error => error_occurred ? error_occurred : nil)
     end
   end
 
-  # Usage
-  #  log_time_with_request_type("Visit Home Page", "GET") { browser.click_button('Confirm') }
-  #  log_time_with_request_type("Sign in", "POST") { browser.click_button('Confirm') }
-  def log_time_with_request_type(operation, request_type, &block)
-    start_time = (Time.now.to_f * 1000).to_i
-    error_occurred = nil
-    begin
-      yield
-    rescue => e
-      error_occurred = e.to_s
-    ensure
-      $log_time_stmt.execute(:operation => operation, :request_type => request_type, :start_time => start_time, :duration => (Time.now.to_f * 1000).to_i - start_time, :successful => error_occurred ? 0 : 1, :error => error_occurred ? error_occurred : nil)
-    end
-  end
 
   def dump_timings
     count = $db.get_first_value("SELECT count(*) FROM timings")
