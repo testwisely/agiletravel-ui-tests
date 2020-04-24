@@ -42,8 +42,6 @@ module LoadTestHelper
       data[:operation] = opts.to_s
     end
     
-    puts data.inspect
-    
     start_time = (Time.now.to_f * 1000).to_i
     error_occurred = nil
     begin
