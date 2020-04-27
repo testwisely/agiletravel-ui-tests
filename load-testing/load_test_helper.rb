@@ -46,7 +46,9 @@ module LoadTestHelper
     error_occurred = nil
     begin
       yield
-    rescue => e
+    rescue Exception => ex
+      error_occurred = ex.to_s
+    rescue  => e
       error_occurred = e.to_s
     ensure
       # puts [operation, start_time, (Time.now - start_time), 1].inspect
@@ -69,7 +71,7 @@ module LoadTestHelper
       hash[:error] = row[6]
       data << hash
       puts row.inspect + "\n" if count < 10 # if small data set, print out for confirmation
-    end
+    end  
 
     begin
       Timeout.timeout(2) do
