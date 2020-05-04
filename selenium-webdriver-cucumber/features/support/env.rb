@@ -7,6 +7,9 @@ gem "minitest"
 # require "minitest/autorun"
 require 'minitest/spec'
 
+require File.join(File.dirname(__FILE__), "step_helper.rb")
+include StepHelper
+
 # load page classes
 require File.join(File.dirname(__FILE__), "..","..", "pages", "abstract_page.rb")
 Dir["#{File.dirname(__FILE__)}/../../pages/*_page.rb"].each { |file| load file }
@@ -48,22 +51,3 @@ def debugging?
 end
 
 
-## Helper methods
-#
-def goto_home_page
-  $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
-  @driver.navigate.to("#{base_url}")
-end
-
-# if your applicant supports reset datbase
-def reset_database
-  $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
-  @driver.navigate.to("#{base_url}/reset")
-  goto_home_page
-end
-
-def sign_in(user, pass)
-  @driver.find_element(:id, "username").send_keys(user)
-  @driver.find_element(:id, "password").send_keys(pass)
-  @driver.find_element(:xpath,"//input[@value=\"Sign in\"]").click
-end
