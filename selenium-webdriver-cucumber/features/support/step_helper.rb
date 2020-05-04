@@ -3,13 +3,13 @@
 
 module StepHelper
   def goto_home_page
-    $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
+    $base_url = base_url = ENV["BASE_URL"] || $BASE_URL
     @driver.navigate.to("#{base_url}")
   end
 
   # if your applicant supports reset datbase
   def reset_database
-    $base_url = base_url = $TESTWISE_PROJECT_BASE_URL || $BASE_URL
+    $base_url = base_url = ENV["BASE_URL"] || $BASE_URL
     @driver.navigate.to("#{base_url}/reset")
     goto_home_page
   end
