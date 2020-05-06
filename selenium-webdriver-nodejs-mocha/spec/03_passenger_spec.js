@@ -51,8 +51,9 @@ test.describe('Passenger', function() {
         driver.findElement(By.name("passengerLastName")).sendKeys("Tester");
         driver.findElement(By.xpath("//input[@value='Next']")).click();
 
+        // purposely assertion failure
         driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val) {
-            assert.equal("Bob Tester", val)
+            assert.equal("Wendy Tester", val)
         });
 
     });

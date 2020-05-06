@@ -4,8 +4,10 @@ var webdriver = require('selenium-webdriver'),
     
 const chrome = require("selenium-webdriver/chrome"); 
 
+// this shall be unqiue
 function debuggingPort() {
-  return "59318";
+  var num = Math.floor((Math.random() * 40000) + 16000);
+  return "" + num;
 }
 
 module.exports = {

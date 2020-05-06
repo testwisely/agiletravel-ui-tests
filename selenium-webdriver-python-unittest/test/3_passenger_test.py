@@ -51,10 +51,11 @@ class PassengerTestCase(unittest.TestCase, TestHelper):
   
       time.sleep(1)
       passenger_page = PassengerPage(self.driver)
-      passenger_page.enter_first_name("Wendy")
+      passenger_page.enter_first_name("Bob")
       passenger_page.enter_last_name("Tester")
       passenger_page.click_next()
-        
+      
+      # purposely assertion failure
       self.assertEqual("Wendy Tester", self.driver.find_element_by_name("holder_name").get_attribute("value"))
 
 # if __name__ == '__main__':
