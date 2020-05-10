@@ -7,7 +7,7 @@
 
 
 When /^select 'Visa' card$/ do
-  @payment_page = PaymentPage.new(@driver)
+  @payment_page = PaymentPage.new(driver)
   @payment_page.select_card_type("visa")
 end
 
@@ -31,6 +31,7 @@ end
 Then /^I should see 'Booking Number' in confirmation section$/ do
   #AJAX 
   wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
-  wait.until{ @driver.find_element(:id => "booking_number").text.to_i > 100 }
-  puts "Booking number is " + @driver.find_element(:id => "booking_number").text
+  wait.until{ driver.find_element(:id => "booking_number").text.to_i > 100 }
+  puts "Booking number is " + driver.find_element(:id => "booking_number").text
 end
+
