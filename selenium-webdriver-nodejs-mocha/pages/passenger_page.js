@@ -11,11 +11,11 @@ class PassengerPage extends AbstractPage {
     }
 
 	enterFirstName(first_name) {
-    	this.driver.findElement(By.name("passengerFirstName")).sendKeys("Bob");
+    	this.driver.findElement(By.name("passengerFirstName")).sendKeys(first_name);
 	}
 	
 	enterLastName(last_name) {
-    	this.driver.findElement(By.name("passengerLastName")).sendKeys("Tester");
+    	this.driver.findElement(By.name("passengerLastName")).sendKeys(last_name);
 	}
 	
 	clickNext() {
