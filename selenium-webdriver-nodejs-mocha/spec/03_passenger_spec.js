@@ -12,46 +12,52 @@ String.prototype.contains = function(it) {
 };
 
 var helper = require('../test_helper');
+var FlightPage = require('../pages/flight_page.js')
+var PassengerPage = require('../pages/passenger_page.js')
 
 test.describe('Passenger', function() {
 
     test.before(function() {
         this.timeout(timeOut);
-        driver = new webdriver.Builder().forBrowser('chrome').setChromeOptions(helper.chromeOptions()).build();
+        driver = new webdriver.Builder().forBrowser(helper.browserType()).setChromeOptions(helper.chromeOptions()).build();
         driver.manage().window().setSize(1280, 720);
         driver.manage().window().setPosition(30, 78);
-        driver.get('https://travel.agileway.net');
+    });
+
+    test.beforeEach(function() {
+        this.timeout(timeOut);
+        driver.get(helper.site_url());
         helper.login(driver, "agileway", "testwise");
     });
 
     test.after(function() {
-        if (process.env.RUN_IN_TESTWISE == "true" && process.env.TESTWISE_RUNNING_AS == "test_case") {
-            console.log("leave browser open");
-        } else {
+        if (!helper.is_debugging()) {
             driver.quit();
         }
     });
 
-
     test.it('[4] Can enter passenger details', function() {
         this.timeout(timeOut);
-        driver.findElement(By.xpath("//input[@name='tripType' and @value='oneway']")).click();
-        driver.findElement(By.name("fromPort")).sendKeys("New York");
-        driver.findElement(By.name("toPort")).sendKeys("Sydney");
-        driver.findElement(By.name("departDay")).sendKeys("02");
-        driver.findElement(By.name("departMonth")).sendKeys("May 2016");
-        driver.findElement(By.xpath("//input[@value='Continue']")).click();
 
-        driver.findElement(By.xpath("//input[@value='Next']")).click();
+        let flight_page = new FlightPage(driver);
+        flight_page.selectTripType("oneway")
+        flight_page.selectDepartFrom("New York")
+        flight_page.selectArriveAt("Sydney")
+        flight_page.selectDepartDay("02")
+        flight_page.selectDepartMonth("May 2016")
+        flight_page.clickContinue()
+
+        let passenger_page = new PassengerPage(driver)
+        passenger_page.clickNext();
         driver.findElement(By.tagName("body")).getText().then(function(the_page_text) {
             assert(the_page_text.includes("Must provide last name"))
         });
 
-        driver.findElement(By.name("passengerFirstName")).sendKeys("Bob");
-        driver.findElement(By.name("passengerLastName")).sendKeys("Tester");
-        driver.findElement(By.xpath("//input[@value='Next']")).click();
+        passenger_page.enterFirstName("Bob")
+        passenger_page.enterLastName("Tester")
+        passenger_page.clickNext();
 
-        // purposely assertion failure
+        // purposely an assertion failure
         driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val) {
             assert.equal("Wendy Tester", val)
         });

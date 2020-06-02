@@ -25,22 +25,18 @@ test.describe('User Authentication', function() {
 
     test.beforeEach(function() {
         this.timeout(timeOut);
-        driver.get('https://travel.agileway.net');
+	    driver.get(helper.site_url());
     });
 
     test.after(function() {
-        if (process.env.RUN_IN_TESTWISE == "true" && process.env.TESTWISE_RUNNING_AS == "test_case") {
-            console.log("leave browser open");
-        } else {
-            driver.quit();
+        if (!helper.is_debugging()) { 
+          driver.quit();
         }
     });
 
-    test.it('Invalid user', function() {
+    test.it('[1,2] Invalid user', function() {
         this.timeout(timeOut);
-        driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
-        driver.findElement(webdriver.By.name('password')).sendKeys('badpass');
-        driver.findElement(webdriver.By.name('commit')).click();
+        helper.login(driver, "agileway", "badpass")
         driver.getPageSource().then(function(page_source) {
             assert(page_source.contains("Invalid email or password"))
         });
