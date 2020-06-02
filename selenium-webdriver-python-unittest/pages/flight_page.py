@@ -1,9 +1,9 @@
-from pages.base_page import BasePage
+from pages.abstract_page import AbstractPage
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
-class FlightPage(BasePage):
+class FlightPage(AbstractPage):
 
   def select_trip_type(self, trip_type):
     self.driver.find_element_by_xpath("//input[@name='tripType' and @value='" + trip_type + "']").click()

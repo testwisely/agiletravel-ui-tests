@@ -31,3 +31,6 @@ watir-rspec/agiletravel-watir.tws
 capybara-rspec/agiletravel-capybara-rspec.tws
 selenium-webdriver-nodejs-mocha/node_modules/
 selenium-webdriver-nodejs-mocha/spec/debugging_spec.js
+load-testing/load_testing.tws
+selenium-webdriver-nodejs-mocha/port_number.txt
+selenium-webdriver-python-unittest/__pycache__/

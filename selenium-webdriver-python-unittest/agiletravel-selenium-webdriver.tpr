@@ -1,5 +1,6 @@
 <project>
     <name>agiletravel-selenium-webdriver.tpr</name>
+    <app_type>WinApp</app_type>
     <default_browser>Chrome</default_browser>
     <test_framework>Selenium</test_framework>
     <syntax_framework>RSpec</syntax_framework>
@@ -34,33 +35,38 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class {{ TEST_SUITE }}TestCase(unittest.TestCase):
+# load modules from parent dir, pages will be referred from there too.
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + "/../")
+from test_helper import TestHelper
+
+# import pages here 
+# e.g. from pages.login_page import LoginPage
+
+class {{ TestSuite }}TestCase(unittest.TestCase, TestHelper):
+
     @classmethod
     def setUpClass(cls):
-        if os.environ.get('BROWSER') == "firefox":
-          cls.driver = webdriver.Firefox()
-        else:
-          cls.driver = webdriver.Chrome()
-          
+        # open_browser method defined in test_helper.py
+        cls.driver = cls.open_browser();  
         cls.driver.set_window_size(1280, 720)
-        cls.driver.set_window_position(30, 78)
 
     @classmethod
     def tearDownClass(cls):
-        cls.driver.quit()
+        if not cls.is_debugging():
+            cls.driver.quit()
+
 
     def setUp(self):
-        self.driver.get("https://travel.agileway.net")
+        self.driver.get(self.site_url())
 
-    def test_sign_in_failed(self):
-        # ...
-        self.driver.find_element_by_id("username").send_keys("agileway")
-        self.driver.find_element_by_id("password").send_keys("guess")
-        self.driver.find_element_by_xpath("//input[@value='Sign in']").click()
-        # self.assertIn("Demo Fail this test case", self.driver.find_element_by_tag_name("body").text)</spec_template>
+    def test_{{ test_case }}(self):
+        print("Add test statements here ...")</spec_template>
     <page_template>from abstract_page import AbstractPage
 
 class {{ PAGE_NAME }}Page(AbstractPage):
   
   # define your page methods here ...</page_template>
+    <integration>
+        <jira url="" username="" password=""/>
+    </integration>
 </project>

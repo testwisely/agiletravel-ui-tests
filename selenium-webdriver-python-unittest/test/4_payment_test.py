@@ -22,11 +22,8 @@ class PaymentTestCase(unittest.TestCase, TestHelper):
 
     @classmethod
     def setUpClass(cls):
-      if os.environ.get('BROWSER') == "firefox":
-        cls.driver = webdriver.Firefox()
-      else:
-        cls.driver = webdriver.Chrome()
-
+      # open_browser method defined in test_helper.py
+      cls.driver = cls.open_browser(); 
       cls.driver.set_window_size(1280, 720)
       cls.driver.set_window_position(30, 78)
 

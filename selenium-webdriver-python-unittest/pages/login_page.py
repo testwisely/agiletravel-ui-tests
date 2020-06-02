@@ -1,6 +1,6 @@
-from pages.base_page import BasePage
+from pages.abstract_page import AbstractPage
 
-class LoginPage(BasePage):
+class LoginPage(AbstractPage):
 
   def enter_username(self, user):
     self.driver.find_element_by_id("username").send_keys(user)

@@ -1,9 +1,9 @@
-from pages.base_page import BasePage
+from pages.abstract_page import AbstractPage
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
-class PaymentPage(BasePage):
+class PaymentPage(AbstractPage):
 
   def enter_holder_name(self, holder_name):
     self.driver.find_element_by_name("holder_name").send_keys(holder_name)
