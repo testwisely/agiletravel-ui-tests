@@ -63,7 +63,7 @@ class {{ TestSuite }}TestCase(unittest.TestCase, TestHelper):
         print("Add test statements here ...")</spec_template>
     <page_template>from abstract_page import AbstractPage
 
-class {{ PAGE_NAME }}Page(AbstractPage):
+class {{ PAGE_NAME }}(AbstractPage):
   
   # define your page methods here ...</page_template>
     <integration>
