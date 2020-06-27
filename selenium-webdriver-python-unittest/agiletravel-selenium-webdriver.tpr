@@ -3,7 +3,7 @@
     <app_type>WinApp</app_type>
     <default_browser>Chrome</default_browser>
     <test_framework>Selenium</test_framework>
-    <syntax_framework>RSpec</syntax_framework>
+    <syntax_framework>PyTest</syntax_framework>
     <environments>
         <entry name="development" default="false">
             <base_url>http://agiletravel.herokuapp.com</base_url>
@@ -22,7 +22,7 @@
         </entry>
     </environments>
     <exclude_dirs></exclude_dirs>
-    <exclude_files>tmp_syntax_check.feature</exclude_files>
+    <exclude_files>features/tmp_syntax_check.feature</exclude_files>
     <spec_template>import unittest
 import xmlrunner
 import time
