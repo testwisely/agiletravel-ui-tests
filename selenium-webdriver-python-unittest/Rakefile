@@ -10,7 +10,7 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.macmini"
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
 FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 
-$test_dir =  File.expand_path( File.join(File.dirname(__FILE__), "test" ))  # change to aboslution path if invoktion is not this directory
+$test_dir =  File.expand_path( File.join(File.dirname(__FILE__), "tests" ))  # change to aboslution path if invoktion is not this directory
 
 # Preqrueisite
 # - Python 3 (make sure python3 is in PATH, Mac built-in python is Python2)
@@ -94,7 +94,7 @@ end
 desc "Running tests in parallel"
 task "ci:test:full" do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
-                                   :ui_test_dir => ["test"],
+                                   :ui_test_dir => ["tests"],
                                    :excluded => excluded_spec_files || [],
                                    :parallel => true,
                                    :test_framework => "unittest"

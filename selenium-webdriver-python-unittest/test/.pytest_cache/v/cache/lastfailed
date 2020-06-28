@@ -1,5 +1,0 @@
-{
-  "1_login_test.py::LoginTestCase": true,
-  "1_login_test.py::TestHelper": true,
-  "login_test.py::LoginTestCase": true
-}
