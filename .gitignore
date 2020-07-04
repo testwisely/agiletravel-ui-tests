@@ -34,3 +34,5 @@ selenium-webdriver-nodejs-mocha/spec/debugging_spec.js
 load-testing/load_testing.tws
 selenium-webdriver-nodejs-mocha/port_number.txt
 selenium-webdriver-python-unittest/__pycache__/
+selenium-webdriver-python-unittest/tests/__pycache__/
+selenium-webdriver-rspec-cucumber/agiletravel-selenium-webdriver.tws
