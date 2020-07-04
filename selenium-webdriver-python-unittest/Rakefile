@@ -92,7 +92,7 @@ end
 #  TODO - how to determin useing RSpec or Cucumber
 #
 desc "Running tests in parallel"
-task "ci:test:full" do
+task "ci:ui_tests:full" do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
                                    :ui_test_dir => ["tests"],
                                    :excluded => excluded_spec_files || [],
