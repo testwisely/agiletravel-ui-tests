@@ -61,7 +61,7 @@ end
 
 ## Full Build
 #
-#  TODO - how to determin useing RSpec or Cucumber
+#  TODO - how to determine using RSpec or Cucumber
 #
 desc "Running tests in parallel"
 task "ci:ui_tests:full" => ["ci:setup:rspec"] do
