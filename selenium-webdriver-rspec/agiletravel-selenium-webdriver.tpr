@@ -1,5 +1,6 @@
 <project>
     <name>agiletravel-selenium-webdriver.tpr</name>
+    <app_type>WebApp</app_type>
     <default_browser>Chrome</default_browser>
     <test_framework>Selenium</test_framework>
     <syntax_framework>RSpec</syntax_framework>
@@ -51,4 +52,7 @@ class {{ PAGE_NAME }} &lt; AbstractPage
 
   # page functions here ...
 end</page_template>
+    <integration>
+        <jira url="" username="" password=""/>
+    </integration>
 </project>
