@@ -104,4 +104,9 @@ module TestHelper
     end while the_resp.is_a?(Net::HTTPRedirection)
     return the_resp
   end
+  
+  def dump_page
+    File.open("/tmp/a.html", "w").write(@browser.page.body)  
+  end
+  
 end

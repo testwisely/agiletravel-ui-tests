@@ -12,11 +12,6 @@ load File.join(File.dirname(__FILE__), "buildwise.rake")
 ## Settings: Customize here...
 # 
 BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.dev"
-# BUILDWISE_QUICK_PROJECT_ID = "agiletravel-quick-build-rspec"
-# BUILDWISE_FULL_PROJECT_ID  = "agiletravel-full-build-rspec" # import to set for full build
- 
-FULL_BUILD_MAX_TIME = ENV["DISTRIBUTED_MAX_BUILD_TIME"].to_i || 60 * 60   # max build time, over this, time out
-FULL_BUILD_CHECK_INTERVAL =  ENV["DISTRIBUTED_BUILD_CHECK_INTERVAL"].to_i || 20  # check interval for build complete
 
 $test_dir =  File.expand_path( File.join( File.dirname(__FILE__), "spec" ) )  # change to aboslution path if invocation is not this directory
 # rspec will create 'spec/reports' under check out dir
@@ -35,10 +30,8 @@ end
 def specs_for_quick_build
   # list test files to be run in a quick build, leave the caller to set full path
   [
-    "01_login_spec.rb", 
-    "02_flight_spec.rb",
-    "03_passenger_spec.rb",
-    "04_payment_spec.rb",
+    "login_spec.rb", 
+    "flight_spec.rb",
     "not_exists_spec.rb" # test hanlding non exists scenario
   ]
 end
@@ -52,25 +45,10 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
 end
 
 
-desc "run quick tests from BuildWise"
-task "ci:ui_tests:quick" => ["ci:setup:rspec"] do
+desc "run performance tests from BuildWise"
+task "ci:performance_tests:quick" => ["ci:setup:rspec"] do
   build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)))
   buildwise_run_sequential_build_target(build_id, "ui_tests:quick")
-end
-
-
-## Full Build
-#
-#  TODO - how to determin useing RSpec or Cucumber
-#
-desc "Running tests distributedly"
-task "ci:ui_tests:full" => ["ci:setup:rspec"] do
-  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)),
-                                   :ui_test_dir => ["spec"],
-                                   :excluded => excluded_spec_files || [],
-                                   :distributed => true
-  )
-  buildwise_montior_parallel_execution(build_id, :max_wait_time => FULL_BUILD_MAX_TIME, :check_interval => FULL_BUILD_CHECK_INTERVAL)  
 end
 
 
