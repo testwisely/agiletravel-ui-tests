@@ -85,9 +85,9 @@ module TestHelper
     begin
       yield
     ensure
-      end_time = Time.now
-      format_date_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
-      puts("#{Thread.current[:id]}|#{msg}|#{Time.now - start_time}")
+      duration = end_time - start_time
+      format_date_time = start_time.strftime("%Y-%m-%d %H:%M:%S")       
+      puts("|#{Thread.current[:id]}|#{msg}|#{duration}|")
       @vu_reports[Thread.current[:id]] ||= []
       @vu_reports[Thread.current[:id]] << { "#{msg}": Time.now - start_time }
     end
