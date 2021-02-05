@@ -76,6 +76,10 @@ task "ci:ui_tests:full" => ["ci:setup:rspec"] do
   buildwise_montior_parallel_execution(build_id, :max_wait_time => FULL_BUILD_MAX_TIME, :check_interval => FULL_BUILD_CHECK_INTERVAL)
 end
 
+# Alias targets
+task "ci:ui_tests:sequential" => "ci:ui_tests:quick"
+task "ci:ui_tests:parllel" => "ci:ui_tests:full"
+
 
 desc "run all tests in this folder"
 RSpec::Core::RakeTask.new("go") do |t|

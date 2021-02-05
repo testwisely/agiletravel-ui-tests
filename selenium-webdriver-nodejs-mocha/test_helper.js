@@ -54,7 +54,7 @@ module.exports = {
         if (process.env.BASE_URL) {
             return process.env.BASE_URL;
         } else {
-            return "http://travel.agileway.net";
+            return "https://travel.agileway.net";
         }
     },
 

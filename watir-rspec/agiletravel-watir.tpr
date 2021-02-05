@@ -6,10 +6,10 @@
     <syntax_framework>RSpec</syntax_framework>
     <environments>
         <entry name="development" default="false">
-            <base_url>http://travel.agileway.net</base_url>
+            <base_url>https://travel.agileway.net</base_url>
         </entry>
         <entry name="test" default="true">
-            <base_url>http://travel.agileway.net</base_url>
+            <base_url>https://travel.agileway.net</base_url>
         </entry>
     </environments>
     <exclude_dirs></exclude_dirs>

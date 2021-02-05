@@ -9,7 +9,7 @@ public class LoginTestCase {
     @BeforeClass
     public static void setUp() throws Exception {
         driver = new ChromeDriver();
-        driver.get("http://travel.agileway.net");
+        driver.get("https://travel.agileway.net");
     }
 
     @AfterClass
