@@ -29,18 +29,18 @@ def the_browser
     :chrome
   end
 end
-driver = Selenium::WebDriver.for(the_browser)
+$driver = Selenium::WebDriver.for(the_browser)
 
 World(Minitest::Assertions)
 
 Before do
-  @driver = driver
+  @driver = $driver
   goto_home_page
 end
 
 # before the process ends
 at_exit do
-  driver.close if driver && !debugging?
+  $driver.close if $driver && !debugging?
 end
 
 def debugging?

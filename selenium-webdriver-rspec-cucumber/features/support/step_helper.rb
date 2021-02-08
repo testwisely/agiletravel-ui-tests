@@ -10,7 +10,7 @@ module StepHelper
   end
     
   def driver
-    @driver
+    @driver ||= Selenium::WebDriver.for(browser_type, browser_options)
   end
 
   ## Helper methods
