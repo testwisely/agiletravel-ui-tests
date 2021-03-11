@@ -1,0 +1,50 @@
+<project>
+    <name>agiletravel-ui-tests.tpr</name>
+    <app_type>WinApp</app_type>
+    <default_browser>Chrome</default_browser>
+    <test_framework>Selenium</test_framework>
+    <syntax_framework>RSpec</syntax_framework>
+    <environments>
+        <entry name="development" default="true">
+            <base_url>http://travel.agileway.net</base_url>
+        </entry>
+        <entry name="test" default="false">
+            <base_url>http://agiletravel.herokuapp.com</base_url>
+        </entry>
+    </environments>
+    <exclude_dirs></exclude_dirs>
+    <exclude_files></exclude_files>
+    <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
+
+describe "{{ TEST_SUITE }}" do
+  include TestHelper
+
+  before(:all) do    
+    @driver = $driver = Selenium::WebDriver.for(browser_type, browser_options)
+    @driver.get(site_url)
+  end
+
+  after(:all) do
+    @driver.quit unless debugging?
+  end
+
+  it "{{ TEST_CASE }}" do
+    # Test Steps go here
+  end
+
+end</spec_template>
+    <page_template>require File.join(File.dirname(__FILE__), "abstract_page.rb")
+
+class {{ PAGE_NAME }} &lt; AbstractPage
+
+  def initialize(driver)
+    super(driver, "") # &amp;lt;= TEXT UNIQUE TO THIS PAGE
+  end
+    
+  # page functions here ...
+
+end</page_template>
+    <integration>
+        <jira url="" username="" password=""/>
+    </integration>
+</project>
