@@ -41,7 +41,6 @@ describe "Select Flights" do
   it "[2] One-way trip" do
     flight_page = FlightPage.new(driver)
     flight_page.select_trip_type("oneway")
-    flight_page.select_trip_type("return")
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
 
