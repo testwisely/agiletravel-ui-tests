@@ -45,6 +45,6 @@ class {{ PAGE_NAME }} &lt; AbstractPage
 
 end</page_template>
     <integration>
-        <jira url="" username="" password=""/>
+        <jira url="https://test-jira.agileway.net" username="abc" password="token"/>
     </integration>
 </project>
