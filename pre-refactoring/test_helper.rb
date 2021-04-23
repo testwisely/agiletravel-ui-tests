@@ -124,7 +124,7 @@ module TestHelper
     background_color = opts[:background_color] ? opts[:background_color] : '#FFFF99'
     duration = (opts[:duration].to_i * 1000) rescue 2000
     duration = 2000 if duration < 100 || duration > 60000
-    driver.execute_script("h = arguments[0]; h.style.backgroundColor='#{background_color}'; window.setTimeout(function () { h.style.backgroundColor = ''}, #{duration})", element)  
+    driver.execute_script("h = arguments[0]; h.style.backgroundColor='#{background_color}'; h.style.outline='1px solid magenta';  window.setTimeout(function () { h.style.backgroundColor = ''; h.style.outline='';}, #{duration})", element)  
   end
     
 
