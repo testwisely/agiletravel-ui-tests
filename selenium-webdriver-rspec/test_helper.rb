@@ -68,12 +68,18 @@ module TestHelper
         # puts("Chrome debugging port not enabled.")
       end
 
-      if defined?(TestwiseListener)
-        return :capabilities => the_chrome_options, :listener => TestwiseListener.new      
-      else 
-        return :capabilities => the_chrome_options      
-        # Selenium 3
-        # return :options => the_chrome_options
+      if Selenium::WebDriver::VERSION =~ /^3/
+        if defined?(TestwiseListener)
+          return :options => the_chrome_options, :listener => TestwiseListener.new      
+        else 
+          return :options => the_chrome_options      
+        end
+      else       
+        if defined?(TestwiseListener)
+          return :capabilities => the_chrome_options, :listener => TestwiseListener.new      
+        else 
+          return :capabilities => the_chrome_options      
+        end
       end
       
     elsif the_browser_type == "firefox"
