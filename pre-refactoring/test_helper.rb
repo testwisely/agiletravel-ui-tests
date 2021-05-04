@@ -50,7 +50,10 @@ module TestHelper
       # make the same behaviour as Python/JS
       # leave browser open until calls 'driver.quit'
       the_chrome_options.add_option("detach", true)
-
+      
+      # if Selenium unable to detect Chrome browser in default location
+      # the_chrome_options.binary = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      
       if $TESTWISE_BROWSER_HEADLESS || ENV["BROWSER_HEADLESS"] == "true"
         the_chrome_options.add_argument("--headless")
       end
