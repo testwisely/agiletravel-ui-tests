@@ -41,6 +41,7 @@ describe "End2End" do
     Selenium::WebDriver::Support::Select.new(elem_expiry_year).select_by(:text, "2016")
     driver.find_element(:xpath, "//input[@type='submit' and @value='Pay now']").click
     wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+    puts("123")
     wait.until { driver.page_source.include?("Booking number") }
     driver.find_element(:link_text, "Sign off").click
   end
