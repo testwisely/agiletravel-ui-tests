@@ -34,10 +34,10 @@ end
 def specs_for_quick_build
   # list test files to be run in a quick build, leave the caller to set full path
   [
-    "01_login_spec.rb", 
-    "02_flight_spec.rb",
-    "03_passenger_spec.rb",
-    "04_payment_spec.rb",
+    "login_spec.rb", 
+    "flight_spec.rb",
+    "passenger_spec.rb",
+    "payment_spec.rb",
     "not_exists_spec.rb" # test hanlding non exists scenario
   ]
 end
