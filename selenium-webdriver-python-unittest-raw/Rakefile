@@ -174,7 +174,7 @@ task "ci:test:full" do
     elsif the_build_status == "Failed"
       exit -1
     else 
-      sleep FULL_BUILD_CHECK_INTERVAL  # check the build status every minute
+      sleep check_interval  # check the build status every minute
     end
   end
   puts "[Rake] Execution UI tests expired"
