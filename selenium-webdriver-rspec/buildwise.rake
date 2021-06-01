@@ -148,7 +148,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
           exit -1
         else 
           if (the_build_status != "Pending")
-            puts("[Rake] functional testing status => #{the_build_status},  next check in #{FULL_BUILD_CHECK_INTERVAL} seconds")
+            puts("[Rake] functional testing status => #{the_build_status},  next check in #{check_interval} seconds")
           end
           sleep check_interval  # check the build status every minute
         end
