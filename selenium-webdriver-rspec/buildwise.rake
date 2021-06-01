@@ -154,9 +154,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
         end
       end
   
-    }
-  rescue Timeout::Error => e
-    if fio
+  #{check_interval} seconds if fio
       fio.puts("[#{Time.now}] execution timeouts!")
       fio.close
     end    
