@@ -48,6 +48,8 @@ def browser_options
       the_chrome_options.add_argument("--headless")
     end
 
+    # the_chrome_options.binary = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+
     if defined?(TestWiseRuntimeSupport)
       browser_debugging_port = get_browser_debugging_port() rescue 19218 # default port
       puts("Enabled chrome browser debug port: #{browser_debugging_port}")
