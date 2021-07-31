@@ -1,7 +1,7 @@
 {
   "name": "selenium-webdriver-nodejs-mocha",
-  "version": "1.1.0",
-  "description": "Sample tests for Selenium WebDriver Node.js",
+  "version": "1.5.0",
+  "description": "Sample tests for Selenium WebDriver Node.js v4",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,8 +9,8 @@
   "author": "Zhimin Zhan",
   "license": "ISC",
   "dependencies": {
-    "mocha": "^5.1.1",
+    "mocha": "^8.0.1",
     "mocha-junit-reporter": "^1.23.3",
-    "selenium-webdriver": "^3.6.0"
+    "selenium-webdriver": "^4.0.0-beta.4"
   }
 }

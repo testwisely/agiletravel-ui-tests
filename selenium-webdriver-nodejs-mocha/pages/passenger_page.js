@@ -6,21 +6,21 @@ var webdriver = require('selenium-webdriver'),
 
 class PassengerPage extends AbstractPage {
 
-    constructor(driver) {
-        super(driver);
-    }
+  constructor(driver) {
+    super(driver);
+  }
 
-	enterFirstName(first_name) {
-    	this.driver.findElement(By.name("passengerFirstName")).sendKeys(first_name);
-	}
-	
-	enterLastName(last_name) {
-    	this.driver.findElement(By.name("passengerLastName")).sendKeys(last_name);
-	}
-	
-	clickNext() {
-        this.driver.findElement(By.xpath("//input[@value='Next']")).click();		
-	}
+  async enterFirstName(first_name) {
+    await this.driver.findElement(By.name("passengerFirstName")).sendKeys(first_name);
+  }
+
+  async enterLastName(last_name) {
+    await this.driver.findElement(By.name("passengerLastName")).sendKeys(last_name);
+  }
+
+  async clickNext() {
+    await this.driver.findElement(By.xpath("//input[@value='Next']")).click();
+  }
 };
 
 module.exports = PassengerPage;

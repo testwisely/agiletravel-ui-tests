@@ -6,22 +6,22 @@ var webdriver = require('selenium-webdriver'),
 
 class PaymentPage extends AbstractPage {
 
-    constructor(driver) {
-        super(driver);
-    }
+  constructor(driver) {
+    super(driver);
+  }
 
-	select_visa() {
-        this.driver.findElement(By.xpath("//input[@name='card_type' and @value='visa']")).click();
-	}
-	
-	enterCardNumber(card_no) {
-		this.driver.findElement(By.name("card_number")).sendKeys(card_no);
-	}
-	
-	clickPayNow() {
-        this.driver.findElement(By.xpath("//input[@value='Pay now']")).click()
-	}
-    
+  async select_visa() {
+    await this.driver.findElement(By.xpath("//input[@name='card_type' and @value='visa']")).click();
+  }
+
+  async enterCardNumber(card_no) {
+    await this.driver.findElement(By.name("card_number")).sendKeys(card_no);
+  }
+
+  async clickPayNow() {
+    await this.driver.findElement(By.xpath("//input[@value='Pay now']")).click()
+  }
+
 };
 
 module.exports = PaymentPage;

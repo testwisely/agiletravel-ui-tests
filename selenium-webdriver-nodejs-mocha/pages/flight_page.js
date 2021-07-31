@@ -6,42 +6,41 @@ var webdriver = require('selenium-webdriver'),
 
 class FlightPage extends AbstractPage {
 
-    constructor(driver) {
-        super(driver);
-    }
+  constructor(driver) {
+    super(driver);
+  }
 
-    selectTripType(trip_type) {
-        this.driver.findElement(By.xpath("//input[@name='tripType' and @value='" + trip_type + "']")).click();
-    }
+  async selectTripType(trip_type) {
+    await this.driver.findElement(By.xpath("//input[@name='tripType' and @value='" + trip_type + "']")).click();
+  }
 
-    selectDepartFrom(city) {
-        this.driver.findElement(By.name("fromPort")).sendKeys(city);
-    }
+  async selectDepartFrom(city) {
+    await this.driver.findElement(By.name("fromPort")).sendKeys(city);
+  }
 
-    selectArriveAt(city) {
-        this.driver.findElement(By.name("toPort")).sendKeys(city);
-    }
+  async selectArriveAt(city) {
+    await this.driver.findElement(By.name("toPort")).sendKeys(city);
+  }
 
-	selectDepartDay(day) {
-        this.driver.findElement(By.name("departDay")).sendKeys(day);
-		
-	}
-	
-	selectDepartMonth(month_year) {
-        this.driver.findElement(By.name("departMonth")).sendKeys(month_year);		
-	}
-	
-	selectReturnDay(day) {
-        this.driver.findElement(By.name("returnDay")).sendKeys(day);		
-	}
-	
-	selectReturnMonth(month_year) {
-        this.driver.findElement(By.name("returnMonth")).sendKeys(month_year);
-	}
-      
-	clickContinue() {
-        this.driver.findElement(By.xpath("//input[@value='Continue']")).click();		
-	}
+  async selectDepartDay(day) {
+    await this.driver.findElement(By.name("departDay")).sendKeys(day);
+  }
+
+  async selectDepartMonth(month_year) {
+    await this.driver.findElement(By.name("departMonth")).sendKeys(month_year);
+  }
+
+  async selectReturnDay(day) {
+    await this.driver.findElement(By.name("returnDay")).sendKeys(day);
+  }
+
+  async selectReturnMonth(month_year) {
+    await this.driver.findElement(By.name("returnMonth")).sendKeys(month_year);
+  }
+
+  async clickContinue() {
+    await this.driver.findElement(By.xpath("//input[@value='Continue']")).click();
+  }
 };
 
 module.exports = FlightPage;

@@ -1,7 +1,7 @@
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
     until = webdriver.until;
-var test = require('selenium-webdriver/testing');
+// var test = require('selenium-webdriver/testing');
 var assert = require('assert');
 
 var driver;
@@ -13,43 +13,48 @@ String.prototype.contains = function(it) {
 
 var helper = require('../test_helper');
 
-test.describe('User Authentication', function() {
+// An example in below:  var FlightPage = require('../pages/flight_page.js')
+// BEGIN: import pages
 
-  test.before(function() {
+// END: import pages
+
+describe('User Authentication', function() {
+
+  before(async function() {
     this.timeout(timeOut);
     driver = new webdriver.Builder().forBrowser('chrome').setChromeOptions(helper.chromeOptions()).build();
-    driver.manage().window().setSize(1280, 720);
-    driver.manage().window().setPosition(30, 78);
+    //driver.manage().window().setSize(1280, 720);
+    //driver.manage().window().setPosition(30, 78);
   });
 
-  test.beforeEach(function() {
+  beforeEach(async function() {
     this.timeout(timeOut);
-    driver.get(helper.site_url());
+    await driver.get(helper.site_url());
   });
 
-  test.after(function() {
+  after(async function() {
     if (!helper.is_debugging()) {
       driver.quit();
     }
   });
 
-  test.it('[1,2] Invalid user', function() {
+  it('[1,2] Invalid user', async function() {
     this.timeout(timeOut);
-    helper.login(driver, "agileway", "badpass")
-    driver.getPageSource().then(function(page_source) {
+    await helper.login(driver, "agileway", "badpass")
+    await driver.getPageSource().then(function(page_source) {
       assert(page_source.contains("Invalid email or password"))
     });
   });
 
-  test.it('User can login successfully', function() {
+  it('User can login successfully', async function() {
     this.timeout(timeOut);
-    driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
-    driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
-    driver.findElement(webdriver.By.name('commit')).click();
-    driver.getPageSource().then(function(page_source) {
+    await driver.findElement(webdriver.By.name('username')).sendKeys('agileway');
+    await driver.findElement(webdriver.By.name('password')).sendKeys('testwise');
+    await driver.findElement(webdriver.By.name('commit')).click();
+    await driver.getPageSource().then(function(page_source) {
       assert(page_source.contains("Welcome"))
     });
-    driver.findElement(By.linkText("Sign off")).click();
+    await driver.findElement(By.linkText("Sign off")).click();
     
   });
 

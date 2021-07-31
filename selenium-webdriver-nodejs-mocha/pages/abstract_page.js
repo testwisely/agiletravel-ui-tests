@@ -1,12 +1,12 @@
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
     until = webdriver.until;
-    
+
 class AbstractPage {
-  
-    constructor(driver) {
-        this.driver = driver;
-    }
+
+  constructor(driver) {
+    this.driver = driver;
+  }
 
 };
 

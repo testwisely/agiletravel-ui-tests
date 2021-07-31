@@ -12,53 +12,60 @@ String.prototype.contains = function(it) {
 };
 
 var helper = require('../test_helper');
+
+// An example in below:  var FlightPage = require('../pages/flight_page.js')
+// BEGIN: import pages
+
 var FlightPage = require('../pages/flight_page.js')
 var PassengerPage = require('../pages/passenger_page.js')
 
-test.describe('Passenger', function() {
+// END: import pages
 
-  test.before(function() {
+
+describe('Passenger', function() {
+
+  before(async function() {
     this.timeout(timeOut);
     driver = new webdriver.Builder().forBrowser(helper.browserType()).setChromeOptions(helper.chromeOptions()).build();
-    driver.manage().window().setSize(1280, 720);
-    driver.manage().window().setPosition(30, 78);
+    //driver.manage().window().setSize(1280, 720);
+    //driver.manage().window().setPosition(30, 78);
   });
 
-  test.beforeEach(function() {
+  beforeEach(async function() {
     this.timeout(timeOut);
     driver.get(helper.site_url());
-    helper.login(driver, "agileway", "testwise");
+    await helper.login(driver, "agileway", "testwise");
   });
 
-  test.after(function() {
+  after(function() {
     if (!helper.is_debugging()) {
       driver.quit();
     }
   });
 
-  test.it('[4] Can enter passenger details', function() {
+  it('[4] Can enter passenger details', async function() {
     this.timeout(timeOut);
 
     let flight_page = new FlightPage(driver);
-    flight_page.selectTripType("oneway")
-    flight_page.selectDepartFrom("New York")
-    flight_page.selectArriveAt("Sydney")
-    flight_page.selectDepartDay("02")
-    flight_page.selectDepartMonth("May 2016")
-    flight_page.clickContinue()
+    await flight_page.selectTripType("oneway")
+    await flight_page.selectDepartFrom("New York")
+    await flight_page.selectArriveAt("Sydney")
+    await flight_page.selectDepartDay("02")
+    await flight_page.selectDepartMonth("May 2016")
+    await flight_page.clickContinue()
 
     let passenger_page = new PassengerPage(driver)
-    passenger_page.clickNext();
-    driver.findElement(By.tagName("body")).getText().then(function(the_page_text) {
+    await passenger_page.clickNext();
+    await driver.findElement(By.tagName("body")).getText().then(function(the_page_text) {
       assert(the_page_text.includes("Must provide last name"))
     });
 
-    passenger_page.enterFirstName("Bob")
-    passenger_page.enterLastName("Tester")
-    passenger_page.clickNext();
+    await passenger_page.enterFirstName("Bob")
+    await passenger_page.enterLastName("Tester")
+    await passenger_page.clickNext();
 
     // purposely an assertion failure
-    driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val) {
+    await driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val) {
       assert.equal("Wendy Tester", val)
     });
 

@@ -58,10 +58,19 @@ module.exports = {
         }
     },
 
-    login: function(driver, username, password) {
-        driver.findElement(webdriver.By.name('username')).sendKeys(username);
-        driver.findElement(webdriver.By.name('password')).sendKeys(password);
-        driver.findElement(webdriver.By.name('commit')).click();
-    },
-
 };
+
+// BEGIN: user functions
+async function login(driver, username, password) {
+    await driver.findElement(webdriver.By.name('username')).sendKeys(username);
+    await driver.findElement(webdriver.By.name('password')).sendKeys(password);
+    await driver.findElement(webdriver.By.name('commit')).click();
+}
+
+// END: user functions
+
+
+// BEGIN: module exports
+module.exports.login = login;
+
+// END: module exports
