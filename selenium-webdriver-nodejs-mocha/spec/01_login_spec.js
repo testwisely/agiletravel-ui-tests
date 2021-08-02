@@ -23,7 +23,7 @@ describe('User Authentication', function() {
   before(async function() {
     this.timeout(timeOut);
     driver = new webdriver.Builder().forBrowser('chrome').setChromeOptions(helper.chromeOptions()).build();
-    driver.manage().window().setRect({width: 1027, height: 700})
+    driver.manage().window().setRect({width: 1027, height: 700, x: 30, y: 78})
     //OLD version: driver.manage().window().setSize(1280, 720);
     //OLD version: driver.manage().window().setPosition(30, 78);
   });

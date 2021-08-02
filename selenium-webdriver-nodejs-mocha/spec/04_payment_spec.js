@@ -28,7 +28,7 @@ describe('Payment', function() {
   before(async function() {
     this.timeout(timeOut);
     driver = new webdriver.Builder().forBrowser(helper.browserType()).setChromeOptions(helper.chromeOptions()).build();
-    driver.manage().window().setRect({width: 1027, height: 700})
+    driver.manage().window().setRect({width: 1027, height: 700, x: 30, y: 78})
   });
 
   beforeEach(async function() {
