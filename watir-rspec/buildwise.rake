@@ -3,6 +3,8 @@ require 'net/http'
 require 'yaml'
 require 'timeout'
 
+# ver 2.0.3
+
 def buildwise_start_build(options)
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
   # puts "DEBUG: " + YAML.dump(options)
@@ -180,7 +182,7 @@ def contact_buildwise_get(path, raise_exception = false)
   begin
     client = HTTPClient.new
     url = "#{BUILDWISE_URL}#{path}"
-    # puts "[buildwise.rake] Contacting Server: #{url}"
+    # puts "  [buildwise.rake] Contacting Server: #{url}"
     the_res = client.get(url).body
     the_res = the_res.content if the_res.respond_to?("content")
     return nil if the_res.include?("Internal Server Error")
@@ -198,7 +200,7 @@ end
 def contact_buildwise_post(path, pdata)
   begin
     url = "#{BUILDWISE_URL}#{path}"
-    puts "[buildwise.rake] Posting to |#{url}|"
+    puts "  [buildwise.rake] Posting to |#{url}|"
     response = HTTPClient.new.post(url, pdata)
     the_res = response.body
     the_res = the_res.content if the_res.respond_to?("content")    
@@ -214,20 +216,22 @@ end
 # A convenient method to get a list spec in a preferred order, supports the following mode
 # if the corresponding environment variables are set. 
 # 
-#  INTELLIGENT_ORDERING: get recent-failed-come-first older from BuildWise execution history
-#  DYNAMIC_FEEDBACK: add failed tests from another Build project (parallel)
+#  DYNAMIC_ORDERING: get recent-failed-come-first older from BuildWise execution history
 #
-# @spec_file_list: an arary containing a list of spec to be in the build
-# @excluded: an array containing specs exluced from the build
-# @spec_dir: if provided, 
+# @spec_file_list: an arary containing a list of spec (preferrally, just file name) to be in the build
+# @excluded: an array containing specs (in the same form as the above) excluded from the build
+# @spec_dir: if provided, use it as the test path
 #      
 def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spec_dir=nil)
   specs_to_be_executed = []
 
-  enable_intelligent_ordering = ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
-  puts "[INFO] intelligent ordering? => #{enable_intelligent_ordering.to_s rescue 'false'}"
+  enable_dynamic_ordering = ENV["DYNAMIC_ORDERING"] && ENV["DYNAMIC_ORDERING"].to_s == "true"
+  puts "[INFO] dynamic ordering? => #{enable_dynamic_ordering.to_s rescue 'false'}"
 
-  if enable_intelligent_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
+  # backward compatible 
+  enable_dynamic_ordering ||= ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
+
+  if enable_dynamic_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
     ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
     puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
@@ -238,23 +242,6 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spe
       specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
       puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
     end    
-  end
-
-  enable_dynamic_build_queue = ENV["DYNAMIC_FEEDBACK"] && ENV["DYNAMIC_FEEDBACK"].to_s == "true" && ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"]
-  puts "[INFO] dynamic feedback? => #{enable_dynamic_build_queue}"  
-  if enable_dynamic_build_queue
-    begin
-      # dynamic build process: get failed tests from last failed full build
-      failed_full_build_tests = buildwise_failed_build_tests(ENV["DYNAMIC_FEEDBACK_PROJECT_IDENTIFIER"])
-      if failed_full_build_tests && failed_full_build_tests.size > 0
-        failed_full_build_tests.each do |x|
-          full_path = File.join($spec_dir, x)
-          specs_to_be_executed.insert(0, full_path) unless specs_to_be_executed.include?(full_path)
-        end    
-      end      
-    rescue => e
-      puts "[ERROR] failed to check for full build: #{e}"
-    end
   end
 
   if specs_to_be_executed.empty?

@@ -3,7 +3,7 @@ require 'net/http'
 require 'yaml'
 require 'timeout'
 
-# ver 2.0.2
+# ver 2.0.3
 
 def buildwise_start_build(options)
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
@@ -216,12 +216,11 @@ end
 # A convenient method to get a list spec in a preferred order, supports the following mode
 # if the corresponding environment variables are set. 
 # 
-#  INTELLIGENT_ORDERING: get recent-failed-come-first older from BuildWise execution history
-#  DYNAMIC_FEEDBACK: add failed tests from another Build project (parallel)
+#  DYNAMIC_ORDERING: get recent-failed-come-first older from BuildWise execution history
 #
-# @spec_file_list: an arary containing a list of spec to be in the build
-# @excluded: an array containing specs exluced from the build
-# @spec_dir: if provided, 
+# @spec_file_list: an arary containing a list of spec (preferrally, just file name) to be in the build
+# @excluded: an array containing specs (in the same form as the above) excluded from the build
+# @spec_dir: if provided, use it as the test path
 #      
 def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spec_dir=nil)
   specs_to_be_executed = []
@@ -229,6 +228,7 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spe
   enable_dynamic_ordering = ENV["DYNAMIC_ORDERING"] && ENV["DYNAMIC_ORDERING"].to_s == "true"
   puts "[INFO] dynamic ordering? => #{enable_dynamic_ordering.to_s rescue 'false'}"
 
+  # backward compatible 
   enable_dynamic_ordering ||= ENV["INTELLIGENT_ORDERING"] && ENV["INTELLIGENT_ORDERING"].to_s == "true"
 
   if enable_dynamic_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
