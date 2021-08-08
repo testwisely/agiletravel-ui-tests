@@ -7,10 +7,9 @@ class LoginPage < AbstractPage
   end
 
   def login(user, pass)
-    @browser.find_element(:id, "username").send_keys(user)
-    @browser.find_element(:id, "password").send_keys(pass)
-    @browser.find_element(:id, "username").submit
-
+    driver.find_element(:id, "username").send_keys(user)
+    driver.find_element(:id, "password").send_keys(pass)
+    driver.find_element(:id, "username").submit
   end
 
 end
