@@ -14,7 +14,7 @@ describe "Select Flights" do
   end
 
   before(:each) do
-    goto_page("/")
+    visit("/")
     sleep 1 # for some webdriver verson, it might not wait page loaded
   end
 
