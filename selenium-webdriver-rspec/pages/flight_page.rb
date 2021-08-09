@@ -7,7 +7,7 @@ class FlightPage < AbstractPage
   end
 
   def select_trip_type(trip_type)
-    driver.find_elements(:name => "tripType").each { |elem| elem.click && break if elem.attribute("value") == trip_type && elem.attribute("type") == "radio" }
+    driver.find_element(:xpath, "//input[@name='tripType' and @value='" + trip_type + "']").click
   end
 
   def select_depart_from(from_port)

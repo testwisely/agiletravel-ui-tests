@@ -29,7 +29,7 @@ describe "User Login" do
     driver.find_element(:id, "password").send_keys("testwise")
     driver.find_element(:name, "commit").click
     # selenium does not have browser.text yet
-    try_for(3) {  expect(driver.page_source).to include("Welcome")}
+    expect(driver.page_source).to include("Welcome")
     driver.find_element(:link_text, "Sign off").click
     puts "[stdout] Signed out"
   end

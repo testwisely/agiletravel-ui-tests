@@ -27,7 +27,7 @@ class PaymentPage < AbstractPage
   end
 
   def select_card_type(card_type)
-    driver.find_element(:xpath, "//input[@name='card_type' and @value='#{card_type}']").click
+    driver.find_element(:xpath, "//input[@name='card_type' and @value='" + card_type +  "']").click
   end
 
 end

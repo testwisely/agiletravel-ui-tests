@@ -141,6 +141,10 @@ module TestHelper
     driver.navigate.to(site_url + path)
   end
 
+  def visit(path)
+    driver.get(site_url + path)
+  end
+  
   def page_text
     driver.find_element(:tag_name => "body").text
   end
