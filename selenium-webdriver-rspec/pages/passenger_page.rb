@@ -17,6 +17,7 @@ class PassengerPage < AbstractPage
   def click_next
     # submit the form, ie click 'Next'
     driver.find_element(:name, "passengerLastName").submit
+    sleep 0.5
   end
   
 end

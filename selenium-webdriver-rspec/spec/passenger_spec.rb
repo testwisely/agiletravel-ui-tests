@@ -15,7 +15,6 @@ describe "Passenger" do
   end
 
   after(:all) do
-    fail_safe { driver.find_element(:link_text, "Sign off").click } unless debugging?
     driver.quit unless debugging?
   end
 
@@ -34,7 +33,7 @@ describe "Passenger" do
     # now on passenger page
     passenger_page = PassengerPage.new(driver)
     passenger_page.click_next
-    try_for(3) { expect(page_text).to include("Must provide last name") }
+    expect(page_text).to include("Must provide last name")
     passenger_page.enter_first_name("Bob")
     passenger_page.enter_last_name("Tester")
     passenger_page.click_next

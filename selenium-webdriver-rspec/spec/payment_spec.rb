@@ -34,7 +34,7 @@ describe "Payment" do
     passenger_page.click_next
 
     payment_page = PaymentPage.new(driver)
-    try_for(3) {  payment_page.select_card_type("master") }
+    payment_page.select_card_type("master")
     payment_page.enter_holder_name("Bob the Tester")
     payment_page.enter_card_number("4242424242424242")
     payment_page.enter_expiry_month("04")
