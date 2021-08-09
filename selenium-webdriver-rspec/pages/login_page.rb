@@ -6,9 +6,9 @@ class LoginPage < AbstractPage
     super(driver, "") # <= TEXT UNIQUE TO THIS PAGE
   end
 
-  def login(user, pass)
+  def login(user, passwd)
     driver.find_element(:id, "username").send_keys(user)
-    driver.find_element(:id, "password").send_keys(pass)
+    driver.find_element(:id, "password").send_keys(passwd)
     driver.find_element(:id, "username").submit
   end
 
