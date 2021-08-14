@@ -102,8 +102,8 @@ task "ci:ui_tests:quick" do
 
     specs_to_be_executed = determine_specs_for_quick_build();
     specs_to_be_executed.each do |test_file|
-      mocha_file = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".js", ".xml"))
-      cmd = "mocha #{test_file} --reporter mocha-junit-reporter --reporter-options mochaFile=#{mocha_file}"
+      result_file =  File.basename(test_file).gsub(".js", ".xml")      
+      cmd = "./node_modules/jasmine-xml-reporter/bin/jasmine.js #{test_file}--junitreport --output=results --filePrefix=#{result_file}"
       puts cmd
       result = system(cmd)
       if exit_code == 0 && !result
