@@ -1,0 +1,54 @@
+<project>
+    <name>agiletravel-selenium-webdriver.tpr</name>
+    <default_browser>Chrome</default_browser>
+    <test_framework>Selenium</test_framework>
+    <syntax_framework>Mocha</syntax_framework>
+    <environments>
+        <entry name="development" default="false">
+            <base_url>http://agiletravel.herokuapp.com</base_url>
+        </entry>
+        <entry name="test" default="false">
+            <base_url>http://test.agiletravel.macmini</base_url>
+        </entry>
+        <entry name="production" default="true">
+            <base_url>https://travel.agileway.net</base_url>
+        </entry>
+        <entry name="ci1" default="false">
+            <base_url>http://ci1.agiletravel.dev</base_url>
+        </entry>
+        <entry name="ci2" default="false">
+            <base_url>http://ci2.agiletravel.dev</base_url>
+        </entry>
+    </environments>
+    <exclude_dirs>node_modules</exclude_dirs>
+    <exclude_files></exclude_files>
+    <spec_template>load File.dirname(__FILE__) + '/../test_helper.rb'
+
+describe "{{ TEST_SUITE }}" do
+  include TestHelper
+
+  before(:all) do    
+    @browser = $browser = Selenium::WebDriver.for(browser_type, browser_options)
+    @browser.get(site_url)
+  end
+
+  after(:all) do
+    @browser.quit unless debugging?
+  end
+
+  it "{{ TEST_CASE }}" do
+    # Test Steps go here
+  end
+
+end</spec_template>
+    <page_template>require File.join(File.dirname(__FILE__), "abstract_page.rb")
+
+class {{ PAGE_NAME }} &lt; AbstractPage
+
+  def initialize(driver)
+    super(driver, "") # &lt;= TEXT UNIQUE TO THIS PAGE
+  end
+
+  # page functions here ...
+end</page_template>
+</project>
