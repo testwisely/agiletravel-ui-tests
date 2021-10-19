@@ -3,6 +3,10 @@ require "selenium-webdriver"
 
 #require 'webdrivers'
 
+# include utility functions such as 'page_text', 'try_for', 'fail_safe', ..., etc.
+require File.join(File.dirname(__FILE__), "..", "..", "agileway_utils.rb")
+include AgilewayUtils
+
 gem "minitest"
 # require "minitest/autorun"
 require "minitest/spec"
@@ -89,7 +93,11 @@ def browser_options
   end
 end
 
-$driver = Selenium::WebDriver.for(the_browser, browser_options)
+# a possible issue with Cucumber 4.0, 
+# in dry run mode, still invoke new driver instance
+unless ENV["CUCUMBER_DRY_RUN"] && ENV["CUCUMBER_DRY_RUN"] == "true"
+  $driver = Selenium::WebDriver.for(browser_type, browser_options)
+end
 
 World(Minitest::Assertions)
 
