@@ -35,10 +35,8 @@ end
 def specs_for_quick_build
   # list test files to be run in a quick build, leave the caller to set full path
   [
-    "01_login_spec.rb", 
-    "02_flight_spec.rb",
-    "03_passenger_spec.rb",
-    "04_payment_spec.rb",
+    "login_spec.rb", 
+    "payment_ajax_spec.rb",
     "not_exists_spec.rb" # test hanlding non exists scenario
   ]
 end
@@ -49,6 +47,13 @@ RSpec::Core::RakeTask.new("ui_tests:quick") do |t|
   specs_to_be_executed = buildwise_determine_specs_for_quick_build(specs_for_quick_build, excluded_spec_files, $test_dir);
   buildwise_formatter =  File.join(File.dirname(__FILE__), "buildwise_rspec_formatter.rb")
   t.rspec_opts = "--pattern my_own_custom_order --require #{buildwise_formatter} #{specs_to_be_executed.join(' ')} --order defined"
+end
+
+
+desc "run performance tests from BuildWise"
+task "ci:performance_tests" => ["ci:setup:rspec"] do
+  build_id = buildwise_start_build(:working_dir => File.expand_path(File.dirname(__FILE__)))
+  buildwise_run_sequential_build_target(build_id, "ui_tests:quick")
 end
 
 
