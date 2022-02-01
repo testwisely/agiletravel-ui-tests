@@ -1,6 +1,6 @@
 load File.dirname(__FILE__) + '/../test_helper.rb'
 
-describe "User Login" do
+describe "Select Flights" do
   include TestHelper
 
   before(:all) do
