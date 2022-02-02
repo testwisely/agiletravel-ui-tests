@@ -39,3 +39,4 @@ selenium-webdriver-rspec-cucumber/agiletravel-selenium-webdriver.tws
 selenium-webdriver-nodejs-mocha/node_modules
 selenium-webdriver-nodejs-jasmine/port_number.txt
 selenium-webdriver-nodejs-jasmine/testresults/results.xml
+node_modules/

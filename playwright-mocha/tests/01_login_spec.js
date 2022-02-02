@@ -19,7 +19,6 @@ describe('User Authentication', function() {
   before(async function() {
     browser = await chromium.launch({
       headless: false,
-      executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     });
     context = await browser.newContext();
     driver = page = await context.newPage();
@@ -30,9 +29,7 @@ describe('User Authentication', function() {
   });
 
   after(async function() {
-    if (!helper.is_debugging()) {
       browser.close();
-    }
   });
 
   it('[1,2] Invalid user', async function() {
