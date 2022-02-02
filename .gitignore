@@ -40,3 +40,5 @@ selenium-webdriver-nodejs-mocha/node_modules
 selenium-webdriver-nodejs-jasmine/port_number.txt
 selenium-webdriver-nodejs-jasmine/testresults/results.xml
 node_modules/
+playwright-mocha-chrome/agiletravel-playwright-mocha.tws
+playwright-mocha/agiletravel-playwright-mocha.tws
