@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="2" time="6.317">
- <testsuite name="User Authentication" timestamp="2021-08-14T14:23:12" hostname="localhost" time="6.317" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="User Authentication" name="[1,2] Invalid user" time="4.295" />
-  <testcase classname="User Authentication" name="User can login successfully" time="2.014" />
- </testsuite>
-</testsuites>

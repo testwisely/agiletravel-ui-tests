@@ -9,7 +9,7 @@ BUILDWISE_URL = ENV["BUILDWISE_MASTER"] || "http://buildwise.macmini"
 FULL_BUILD_MAX_TIME = 60 * 60   # 1 hour
 FULL_BUILD_CHECK_INTERVAL = 30  # 1 minute
 
-$test_dir = File.join(File.join(File.dirname(__FILE__), "spec"))
+$test_dir = File.join(File.join(File.dirname(__FILE__), "tests"))
 
 
 # list of specs for quick build under $test_dir.
@@ -32,7 +32,7 @@ end
 
 desc "run all tests in this folder"
 task "ui_tests:quick"  do
-  `cd selenium-webdriver-nodejs-mocha; mocha spec --reporter mocha-junit-reporter`
+  `cd playwright-mocha; mocha tests --reporter mocha-junit-reporter`
 end
 
 def determine_specs_for_quick_build
@@ -102,8 +102,8 @@ task "ci:ui_tests:quick" do
 
     specs_to_be_executed = determine_specs_for_quick_build();
     specs_to_be_executed.each do |test_file|
-      result_file =  File.basename(test_file).gsub(".js", ".xml")      
-      cmd = "./node_modules/jasmine-xml-reporter/bin/jasmine.js #{test_file} --junitreport --output=results --filePrefix=#{result_file}"
+      mocha_file = File.expand_path File.join(reports_dir, File.basename(test_file).gsub(".js", ".xml"))
+      cmd = "mocha #{test_file} --reporter mocha-junit-reporter --reporter-options mochaFile=#{mocha_file}"
       puts cmd
       result = system(cmd)
       if exit_code == 0 && !result

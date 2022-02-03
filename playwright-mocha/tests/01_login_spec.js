@@ -15,7 +15,7 @@ var helper = require('../test_helper');
 // BEGIN: import pages
 // END: import pages
 describe('User Authentication', function() {
-
+	this.timeout(5000);
   before(async function() {
     browser = await chromium.launch({
       headless: false,
