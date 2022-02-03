@@ -39,7 +39,7 @@ describe('Flight', function() {
 
   after(async function() {
     if (!helper.is_debugging()) {
-      driver.close();
+      browser.close();
     }
   });
 
