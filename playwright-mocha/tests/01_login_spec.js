@@ -46,6 +46,7 @@ describe('User Authentication', function() {
   });
   
   it('User can login successfully', async function() {
+		this.timeout(15000)
     await driver.fill("#username", "agileway")
     await driver.fill("#password", "testwise")
     await driver.click("input:has-text('Sign in')")
@@ -54,6 +55,9 @@ describe('User Authentication', function() {
       assert(body_text.contains("Signed in"))
     })
     await driver.click("a:has-text('Sign off')")
+		
+		// sleep 5 seconds
+		await new Promise(resolve => setTimeout(resolve, 5000));
   });
 
 });
