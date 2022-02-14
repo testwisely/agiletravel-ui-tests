@@ -32,6 +32,10 @@ describe('User Authentication', function() {
       browser.close();
   });
 
+  afterEach(async function() {
+    await page.screenshot({ path: __dirname + '/../reports/screenshot.png' });
+  });
+
   it('[1,2] Invalid user', async function() {
     await driver.title().then(function(the_title) {
      // console.log(the_title)
