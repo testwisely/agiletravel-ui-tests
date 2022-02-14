@@ -35,11 +35,11 @@ describe('User Authentication', function() {
 
   afterEach(async function() {
     var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename)
-    await page.screenshot({ path: screenshot_file_path + "/" + 'User Authentication screenshot.png' });
+    var screenhost_file_name = 'User Authentication' + " " + this.currentTest.title + ".png"
+    await page.screenshot({ path: screenshot_file_path + "/" + screenhost_file_name });
   });
 
-  //  it('[1,2] Invalid user', async function() {
-  it('screenshot', async function() {
+  it('[1,2] Invalid user', async function() {
     await driver.title().then(function(the_title) {
      // console.log(the_title)
     })
