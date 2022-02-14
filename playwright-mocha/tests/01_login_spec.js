@@ -1,5 +1,6 @@
 const {  test, expect } = require('@playwright/test');
 const { chromium } = require('playwright');
+var path = require("path");
 var assert = require('assert');
 
 const timeOut = 15000;
@@ -33,10 +34,12 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-    await page.screenshot({ path: __dirname + '/../reports/screenshots/screenshot.png' });
+    var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename)
+    await page.screenshot({ path: screenshot_file_path + "/" + 'screenshot.png' });
   });
 
-  it('[1,2] Invalid user', async function() {
+  //  it('[1,2] Invalid user', async function() {
+  it('screenshot', async function() {
     await driver.title().then(function(the_title) {
      // console.log(the_title)
     })
