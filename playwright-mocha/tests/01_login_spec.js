@@ -34,14 +34,11 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-   if (this.currentTest.state) {
-     console.log("Mocha afterEach full title: " + this.currentTest.fullTitle())
+   if (this.currentTest.state == "failed") {
      var screenshot_file_dir = __dirname + '/../reports/screenshots/' + path.basename(__filename).replace(".js", ".xml")
-     // var screenhost_file_name = 'User Authentication' + " " + this.currentTest.title + ".png"
      var screenhost_file_name = this.currentTest.fullTitle() + ".png"
 	 var screenshot_file_path = screenshot_file_dir + "/" + screenhost_file_name
-     console.log("Mocha afterEach save screenshot file: " + screenshot_file_path)	   
-     await page.screenshot({ path: screenshot_file_path });
+	   await page.screenshot({ path: screenshot_file_path });
    }
   });
 
