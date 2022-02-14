@@ -34,9 +34,15 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-    var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename)
-    var screenhost_file_name = 'User Authentication' + " " + this.currentTest.title + ".png"
-    await page.screenshot({ path: screenshot_file_path + "/" + screenhost_file_name });
+   if (this.currentTest.state) {
+     console.log("Mocha afterEach full title: " + this.currentTest.fullTitle())
+     var screenshot_file_dir = __dirname + '/../reports/screenshots/' + path.basename(__filename).replace(".js", ".xml")
+     // var screenhost_file_name = 'User Authentication' + " " + this.currentTest.title + ".png"
+     var screenhost_file_name = this.currentTest.fullTitle() + ".png"
+	 var screenshot_file_path = screenshot_file_dir + "/" + screenhost_file_name
+     console.log("Mocha afterEach save screenshot file: " + screenshot_file_path)	   
+     await page.screenshot({ path: screenshot_file_path });
+   }
   });
 
   it('[1,2] Invalid user', async function() {
@@ -44,7 +50,7 @@ describe('User Authentication', function() {
      // console.log(the_title)
     })
     await driver.fill("#username", "agileway")
-    await driver.fill("#password", "playwright")
+    await driver.fill("#password3", "playwright")
     await driver.click("input:has-text('Sign in')")
     await driver.textContent("body").then(function(body_text) {
       //console.log(body_text)
