@@ -34,7 +34,7 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-    var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename)
+    var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename).replace('.js', '.xml')
     var screenhost_file_name = 'User Authentication' + " " + this.currentTest.title + ".png"
     await page.screenshot({ path: screenshot_file_path + "/" + screenhost_file_name });
   });
