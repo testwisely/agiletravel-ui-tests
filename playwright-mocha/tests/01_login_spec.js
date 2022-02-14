@@ -35,7 +35,7 @@ describe('User Authentication', function() {
 
   afterEach(async function() {
     var screenshot_file_path = __dirname + '/../reports/screenshots/' + path.basename(__filename)
-    await page.screenshot({ path: screenshot_file_path + "/" + 'screenshot.png' });
+    await page.screenshot({ path: screenshot_file_path + "/" + 'User Authentication screenshot.png' });
   });
 
   //  it('[1,2] Invalid user', async function() {
