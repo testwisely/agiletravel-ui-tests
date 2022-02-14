@@ -33,7 +33,7 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-    await page.screenshot({ path: __dirname + '/../reports/screenshot.png' });
+    await page.screenshot({ path: __dirname + '/../reports/screenshots/screenshot.png' });
   });
 
   it('[1,2] Invalid user', async function() {
