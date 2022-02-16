@@ -47,7 +47,7 @@ describe('User Authentication', function() {
      // console.log(the_title)
     })
     await driver.fill("#username", "agileway")
-    await driver.fill("#password3", "playwright")
+    await driver.fill("#password3", "playwright") // fail it
     await driver.click("input:has-text('Sign in')")
     await driver.textContent("body").then(function(body_text) {
       //console.log(body_text)
@@ -66,8 +66,8 @@ describe('User Authentication', function() {
     })
     await driver.click("a:has-text('Sign off')")
 		
-		// sleep 5 seconds
-		await new Promise(resolve => setTimeout(resolve, 5000));
+		// sleep 1 second, like Ruby's sleep(1)
+		await new Promise(resolve => setTimeout(resolve, 1000));
   });
 
 });
