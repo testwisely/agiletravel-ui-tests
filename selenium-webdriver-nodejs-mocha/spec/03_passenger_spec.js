@@ -3,6 +3,7 @@ var webdriver = require('selenium-webdriver'),
     until = webdriver.until;
 var test = require('selenium-webdriver/testing');
 var assert = require('assert');
+const path = require('path');
 
 var driver;
 const timeOut = 15000;
@@ -36,6 +37,11 @@ describe('Passenger', function() {
     await helper.login(driver, "agileway", "testwise");
   });
 
+  afterEach(async function() {
+    var testFileName = path.basename(__filename);
+    await helper.save_screenshot_after_test_failed(driver, this.currentTest, testFileName);
+  });
+  
   after(function() {
     if (!helper.is_debugging()) {
       driver.quit();
@@ -65,7 +71,7 @@ describe('Passenger', function() {
 
     // purposely an assertion failure
     await driver.findElement(By.name("holder_name")).getAttribute("value").then(function(val) {
-      assert.equal("Wendy Tester", val)
+      assert.equal("Wendy Tester2", val)
     });
 
   });

@@ -58,6 +58,16 @@ module.exports = {
 
 };
 
+async function save_screenshot_after_test_failed(page, currentTest, testFileName) {
+    if (currentTest.state != "passed") {
+        // console.log("Trying to take a screenshot of " + currentTest.fullTitle());
+        var screenshot_file_dir = __dirname + '/reports/screenshots/' + testFileName.replace(".js", ".xml");
+        var screenhost_file_name = currentTest.fullTitle() + ".png";
+        var screenshot_file_path = screenshot_file_dir + "/" + screenhost_file_name;
+        await page.screenshot({ path: screenshot_file_path });
+    }
+}
+
 // BEGIN: user functions
 async function login(driver, username, password) {
     await driver.findElement(webdriver.By.name('username')).sendKeys(username);
@@ -69,6 +79,7 @@ async function login(driver, username, password) {
 
 
 // BEGIN: module exports
-module.exports.login = login;
+module.exports.save_screenshot_after_test_failed = save_screenshot_after_test_failed;
 
+module.exports.login = login;
 // END: module exports

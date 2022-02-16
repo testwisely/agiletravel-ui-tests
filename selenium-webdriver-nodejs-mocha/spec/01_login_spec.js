@@ -3,6 +3,7 @@ var webdriver = require('selenium-webdriver'),
     until = webdriver.until;
 // var test = require('selenium-webdriver/testing');
 var assert = require('assert');
+const path = require('path');
 
 var driver;
 const timeOut = 15000;
@@ -33,6 +34,11 @@ describe('User Authentication', function() {
     await driver.get(helper.site_url());
   });
 
+  afterEach(async function() {
+    var testFileName = path.basename(__filename);
+    await helper.save_screenshot_after_test_failed(driver, this.currentTest, testFileName);
+  });
+  
   after(async function() {
     if (!helper.is_debugging()) {
       driver.quit();
@@ -55,7 +61,7 @@ describe('User Authentication', function() {
     await driver.getPageSource().then(function(page_source) {
       assert(page_source.contains("Welcome"))
     });
-    await driver.findElement(By.linkText("Sign off")).click();
+    await driver.findElement(By.linkText("Sign off2")).click();
     
   });
 

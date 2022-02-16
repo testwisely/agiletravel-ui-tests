@@ -1,6 +1,7 @@
 const {test, expect } = require('@playwright/test');
 const { chromium } = require('playwright');
 var assert = require('assert');
+const path = require('path');
 
 const timeOut = 15000;
 let driver, page, browser, context
@@ -36,6 +37,11 @@ describe('Flight', function() {
     await driver.goto('https://travel.agileway.net');
 
   });
+  
+  afterEach(async function() {
+    var testFileName = path.basename(__filename);
+    await helper.save_screenshot_after_test_failed(page, this.currentTest, testFileName);
+  });
 
   after(async function() {
     if (!helper.is_debugging()) {
@@ -48,7 +54,7 @@ describe('Flight', function() {
     let flight_page = new FlightPage(driver);
     await flight_page.selectTripType("return")
     await flight_page.selectDepartFrom("Sydney")
-    await flight_page.selectArriveAt("New York")
+    await flight_page.selectArriveAt("New York2")
     await flight_page.selectDepartDay("02")
     await flight_page.selectDepartMonth("052021")
     await flight_page.selectReturnDay("04")
@@ -65,6 +71,7 @@ describe('Flight', function() {
 
 
   it('[2] One-way trip', async function() {
+    this.timeout(15000)
     let flight_page = new FlightPage(driver);
     await flight_page.selectTripType("oneway")
     await flight_page.selectDepartFrom("New York")

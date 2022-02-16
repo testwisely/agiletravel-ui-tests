@@ -60,6 +60,24 @@ module.exports = {
 
 };
 
+async function save_screenshot_after_test_failed(driver, currentTest, testFileName) {
+	
+    if (currentTest.state != "passed") {
+        var screenshot_file_dir = __dirname + '/reports/screenshots/' + testFileName.replace(".js", ".xml");
+        var screenhost_file_name = currentTest.fullTitle() + ".png";		
+		fs.mkdirSync(screenshot_file_dir, { recursive: true });
+		
+        var screenshot_file_path = screenshot_file_dir + "/" + screenhost_file_name;
+        // console.log("Trying to take a screenshot of " + currentTest.fullTitle() + " => " + screenshot_file_path);
+		
+		await driver.takeScreenshot().then(function(data) {
+		  // Base64 encoded png
+		  fs.writeFileSync(screenshot_file_path, data, 'base64');
+		});
+    }
+}
+
+
 // BEGIN: user functions
 async function login(driver, username, password) {
     await driver.findElement(webdriver.By.name('username')).sendKeys(username);
@@ -71,6 +89,8 @@ async function login(driver, username, password) {
 
 
 // BEGIN: module exports
+module.exports.save_screenshot_after_test_failed = save_screenshot_after_test_failed;
+
 module.exports.login = login;
 
 // END: module exports

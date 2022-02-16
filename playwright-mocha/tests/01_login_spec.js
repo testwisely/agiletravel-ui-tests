@@ -34,15 +34,12 @@ describe('User Authentication', function() {
   });
 
   afterEach(async function() {
-   if (this.currentTest.state == "failed") {
-     var screenshot_file_dir = __dirname + '/../reports/screenshots/' + path.basename(__filename).replace(".js", ".xml")
-     var screenhost_file_name = this.currentTest.fullTitle() + ".png"
-	 var screenshot_file_path = screenshot_file_dir + "/" + screenhost_file_name
-	   await page.screenshot({ path: screenshot_file_path });
-   }
+    var testFileName = path.basename(__filename);
+    await helper.save_screenshot_after_test_failed(page, this.currentTest, testFileName);
   });
 
   it('[1,2] Invalid user', async function() {
+    this.timeout(15000)
     await driver.title().then(function(the_title) {
      // console.log(the_title)
     })
@@ -56,7 +53,7 @@ describe('User Authentication', function() {
   });
   
   it('User can login successfully', async function() {
-		this.timeout(15000)
+    this.timeout(15000)
     await driver.fill("#username", "agileway")
     await driver.fill("#password", "testwise")
     await driver.click("input:has-text('Sign in')")
