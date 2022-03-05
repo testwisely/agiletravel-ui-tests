@@ -3,7 +3,7 @@ require 'net/http'
 require 'yaml'
 require 'timeout'
 
-# ver 2.0.3
+# ver 2.0.4
 
 def buildwise_start_build(options)
   the_response_content = contact_buildwise_post("/builds/begin", "options" => YAML.dump(options))
@@ -233,37 +233,38 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spe
 
   if enable_dynamic_ordering && ENV["BUILDWISE_PROJECT_IDENTIFIER"]
     ordered_specs = buildwise_ui_test_order(ENV["BUILDWISE_PROJECT_IDENTIFIER"])
-    puts "[INFO] Execution order based history of quick build: #{ordered_specs.inspect}"
+    puts "[INFO] Getting test file priority based on the execution history of  #{ENV["BUILDWISE_PROJECT_IDENTIFIER"]}"
     if ordered_specs.nil? || ordered_specs.compact.empty? || ordered_specs.class != Array
       specs_to_be_executed += spec_file_list  if specs_to_be_executed.empty?
     else
       # neat sorting thanks to Ruby
       specs_to_be_executed = ordered_specs.dup
       specs_to_be_executed = specs_to_be_executed.sort_by{|x| ordered_specs.include?(File.basename(x)) ? ordered_specs.index(File.basename(x)) : specs_to_be_executed.count }    
-      puts "[INFO] After intelligent sorting => #{specs_to_be_executed.inspect}"        
+      puts "[INFO] After intelligent sorting from history => #{specs_to_be_executed.inspect}"        
     end    
   end
 
   if specs_to_be_executed.empty?
     specs_to_be_executed = spec_file_list   
   else
-    specs_left_over = spec_file_list - specs_to_be_executed
-    specs_to_be_executed += specs_left_over
-    specs_to_be_executed.flatten!
+    specs_to_be_executed = specs_to_be_executed.intersection(spec_file_list) + (spec_file_list - specs_to_be_executed)
+    # specs_left_over = spec_file_list - specs_to_be_executed
+    # specs_to_be_executed = specs_to_be_executed.inter
+    # specs_to_be_executed.flatten!
   end
+  puts "[INFO] Rearranged : #{specs_to_be_executed.inspect}"
   specs_to_be_executed -= excluded
-  puts "[INFO] Exclude : #{specs_to_be_executed.inspect}"
+  puts "[INFO] After Exclude : #{specs_to_be_executed.inspect}"
 
-  specs_to_be_executed.uniq!
-  puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
-
+  # specs_to_be_executed.uniq!
+  # puts "[INFO] Uniq : #{specs_to_be_executed.inspect}"
   
   if spec_dir
     specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join(spec_dir, a_test)) }
   else
     specs_to_be_executed.reject! {|a_test|  !File.exists?(a_test) }  
   end
-  puts "[INFO] Filter Not exists : #{specs_to_be_executed.inspect}"
+  puts "[INFO] After filtering out test file no longer exists: #{specs_to_be_executed.inspect}"
 
 
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
