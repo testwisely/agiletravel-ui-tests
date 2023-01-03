@@ -14,10 +14,13 @@ var helper = require('../test_helper');
 
 // An example in below:  var FlightPage = require('../pages/flight_page.js')
 // BEGIN: import pages
+var LoginPage = require('../pages/login_page.js')
 var FlightPage = require('../pages/flight_page.js')
+var PassengerPage = require('../pages/passenger_page.js')
+var PaymentPage = require('../pages/payment_page.js')
 
 // END: import pages
-describe('Flight', function() {
+describe('End to End Playwright', function() {
 
   before(async function() {
     this.timeout(5000)
@@ -27,14 +30,10 @@ describe('Flight', function() {
     context = await browser.newContext();
     driver = page = await context.newPage();
     await driver.goto('https://travel.agileway.net');
-    await driver.fill("#username", "agileway")
-    await driver.fill("#password", "testwise")
-    await driver.click("input:has-text('Sign in')")
   });
 
   beforeEach(async function() {
     this.timeout(5000)
-    await driver.goto('https://travel.agileway.net');
 
   });
   
@@ -49,29 +48,18 @@ describe('Flight', function() {
     }
   });
 
-  it('[3] Return trip', async function() {
-    this.timeout(15000)
-    let flight_page = new FlightPage(driver);
-    await flight_page.selectTripType("return")
-    await flight_page.selectDepartFrom("Sydney")
-    await flight_page.selectArriveAt("New York2")
-    await flight_page.selectDepartDay("02")
-    await flight_page.selectDepartMonth("052021")
-    await flight_page.selectReturnDay("04")
-    // by default selectOption is by value, 
-    // await flight_page.selectReturnMonth("June 2021")
-    await flight_page.selectReturnMonth("062021")
-    await flight_page.clickContinue()
+  it('E2E Playwright POM', async function() {
+    this.timeout(5000)
+    
+    let login_page = new LoginPage(driver)
+    await login_page.enterUsername("agileway")
+    await login_page.enterPassword("testwise")
+    await login_page.checkRememberMe()
+    await login_page.clickSignIn()
     await driver.textContent("body").then(function(body_text) {
-      //console.log(body_text)
-      assert(body_text.contains("2021-05-02   Sydney to New York"))
-      assert(body_text.contains("2021-06-04  New York to Sydney"))
-    })
-  });
-
-
-  it('[2] One-way trip', async function() {
-    this.timeout(15000)
+      assert(body_text.contains("Signed in"))
+    });
+    
     let flight_page = new FlightPage(driver);
     await flight_page.selectTripType("oneway")
     await flight_page.selectDepartFrom("New York")
@@ -79,10 +67,19 @@ describe('Flight', function() {
     await flight_page.selectDepartDay("02")
     await flight_page.selectDepartMonth("052021")
     await flight_page.clickContinue()
-    await driver.textContent("body").then(function(body_text) {
-      //console.log(body_text)
-      assert(body_text.contains("2021-05-02   New York to Sydney"))
-    })
+
+    let passenger_page = new PassengerPage(driver);
+    await passenger_page.enterFirstName("Bob")
+    await passenger_page.enterLastName("Tester")
+    await passenger_page.clickNext();
+    
+    let payment_page = new PaymentPage(driver)
+    await payment_page.selectCardType("master")
+    await payment_page.enterHolderName("Bob the Tester")
+    await payment_page.enterCardNumber("4242424242424242")
+    await payment_page.enterExpiryMonth("04")
+    await payment_page.enterExpiryYear("2016")
+    await payment_page.clickPayNow()
   });
 
 

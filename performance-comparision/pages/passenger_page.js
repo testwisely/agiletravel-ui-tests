@@ -11,15 +11,15 @@ class PassengerPage extends AbstractPage {
   }
 
   async enterFirstName(first_name) {
-    await this.driver.findElement(By.name("passengerFirstName")).sendKeys(first_name);
+    await this.driver.fill("input[name='passengerFirstName']", first_name);    
   }
 
   async enterLastName(last_name) {
-    await this.driver.findElement(By.name("passengerLastName")).sendKeys(last_name);
+		await this.driver.fill("input[name='passengerLastName']", last_name);
   }
 
   async clickNext() {
-    await this.driver.findElement(By.xpath("//input[@value='Next']")).click();
+    await this.driver.click("input:has-text('Next')");
   }
 };
 

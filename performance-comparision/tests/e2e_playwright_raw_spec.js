@@ -17,7 +17,7 @@ var helper = require('../test_helper');
 var FlightPage = require('../pages/flight_page.js')
 
 // END: import pages
-describe('User Authentication', function() {
+describe('E2E Playwright', function() {
 	this.timeout(5000);
   before(async function() {
     browser = await chromium.launch({
@@ -38,10 +38,12 @@ describe('User Authentication', function() {
   afterEach(async function() {
   });
 
-  it('[1,2] Invalid user', async function() {
-    this.timeout(15000)
+  it('End to End Playwright', async function() {
+    this.timeout(5000)
+    await driver.locator('text=Login').click()
     await driver.fill("#username", "agileway")
     await driver.fill("#password", "testwise")
+    await driver.click("#remember_me")
     await driver.click("input:has-text('Sign in')")
     await driver.textContent("body").then(function(body_text) {
       //console.log(body_text)
@@ -53,15 +55,15 @@ describe('User Authentication', function() {
     await driver.selectOption("select[name='fromPort']", "New York");
     await driver.selectOption("select[name='toPort']", "Sydney");
     await driver.selectOption("select[name='departDay']", "02");
-     await driver.selectOption("#departMonth", "052021");
+    await driver.selectOption("#departMonth", "052021");
     await driver.click("input:has-text('Continue')");
     
+		await driver.fill("input[name='passengerFirstName']", "Bob");    
 		await driver.fill("input[name='passengerLastName']", "Tester");
     await driver.click("input:has-text('Next')");
 
     const radios2 = await driver.$$("input[name='card_type']");
     await radios2[1].check();
-
 		await driver.fill("input[name='holder_name']", "Bob the Tester");
 		await driver.fill("input[name='card_number']", "4242424242424242");
     await driver.selectOption("select[name='expiry_month']", "04");
