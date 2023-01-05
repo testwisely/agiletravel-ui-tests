@@ -50,8 +50,8 @@ describe('E2E Playwright', function() {
       assert(body_text.contains("Signed in"))
     });
     
-    const radios = await driver.$$("input[name=tripType]");
-    await radios[1].check();
+    const trip_radio = await driver.$$("input[name=tripType]");
+    await trip_radio[1].check();
     await driver.selectOption("select[name='fromPort']", "New York");
     await driver.selectOption("select[name='toPort']", "Sydney");
     await driver.selectOption("select[name='departDay']", "02");
@@ -62,8 +62,8 @@ describe('E2E Playwright', function() {
 		await driver.fill("input[name='passengerLastName']", "Tester");
     await driver.click("input:has-text('Next')");
 
-    const radios2 = await driver.$$("input[name='card_type']");
-    await radios2[1].check();
+    const card_type_radio = await driver.$$("input[name='card_type']");
+    await card_type_radio[1].check();
 		await driver.fill("input[name='holder_name']", "Bob the Tester");
 		await driver.fill("input[name='card_number']", "4242424242424242");
     await driver.selectOption("select[name='expiry_month']", "04");

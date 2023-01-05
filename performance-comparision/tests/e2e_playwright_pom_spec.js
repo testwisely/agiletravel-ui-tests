@@ -49,37 +49,37 @@ describe('End to End Playwright', function() {
   });
 
   it('E2E Playwright POM', async function() {
-    this.timeout(5000)
+    this.timeout(5000);
     
-    let login_page = new LoginPage(driver)
-    await login_page.enterUsername("agileway")
-    await login_page.enterPassword("testwise")
-    await login_page.checkRememberMe()
-    await login_page.clickSignIn()
+    let login_page = new LoginPage(driver);
+    await login_page.enterUsername("agileway");
+    await login_page.enterPassword("testwise");
+    await login_page.checkRememberMe();
+    await login_page.clickSignIn();
     await driver.textContent("body").then(function(body_text) {
-      assert(body_text.contains("Signed in"))
+      assert(body_text.contains("Signed in"));
     });
     
     let flight_page = new FlightPage(driver);
-    await flight_page.selectTripType("oneway")
-    await flight_page.selectDepartFrom("New York")
-    await flight_page.selectArriveAt("Sydney")
-    await flight_page.selectDepartDay("02")
-    await flight_page.selectDepartMonth("052021")
-    await flight_page.clickContinue()
+    await flight_page.selectTripType("oneway");
+    await flight_page.selectDepartFrom("New York");
+    await flight_page.selectArriveAt("Sydney");
+    await flight_page.selectDepartDay("02");
+    await flight_page.selectDepartMonth("052021");
+    await flight_page.clickContinue();
 
     let passenger_page = new PassengerPage(driver);
-    await passenger_page.enterFirstName("Bob")
-    await passenger_page.enterLastName("Tester")
+    await passenger_page.enterFirstName("Bob");
+    await passenger_page.enterLastName("Tester");
     await passenger_page.clickNext();
     
-    let payment_page = new PaymentPage(driver)
-    await payment_page.selectCardType("master")
-    await payment_page.enterHolderName("Bob the Tester")
-    await payment_page.enterCardNumber("4242424242424242")
-    await payment_page.enterExpiryMonth("04")
-    await payment_page.enterExpiryYear("2016")
-    await payment_page.clickPayNow()
+    let payment_page = new PaymentPage(driver);
+    await payment_page.selectCardType("master");
+    await payment_page.enterHolderName("Bob the Tester");
+    await payment_page.enterCardNumber("4242424242424242");
+    await payment_page.enterExpiryMonth("04");
+    await payment_page.enterExpiryYear("2016");
+    await payment_page.clickPayNow();
   });
 
 
