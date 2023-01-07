@@ -42,3 +42,9 @@ selenium-webdriver-nodejs-jasmine/testresults/results.xml
 node_modules/
 playwright-mocha-chrome/agiletravel-playwright-mocha.tws
 playwright-mocha/agiletravel-playwright-mocha.tws
+performance-comparision/performance-compare.tws
+performance-comparision/reports/
+performance-mechanize/performancetesting-mechanize.tws
+playwright-mocha/reports/
+reports/
+
