@@ -163,7 +163,7 @@ module AgilewayUtils
     begin
       screenshot_image_filename = "screenshot_" + Time.now.strftime("%m%d%H%M%S") + ".jpg"
       the_dump_dir = opts[:to_dir] || default_dump_dir
-      FileUtils.mkdir_p(the_dump_dir) unless File.exists?(the_dump_dir)
+      FileUtils.mkdir_p(the_dump_dir) unless File.exist?(the_dump_dir)
       screenshot_image_filepath = File.join(the_dump_dir, screenshot_image_filename)
       screenshot_image_filepath.gsub!("/", "\\") if is_windows?
 

@@ -86,7 +86,7 @@ end
 #
 def buildwise_run_sequential_build_target(build_id, task_name)  
   begin
-    FileUtils.rm_rf("spec/reports") if File.exists?("spec/reports")
+    FileUtils.rm_rf("spec/reports") if File.exist?("spec/reports")
     Rake::Task[task_name].invoke
   ensure
     puts "Finished: Notify build status"
@@ -118,7 +118,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   fio = nil
   if ENV["ARTIFACT_DIR"] && Dir.exists?(ENV["ARTIFACT_DIR"])
     tmp_log_file = File.join(ENV["ARTIFACT_DIR"], "rake_parallel.log")    
-    FileUtils.rm(tmp_log_file) if File.exists?(tmp_log_file)
+    FileUtils.rm(tmp_log_file) if File.exist?(tmp_log_file)
     puts("[buildwise.rake] logging parallel monitoring to #{tmp_log_file}")
     fio = File.open(tmp_log_file, "a")    
     fio.puts("[#{Time.now}]  Keep checking build |#{build_id}| for max #{max_wait_time} for every #{check_interval} seconds")
@@ -272,9 +272,9 @@ def buildwise_determine_specs_for_quick_build(spec_file_list, excluded = [], spe
 
   
   if spec_dir
-    specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join(spec_dir, a_test)) }
+    specs_to_be_executed.reject! {|a_test|  !File.exist?(File.join(spec_dir, a_test)) }
   else
-    specs_to_be_executed.reject! {|a_test|  !File.exists?(a_test) }  
+    specs_to_be_executed.reject! {|a_test|  !File.exist?(a_test) }  
   end
   puts "[INFO] Filter Not exists : #{specs_to_be_executed.inspect}"
 

@@ -34,7 +34,7 @@ task "ui_tests:quick"  do
   ## Runing with nose
   # 
   reports_dir =  File.join(File.dirname(__FILE__), "reports")
-  FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
+  FileUtils.rm_rf(reports_dir) if File.exist?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
   FileUtils.chdir(File.dirname(__FILE__))
   
@@ -64,7 +64,7 @@ end
 desc "run all tests in this folder"
 task "ci:ui_tests:quick" do
     reports_dir = File.join(File.dirname(__FILE__),  "reports")
-    FileUtils.rm_rf(reports_dir)if File.exists?(reports_dir)
+    FileUtils.rm_rf(reports_dir)if File.exist?(reports_dir)
     FileUtils.mkdir_p(reports_dir)
     
     exit_code = 0

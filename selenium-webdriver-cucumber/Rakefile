@@ -85,7 +85,7 @@ def determine_specs_for_quick_build
   features_to_be_executed.uniq!
   puts "[INFO] Uniq : #{features_to_be_executed.inspect}"
 
-  features_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
+  features_to_be_executed.reject! {|a_test|  !File.exist?(File.join($test_dir, a_test)) }
   puts "[INFO] Filter Not exists : #{features_to_be_executed.inspect}"
 
   puts "[INFO] Final Test execution in order => #{features_to_be_executed.inspect}"
@@ -107,7 +107,7 @@ Cucumber::Rake::Task.new("ui_tests:quick")  do |t|
   Rake::Task['set_work_directory'].invoke
   
   log_dir = File.expand_path(File.join(File.dirname(__FILE__), "log"))
-  FileUtils.rm_rf(log_dir) if File.exists?(log_dir)
+  FileUtils.rm_rf(log_dir) if File.exist?(log_dir)
   FileUtils.mkdir(log_dir)
   
   features_to_be_executed = determine_specs_for_quick_build()
@@ -145,7 +145,7 @@ end
 desc "run a set of cucumber feature tests one by one"
 task "ci:ui_tests:quick_one_by_one" do
     reports_dir = File.join(File.dirname(__FILE__),  "log")
-    FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
+    FileUtils.rm_rf(reports_dir) if File.exist?(reports_dir)
     FileUtils.mkdir_p(reports_dir)
     
     exit_code = 0    

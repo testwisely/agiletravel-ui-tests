@@ -34,7 +34,7 @@ task "ui_tests:quick"  do
   ## Runing with nose
   # 
   reports_dir =  File.join(File.dirname(__FILE__), "reports")
-  FileUtils.rm_rf(reports_dir) if File.exists?(reports_dir)
+  FileUtils.rm_rf(reports_dir) if File.exist?(reports_dir)
   FileUtils.mkdir_p(reports_dir)
   FileUtils.chdir(File.dirname(__FILE__))
   
@@ -112,7 +112,7 @@ def determine_specs_for_quick_build
   specs_to_be_executed.uniq!
   puts "[INFO] After Uniq : #{specs_to_be_executed.inspect}"
 
-  specs_to_be_executed.reject! {|a_test|  !File.exists?(File.join($test_dir, a_test)) }
+  specs_to_be_executed.reject! {|a_test|  !File.exist?(File.join($test_dir, a_test)) }
   puts "[INFO] Filter out Not exists : #{specs_to_be_executed.inspect}"
 
   puts "[INFO] Final Test execution in order => #{specs_to_be_executed.inspect}"
@@ -123,7 +123,7 @@ end
 desc "run all tests in this folder"
 task "ci:ui_tests:quick" do
     reports_dir = File.join(File.dirname(__FILE__),  "reports")
-    FileUtils.rm_rf(reports_dir)if File.exists?(reports_dir)
+    FileUtils.rm_rf(reports_dir)if File.exist?(reports_dir)
     FileUtils.mkdir_p(reports_dir)
     
     exit_code = 0

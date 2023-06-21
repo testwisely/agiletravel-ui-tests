@@ -104,7 +104,7 @@ module LoadTestHelper
     screenshot_zip = hash[:screenshot_zip] rescue nil
 
     boundary = "---------------------------#{rand(10000000000000000000)}"
-    if screenshot_zip && File.exists?(screenshot_zip)
+    if screenshot_zip && File.exist?(screenshot_zip)
       s = File.open(screenshot_zip, "rb") { |io| io.read }
       file_part = Part.new(:name => "screenshot_zip", :body => s, :filename => "screenshot.zip", :content_type => "text/plain")
 
