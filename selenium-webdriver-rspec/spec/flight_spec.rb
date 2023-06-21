@@ -15,7 +15,7 @@ describe "Select Flights" do
 
   before(:each) do
     visit("/")
-    sleep 1 # for some webdriver verson, it might not wait page loaded
+    sleep 1 # for some webdriver version, it might not wait page loaded
   end
 
   after(:all) do

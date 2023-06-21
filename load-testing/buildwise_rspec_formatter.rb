@@ -28,12 +28,12 @@ module CI::Reporter
       	   reports_dir  =  ENV['CI_REPORTS'] || File.expand_path("#{Dir.getwd}/spec/reports")
            begin
              screenshots_dir = File.join(reports_dir, "screenshots")
-             FileUtils.mkdir_p(screenshots_dir) unless File.exists?(screenshots_dir)
+             FileUtils.mkdir_p(screenshots_dir) unless File.exist?(screenshots_dir)
            
              spec_file_name = File.basename(notification.example.file_path)
              saved_to = File.join(screenshots_dir, spec_file_name)
             
-             FileUtils.mkdir_p(saved_to) unless File.exists?(saved_to)
+             FileUtils.mkdir_p(saved_to) unless File.exist?(saved_to)
         	   example_name =  notification.example.description 
              # with folder, not using full_description      
         	   $browser.save_screenshot(File.join(saved_to, "#{example_name}.png"))
