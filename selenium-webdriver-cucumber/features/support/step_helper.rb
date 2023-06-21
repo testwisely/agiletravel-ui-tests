@@ -1,5 +1,5 @@
 
-if ENV["TESTWISE_RUNTIME_DIR"] && !ENV["TESTWISE_RUNTIME_DIR"].strip.empty? && Dir.exists?(ENV["TESTWISE_RUNTIME_DIR"])
+if ENV["TESTWISE_RUNTIME_DIR"] && !ENV["TESTWISE_RUNTIME_DIR"].strip.empty? && Dir.exist?(ENV["TESTWISE_RUNTIME_DIR"])
   require  File.join(ENV["TESTWISE_RUNTIME_DIR"], "testwise_listener.rb")
   require  File.join(ENV["TESTWISE_RUNTIME_DIR"], "testwise_runtime_support.rb")
 end

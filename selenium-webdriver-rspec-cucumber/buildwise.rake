@@ -118,7 +118,7 @@ def buildwise_montior_parallel_execution(build_id, opts = {})
   puts "[buildwise.rake] Keep checking build |#{build_id} for max #{max_wait_time} for every #{check_interval} seconds"
   
   fio = nil
-  if ENV["ARTIFACT_DIR"] && Dir.exists?(ENV["ARTIFACT_DIR"])
+  if ENV["ARTIFACT_DIR"] && Dir.exist?(ENV["ARTIFACT_DIR"])
     tmp_log_file = File.join(ENV["ARTIFACT_DIR"], "rake_parallel.log")    
     FileUtils.rm(tmp_log_file) if File.exist?(tmp_log_file)
     puts("[buildwise.rake] logging parallel monitoring to #{tmp_log_file}")
