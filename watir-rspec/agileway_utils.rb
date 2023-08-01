@@ -1,4 +1,9 @@
-# Extract from RWebSpec to use
+
+# ver 1.2 compatiable with Selenium v4.11
+#   the_chrome_options.debugger_address = "127.0.0.1:#{browser_debugging_port}"
+#   the_edge_options.debugger_address = "127.0.0.1:#{browser_debugging_port}"
+ 
+
 module AgilewayUtils
 
   ## for debugging, reuse current browser window and run selected test scripts in it.
@@ -12,9 +17,10 @@ module AgilewayUtils
 
         #NOTE, not reliable, sometimes "end of file reached"
         # caps = Selenium::WebDriver::Remote::Capabilities.firefox()
-        # @browser = @driver = Selenium::WebDriver.for(:remote, :url => "http://localhost:7055/hub", :desired_capabilities => caps)
+        # @driver = Selenium::WebDriver.for(:remote, :url => "http://localhost:7055/hub", :desired_capabilities => caps)
 
         raise "Selenium WebDriver attaching browsers is only available for Chrome and EdgeHTML"
+
       elsif ENV["BROWSER"] == "edge"
 
         # edge, using remote debugging port
@@ -40,7 +46,7 @@ module AgilewayUtils
         end
         puts(" => #{browser_debugging_port}")
 
-        the_edge_options.add_option("debuggerAddress", "127.0.0.1:#{browser_debugging_port}")
+        the_edge_options.debugger_address = "127.0.0.1:#{browser_debugging_port}"
 
         if Selenium::WebDriver::VERSION =~ /^3/
           if defined?(TestwiseListener)
@@ -55,31 +61,32 @@ module AgilewayUtils
             the_browser_options = { :capabilities => the_edge_options }
           end
         end
-        @browser = @driver = Selenium::WebDriver.for(:edge, the_browser_options)
+        @driver = Selenium::WebDriver.for(:edge, the_browser_options)
+        
       else
         # chrome, using remote debugging port
         the_chrome_options = Selenium::WebDriver::Chrome::Options.new
-
-        browser_debugging_port = nil
+        
+        browser_debugging_port = nil 
         begin
           browser_debugging_port = last_session_browser_debugging_port
-        rescue => e
+        rescue => e 
           # failed to load from TestWise runtime store
         end
-
-        port_set_in_env_var = ENV["BROWSER_DEBUGGING_PORT"].to_i rescue 0
-        if (browser_debugging_port && browser_debugging_port > 1000 && browser_debugging_port < 65500)
-          # OK to used from pstore
+        
+        port_set_in_env_var = ENV["BROWSER_DEBUGGING_PORT"].to_i rescue 0        
+        if (browser_debugging_port && browser_debugging_port > 1000 && browser_debugging_port < 65500) 
+          # OK to used from pstore   
           puts("[DEBUG] use debugging port from TestWise pstore")
         elsif port_set_in_env_var > 1000 && port_set_in_env_var < 65500
-          puts("[DEBUG] use debugging port set in environment variable")
+          puts("[DEBUG] use debugging port set in environment variable")  
           browser_debugging_port = port_set_in_env_var
         else
           puts("[DEBUG] use default port ")
           browser_debugging_port = 19218
         end
         puts(" => #{browser_debugging_port}")
-        
+      
         the_browser_options = {}
         if Selenium::WebDriver::VERSION =~ /^3/
           if defined?(TestwiseListener)
@@ -95,12 +102,22 @@ module AgilewayUtils
           end
         end
 
-        the_chrome_options.add_option("debuggerAddress", "127.0.0.1:#{browser_debugging_port}")
-        @browser = @driver = Selenium::WebDriver.for(:chrome, the_browser_options)
+        # Up to Selenium v4.10, the statement below works
+        # the_chrome_options.add_option("debuggerAddress", "127.0.0.1:#{browser_debugging_port}")
+
+        the_chrome_options.debugger_address = "127.0.0.1:#{browser_debugging_port}"
+        @driver = Selenium::WebDriver.for(:chrome, the_browser_options)
+        
       end
     end
   end
 
+  # for Appium testing, attach to destktop session, return @driver instance variable
+  def use_destkop_session
+    # the desktop_session_caps function shall be defined in test_helper.rb
+    @driver = Appium::Driver.new(desktop_session_caps, false).start_driver
+  end
+  
   # Try the operation up to specified timeout (in seconds), and sleep given interval (in seconds).
   # Error will be ignored until timeout
   # Example
@@ -132,6 +149,7 @@ module AgilewayUtils
 
   alias try_upto try_for
   alias try_until try_for
+
 
   ##
   #  Convert :first to 1, :second to 2, and so on...
