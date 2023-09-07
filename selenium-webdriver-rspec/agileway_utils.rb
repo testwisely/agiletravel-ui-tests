@@ -48,19 +48,12 @@ module AgilewayUtils
 
         the_edge_options.debugger_address = "127.0.0.1:#{browser_debugging_port}"
 
-        if Selenium::WebDriver::VERSION =~ /^3/
           if defined?(TestwiseListener)
             the_browser_options = { :options => the_edge_options, :listener => TestwiseListener.new }
           else
             the_browser_options = { :options => the_edge_options }
           end
-        else
-          if defined?(TestwiseListener)
-            the_browser_options = { :capabilities => the_edge_options, :listener => TestwiseListener.new }
-          else
-            the_browser_options = { :capabilities => the_edge_options }
-          end
-        end
+
         @driver = Selenium::WebDriver.for(:edge, the_browser_options)
         
       else
@@ -88,19 +81,12 @@ module AgilewayUtils
         puts(" => #{browser_debugging_port}")
       
         the_browser_options = {}
-        if Selenium::WebDriver::VERSION =~ /^3/
           if defined?(TestwiseListener)
             the_browser_options = {:options => the_chrome_options, :listener => TestwiseListener.new}
           else
             the_browser_options = {:options => the_chrome_options}
           end
-        else
-          if defined?(TestwiseListener)
-            the_browser_options = { :capabilities => the_chrome_options, :listener => TestwiseListener.new }
-          else
-            the_browser_options = { :capabilities => the_chrome_options }
-          end
-        end
+
 
         # Up to Selenium v4.10, the statement below works
         # the_chrome_options.add_option("debuggerAddress", "127.0.0.1:#{browser_debugging_port}")
