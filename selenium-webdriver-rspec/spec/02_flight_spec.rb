@@ -10,7 +10,7 @@ describe "Select Flights" do
     driver.get(site_url)
     
     login_page = LoginPage.new(driver)
-    login_page.login("agileway", "testwise")
+    login_page.login("agileway", "test$W1se")
   end
 
   before(:each) do

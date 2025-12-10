@@ -23,7 +23,7 @@ describe "User Login" do
   it "[1] Can sign in OK" do
     visit("/login")
     login_page = LoginPage.new(driver)
-    login_page.login("agileway", "testwise")  
+    login_page.login("agileway", "test$W1se")  
     # selenium does not have browser.text yet
     try_for(3) {  expect(driver.page_source).to include("Welcome")}
     driver.find_element(:link_text, "Sign off").click
