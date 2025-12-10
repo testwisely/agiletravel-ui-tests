@@ -29,8 +29,8 @@ describe "User Login" do
     driver.find_element(:id, "password").send_keys("test$W1se")
     driver.find_element(:name, "commit").click
     # selenium does not have browser.text yet
-    expect(driver.page_source).to include("Welcome")
-    try_for(2) { driver.find_element(:partial_link_text, "Sign off").click }
+    try_for(2) { expect(driver.page_source).to include("Welcome") }
+    driver.find_element(:partial_link_text, "Sign off").click
     puts "[stdout] Signed out"
   end
 
