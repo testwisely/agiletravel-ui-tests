@@ -20,7 +20,7 @@ describe "Load - Payment" do
   it "Payment AJAX" do
     load_test_repeat.times do
       driver.find_element(:id, "username").send_keys("agileway")
-      driver.find_element(:id, "password").send_keys("testwise")
+      driver.find_element(:id, "password").send_keys("test$W1se")
       log_time("Login") { driver.find_element(:name, "commit").click }
       expect(driver.find_element(:id, "flash_notice").text).to eq("Signed in!")
 

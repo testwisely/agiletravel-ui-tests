@@ -30,7 +30,7 @@ describe "User Login Repeat" do
 
       # this is user supplying information, not hitting the server
       driver.find_element(:id, "username").send_keys("agileway")
-      driver.find_element(:id, "password").send_keys("testwise")
+      driver.find_element(:id, "password").send_keys("test$W1se")
       
       # the `driver.find_element(:id)` costs only 0.03 seconds
       log_time("Sign in") {

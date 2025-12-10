@@ -30,7 +30,7 @@ public class LoginTestCase {
     public void testSignInOK() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.enterUsername("agileway");
-        loginPage.enterPassword("testwise");
+        loginPage.enterPassword("test$W1se");
         loginPage.clickSignIn();
         assert driver.findElement(By.tagName("body")).getText().contains("Signed in!");
     }

@@ -18,7 +18,7 @@ describe "End To End" do
 
   it "End-to-End Selenium Raw" do
     driver.find_element(:id, "username").send_keys("agileway")
-    driver.find_element(:id, "password").send_keys("testwise")
+    driver.find_element(:id, "password").send_keys("test$W1se")
     driver.find_element(:id, "remember_me").click
     driver.find_element(:id, "username").submit
     expect(driver.find_element(:tag_name, 'body').text).to include("Signed in")

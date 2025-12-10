@@ -33,7 +33,7 @@ describe('Payment', function() {
 
   beforeEach(async function() {
     await driver.get(helper.site_url());
-    await helper.login(driver, "agileway", "testwise");
+    await helper.login(driver, "agileway", "test$W1se");
   });
   
   afterAll(function() {

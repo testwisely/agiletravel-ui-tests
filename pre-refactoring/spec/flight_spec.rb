@@ -8,7 +8,7 @@ describe "Select Flights" do
     @driver.navigate.to(site_url) 
 
     driver.find_element(:id, "username").send_keys("agileway")
-    driver.find_element(:id, "password").send_keys("testwise")
+    driver.find_element(:id, "password").send_keys("test$W1se")
     driver.find_element(:xpath, "//input[@value='Sign in']").click
   end
 

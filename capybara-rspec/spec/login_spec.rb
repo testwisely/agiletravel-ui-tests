@@ -14,7 +14,7 @@ describe "User Can Login"  do
   end
 
   it "User can login" do
-    sign_in("agileway", "testwise")
+    sign_in("agileway", "test$W1se")
     expect(page.has_content?('Signed in!')).to be_truthy
     sign_off
   end

@@ -53,7 +53,7 @@ describe('End to End Playwright', function() {
     
     let login_page = new LoginPage(driver);
     await login_page.enterUsername("agileway");
-    await login_page.enterPassword("testwise");
+    await login_page.enterPassword("test$W1se");
     await login_page.checkRememberMe();
     await login_page.clickSignIn();
     await driver.textContent("body").then(function(body_text) {

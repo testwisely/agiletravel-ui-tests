@@ -28,7 +28,7 @@ describe('Flight', function() {
     driver = page = await context.newPage();
     await driver.goto('https://travel.agileway.net');
     await driver.fill("#username", "agileway")
-    await driver.fill("#password", "testwise")
+    await driver.fill("#password", "test$W1se")
     await driver.click("input:has-text('Sign in')")
   });
 

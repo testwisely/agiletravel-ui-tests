@@ -29,7 +29,7 @@ describe('Flight', function() {
     driver = new webdriver.Builder().forBrowser(helper.browserType()).setChromeOptions(helper.chromeOptions()).build();
     driver.manage().window().setRect({width: 1027, height: 700, x: 30, y: 78})
     await driver.get('https://travel.agileway.net');
-    await helper.login(driver, "agileway", "testwise");
+    await helper.login(driver, "agileway", "test$W1se");
   });
 
   beforeEach(async function() {

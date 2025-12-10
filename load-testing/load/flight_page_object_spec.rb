@@ -21,7 +21,7 @@ describe "Select Flights" do
       expect(driver.title).to eq("Agile Travel")
     }
     driver.find_element(:id, "username").send_keys("agileway")
-    driver.find_element(:id, "password").send_keys("testwise")
+    driver.find_element(:id, "password").send_keys("test$W1se")
     log_time("Sign in") {
         driver.find_element(:name, "commit").click
         expect(driver.find_element(:id, "flash_notice").text).to include("Signed in!")

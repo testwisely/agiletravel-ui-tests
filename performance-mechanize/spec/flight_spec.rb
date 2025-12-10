@@ -16,7 +16,7 @@ describe "Performance Testing - Select Flight" do
     log_time("Visit home page") { @browser.get(site_url) }  # with redirect
     login_form = @browser.page.forms.first
     login_form.field_with(name: "username").value = "agileway"
-    login_form.field_with(:name => "password").value = "testwise"
+    login_form.field_with(:name => "password").value = "test$W1se"
     log_time("Login") { @browser.submit(login_form, login_form.button_with(:name => "commit")) }
     expect(@browser.page.body).to include("Signed in!")
 

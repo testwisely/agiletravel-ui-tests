@@ -42,7 +42,7 @@ describe('E2E Playwright', function() {
     this.timeout(5000)
     await driver.locator('text=Login').click()
     await driver.fill("#username", "agileway")
-    await driver.fill("#password", "testwise")
+    await driver.fill("#password", "test$W1se")
     await driver.click("#remember_me")
     await driver.click("input:has-text('Sign in')")
     await driver.textContent("body").then(function(body_text) {

@@ -55,7 +55,7 @@ describe('User Authentication', function() {
   it('User can login successfully', async function() {
     this.timeout(15000)
     await driver.fill("#username", "agileway")
-    await driver.fill("#password", "testwise")
+    await driver.fill("#password", "test$W1se")
     await driver.click("input:has-text('Sign in')")
     await driver.textContent("body").then(function(body_text) {
       //console.log(body_text)

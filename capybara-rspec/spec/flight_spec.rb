@@ -8,7 +8,7 @@ describe "Select Flights" do
       Capybara::Selenium::Driver.new(app, :browser => browser_type)
     end
     visit("/")
-    sign_in("agileway", "testwise")    
+    sign_in("agileway", "test$W1se")    
   end
 
   before(:each) do

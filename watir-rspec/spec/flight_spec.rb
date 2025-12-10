@@ -6,7 +6,7 @@ describe "Select Flights" do
   before(:all) do
     @browser = Watir::Browser.new(browser_type)
     @browser.goto(site_url)
-    login_as("agileway", "testwise")
+    login_as("agileway", "test$W1se")
   end
 
   before(:each) do    

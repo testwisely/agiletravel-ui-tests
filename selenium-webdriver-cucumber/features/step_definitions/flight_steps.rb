@@ -10,7 +10,7 @@
 Given('I am signed in as {string}') do |user|  
   begin
     driver.find_element(:link, "Login")
-    sign_in("agileway", "testwise")
+    sign_in("agileway", "test$W1se")
   rescue 
     # already logged in
     driver.get(site_url)

@@ -14,7 +14,7 @@ describe "End2End" do
 
   it "(Recorded version) Book Flight" do
     driver.find_element(:id, "username").send_keys("agileway")
-    driver.find_element(:id, "password").send_keys("testwise")
+    driver.find_element(:id, "password").send_keys("test$W1se")
     driver.find_element(:name, "commit").click
 
     driver.find_element(:xpath, "//input[@name='tripType' and @value='oneway']").click
