@@ -30,7 +30,7 @@ describe "Payment" do
 
     # now on passenger page
     passenger_page = PassengerPage.new(driver)
-    passenger_page.enter_last_name("Tester")
+    try_for(2) { passenger_page.enter_last_name("Tester") }
     passenger_page.click_next
 
     payment_page = PaymentPage.new(driver)
