@@ -46,7 +46,7 @@ describe('Passenger', function() {
     await flight_page.selectDepartFrom("New York")
     await flight_page.selectArriveAt("Sydney")
     await flight_page.selectDepartDay("02")
-    await flight_page.selectDepartMonth("May 2016")
+    await flight_page.selectDepartMonth("May 2026")
     await flight_page.clickContinue()
 
     let passenger_page = new PassengerPage(driver)

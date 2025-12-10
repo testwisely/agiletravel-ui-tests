@@ -27,10 +27,10 @@ describe "Select Flights" do
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "fromPort")).select_by(:text, "Sydney")
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "toPort")).select_by(:text, "New York")
     Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departDay")).select_by(:text, "02")
-    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departMonth")).select_by(:text, "May 2016")
+    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departMonth")).select_by(:text, "May 2026")
     driver.find_element(:xpath, "//input[@value='Continue']").click
 
-    expect(page_text).to include("2016-05-02 Sydney to New York")
+    expect(page_text).to include("2026-05-02 Sydney to New York")
   end
 
   it "Return trip" do
@@ -40,11 +40,11 @@ describe "Select Flights" do
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "fromPort")).select_by(:text, "Sydney")
     Selenium::WebDriver::Support::Select.new(driver.find_element(:name, "toPort")).select_by(:text, "New York")
     Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departDay")).select_by(:text, "02")
-    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departMonth")).select_by(:text, "May 2016")
+    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "departMonth")).select_by(:text, "May 2026")
     Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnDay")).select_by(:text, "04")
-    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnMonth")).select_by(:text, "June 2016")
+    Selenium::WebDriver::Support::Select.new(driver.find_element(:id, "returnMonth")).select_by(:text, "June 2026")
     driver.find_element(:xpath, "//input[@value='Continue']").click
-    expect(page_text).to include("2016-05-02 Sydney to New York")
-    expect(page_text).to include("2016-06-04 New York to Sydney")
+    expect(page_text).to include("2026-05-02 Sydney to New York")
+    expect(page_text).to include("2026-06-04 New York to Sydney")
   end
 end

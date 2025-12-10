@@ -15,7 +15,7 @@ describe "Select Flights" do
 
   before(:each) do
     visit("/")
-    sleep 1 # for some webdriver version, it might not wait page loaded
+    sleep 0.25 # for some webdriver version, it might not wait page loaded
   end
 
   after(:all) do
@@ -29,13 +29,13 @@ describe "Select Flights" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.select_return_day("04")
-    flight_page.select_return_month("June 2016")
+    flight_page.select_return_month("June 2026")
     flight_page.click_continue
 
-    expect(page_text).to include("2016-05-02 Sydney to New York")
-    expect(page_text).to include("2016-06-04 New York to Sydney")
+    try_for(2) { expect(page_text).to include("2026-05-02 Sydney to New York") }
+    expect(page_text).to include("2026-06-04 New York to Sydney")
   end
 
   it "[2] One-way trip" do
@@ -46,10 +46,10 @@ describe "Select Flights" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.click_continue
 
-    expect(page_text).to include("2016-05-02 Sydney to New York")
+    try_for(2) { expect(page_text).to include("2026-05-02 Sydney to New York") }
   end
 
 

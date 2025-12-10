@@ -32,7 +32,7 @@ describe "End To End" do
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.click_continue
 
     passenger_page = PassengerPage.new(driver)

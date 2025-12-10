@@ -36,7 +36,7 @@ describe "Select Flights" do
       flight_page.click_continue 
       #  simple page get_page_text costs about 0.03 seconds
       # start_time = Time.now
-      expect(page_text).to include("2016-01-01 Sydney to New York")
+      expect(page_text).to include("2026-01-01 Sydney to New York")
       # puts("#{Time.now - start_time}: check flight")
     }
 

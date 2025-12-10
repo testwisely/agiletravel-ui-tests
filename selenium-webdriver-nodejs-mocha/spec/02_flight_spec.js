@@ -55,9 +55,9 @@ describe('Flight', function() {
     await flight_page.selectDepartFrom("Sydney")
     await flight_page.selectArriveAt("New York")
     await flight_page.selectDepartDay("02")
-    await flight_page.selectDepartMonth("May 2016")
+    await flight_page.selectDepartMonth("May 2026")
     await flight_page.selectReturnDay("04")
-    await flight_page.selectReturnMonth("June 2016")
+    await flight_page.selectReturnMonth("June 2026")
     await flight_page.clickContinue()
 
     await driver.findElement(By.tagName("body")).getText().then(function(the_page_text) {
@@ -73,7 +73,7 @@ describe('Flight', function() {
     await flight_page.selectDepartFrom("New York")
     await flight_page.selectArriveAt("Sydney")
     await flight_page.selectDepartDay("02")
-    await flight_page.selectDepartMonth("May 2016")
+    await flight_page.selectDepartMonth("May 2026")
     await flight_page.clickContinue()
 
     await driver.findElement(By.tagName("body")).getText().then(function(the_page_text) {

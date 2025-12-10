@@ -26,7 +26,7 @@ describe "Select Flights" do
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
     flight_page.select_departure_day("02")
-    flight_page.select_departure_month("May 2016")
+    flight_page.select_departure_month("May 2026")
     flight_page.click_continue
     sleep 0.5
     expect(page.has_content?("2016-05-02 Sydney to New York")).to be_truthy
@@ -38,8 +38,8 @@ describe "Select Flights" do
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
     flight_page.select_departure_day("02")
-    flight_page.select_departure_month("May 2016")
-    flight_page.select_return_date("04", "June 2016")
+    flight_page.select_departure_month("May 2026")
+    flight_page.select_return_date("04", "June 2026")
     flight_page.click_continue
     expect(page.has_content?("2016-05-02 Sydney to New York")).to be_truthy
     expect(page.has_content?("2016-06-04 New York to Sydney")).to be_truthy

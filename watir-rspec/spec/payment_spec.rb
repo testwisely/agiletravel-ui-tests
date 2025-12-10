@@ -21,7 +21,7 @@ describe "Payment" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.click_continue
 
     # now on passenger page

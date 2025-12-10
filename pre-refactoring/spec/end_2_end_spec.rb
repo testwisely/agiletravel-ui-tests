@@ -25,7 +25,7 @@ describe "End2End" do
     elem_depart_day = driver.find_element(:id, "departDay")
     Selenium::WebDriver::Support::Select.new(elem_depart_day).select_by(:text, "02")
     elem_depart_month = driver.find_element(:id, "departMonth")
-    Selenium::WebDriver::Support::Select.new(elem_depart_month).select_by(:text, "May 2016")
+    Selenium::WebDriver::Support::Select.new(elem_depart_month).select_by(:text, "May 2026")
     driver.find_element(:xpath, "//input[@value='Continue']").click
 
     driver.find_element(:name, "passengerFirstName").send_keys("Bob")

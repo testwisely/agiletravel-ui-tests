@@ -25,14 +25,14 @@ describe "Passenger" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.select_return_day("04")
-    flight_page.select_return_month("June 2016")
+    flight_page.select_return_month("June 2026")
     flight_page.click_continue
 
     # now on passenger page
     passenger_page = PassengerPage.new(driver)
-    passenger_page.click_next
+    try_for(2) { passenger_page.click_next }
     expect(page_text).to include("Must provide last name")
     passenger_page.enter_first_name("Bob")
     passenger_page.enter_last_name("Tester")

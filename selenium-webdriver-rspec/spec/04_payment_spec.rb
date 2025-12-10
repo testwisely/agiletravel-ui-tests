@@ -25,7 +25,7 @@ describe "Payment" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.click_continue
 
     # now on passenger page
@@ -38,7 +38,7 @@ describe "Payment" do
     payment_page.enter_holder_name("Bob the Tester")
     payment_page.enter_card_number("4242424242424242")
     payment_page.enter_expiry_month("04")
-    payment_page.enter_expiry_year("2016")
+    payment_page.enter_expiry_year("2026")
     payment_page.click_pay_now
     try_for(10) { expect(driver.page_source).to include("Booking number")}
     puts("booking number: " + driver.find_element(:id, 'booking_number').text)

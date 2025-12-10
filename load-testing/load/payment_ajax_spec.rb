@@ -36,7 +36,7 @@ describe "Payment Load (AJAX)" do
     flight_page.select_arrive_at("New York")
     log_time("Select Flight") { 
       flight_page.click_continue 
-      expect(page_text).to include("2016-01-01 Sydney to New York")
+      expect(page_text).to include("2026-01-01 Sydney to New York")
     }
 
     # now on passenger page

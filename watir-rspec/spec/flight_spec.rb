@@ -25,13 +25,13 @@ describe "Select Flights" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.select_return_day("04")
-    flight_page.select_return_month("June 2016")
+    flight_page.select_return_month("June 2026")
     flight_page.click_continue
 
-    expect(browser.text).to include("2016-05-02 Sydney to New York")
-    expect(browser.text).to include("2016-06-04 New York to Sydney")
+    expect(browser.text).to include("2026-05-02 Sydney to New York")
+    expect(browser.text).to include("2026-06-04 New York to Sydney")
   end
 
   it "One-way trip" do
@@ -44,10 +44,10 @@ describe "Select Flights" do
     flight_page.select_arrive_at("New York")
 
     flight_page.select_depart_day("02")
-    flight_page.select_depart_month("May 2016")
+    flight_page.select_depart_month("May 2026")
     flight_page.click_continue
 
-    expect(browser.text).to include("2016-05-02 Sydney to New York")
+    expect(browser.text).to include("2026-05-02 Sydney to New York")
   end
 
 
