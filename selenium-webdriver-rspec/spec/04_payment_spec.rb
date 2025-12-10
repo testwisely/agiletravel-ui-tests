@@ -20,7 +20,7 @@ describe "Payment" do
   it "[5] Book flight with payment", :tag => "showcase" do
     
     flight_page = FlightPage.new(driver)
-    flight_page.select_trip_type("oneway")
+    try_for(2) { flight_page.select_trip_type("oneway") }
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
 

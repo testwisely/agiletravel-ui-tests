@@ -20,7 +20,7 @@ describe "Passenger" do
 
   it "[4] Can enter passenger details (using page objects)" do
     flight_page = FlightPage.new(driver)
-    flight_page.select_trip_type("return")
+    try_for(2) { flight_page.select_trip_type("return") }
     flight_page.select_depart_from("Sydney")
     flight_page.select_arrive_at("New York")
 
